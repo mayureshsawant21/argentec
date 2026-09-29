@@ -18,36 +18,15 @@
     video.poster = video.dataset["poster" + (variant === "mobile" ? "Mobile" : "Desktop")];
     video.src = video.dataset["src" + (variant === "mobile" ? "Mobile" : "Desktop")];
     video.load();
-    if (!reduceMotion && !videoPausedByUser) {
+    if (!reduceMotion) {
       var p = video.play();
       if (p && p.catch) p.catch(function () {});
     }
   }
 
-  var videoPausedByUser = reduceMotion;
   loadVideo();
   if (mobileQuery.addEventListener) mobileQuery.addEventListener("change", loadVideo);
   else if (mobileQuery.addListener) mobileQuery.addListener(loadVideo);
-
-  var toggle = document.getElementById("video-toggle");
-  function syncToggle() {
-    var paused = video.paused;
-    toggle.setAttribute("aria-pressed", paused ? "true" : "false");
-    toggle.setAttribute("aria-label", paused ? "Play background video" : "Pause background video");
-  }
-  toggle.addEventListener("click", function () {
-    if (video.paused) {
-      videoPausedByUser = false;
-      var p = video.play();
-      if (p && p.catch) p.catch(function () {});
-    } else {
-      videoPausedByUser = true;
-      video.pause();
-    }
-  });
-  video.addEventListener("play", syncToggle);
-  video.addEventListener("pause", syncToggle);
-  syncToggle();
 
   /* ------------------------------------------------------------------
      Preloader: white screen + logo, ring fills as the page loads,

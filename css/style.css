@@ -499,82 +499,6 @@ img, svg, video { display: block; max-width: 100%; }
 }
 .is-ready .hero__cta { opacity: 1; transform: none; }
 
-.hero__footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0 var(--gutter) calc(2rem + env(safe-area-inset-bottom, 0px));
-  opacity: 0;
-  transition: opacity 1.2s ease 1.4s;
-}
-.is-ready .hero__footer { opacity: 1; }
-
-.scroll-cue {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-}
-.scroll-cue__line {
-  position: relative;
-  width: 1px;
-  height: 56px;
-  overflow: hidden;
-  background: var(--line);
-}
-.scroll-cue__line::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--white);
-  transform: translateY(-100%);
-  animation: scroll-drip 2.2s var(--ease-in-out) infinite;
-}
-.scroll-cue__label {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-}
-
-@keyframes scroll-drip {
-  0% { transform: translateY(-100%); }
-  55% { transform: translateY(0); }
-  100% { transform: translateY(100%); }
-}
-
-.hero__meta {
-  margin: 0 0 0.25rem auto;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--silver-dim);
-}
-
-.video-toggle {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: none;
-  color: var(--white);
-  cursor: pointer;
-  transition: background-color 0.3s, border-color 0.3s;
-}
-.video-toggle:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.5); }
-.video-toggle .i-play { display: none; }
-.video-toggle[aria-pressed="true"] .i-pause { display: none; }
-.video-toggle[aria-pressed="true"] .i-play { display: block; }
-
 /* ==========================================================================
    Responsive
    ========================================================================== */
@@ -635,14 +559,11 @@ img, svg, video { display: block; max-width: 100%; }
   .hero__shade {
     background: linear-gradient(180deg, rgba(10, 18, 32, 0.6) 0%, rgba(10, 18, 32, 0.12) 30%, rgba(10, 18, 32, 0.45) 60%, rgba(10, 18, 32, 0.94) 100%);
   }
-  .hero__footer { padding-inline: 1.25rem; }
 }
 
 @media (max-width: 560px) {
   .hero__title { font-size: clamp(2.3rem, 11vw, 3.2rem); }
   .btn--silver { min-width: 0; width: 100%; max-width: 22rem; padding: 1.15rem 1.5rem; }
-  .scroll-cue { display: none; }
-  .hero__meta { margin-left: 0; }
 }
 
 /* ==========================================================================

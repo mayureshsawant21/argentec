@@ -158,6 +158,7 @@
      Scroll handling
      ------------------------------------------------------------------ */
   var visual = section.querySelector(".about__visual");
+  var edge = section.querySelector(".edge");
   var detail = section.querySelector(".about__detail");
   var ticking = false;
 
@@ -167,6 +168,9 @@
     var rect = section.getBoundingClientRect();
 
     if (rect.top < vh * 0.65) section.classList.add("in-view");
+
+    // Diagonal edge levels out as the section rises to meet the header
+    if (edge) edge.style.setProperty("--tilt", clamp((rect.top - vh * 0.12) / (vh * 0.78)).toFixed(4));
 
     if (pinQuery.matches) {
       // Pinned: progress across the section's scroll distance
