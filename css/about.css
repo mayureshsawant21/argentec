@@ -12,7 +12,9 @@
 
   position: relative;
   height: 240vh;
+  /* solid ink at the very top so the skyline silhouette joins seamlessly */
   background:
+    linear-gradient(180deg, var(--ink) 0, rgba(10, 18, 32, 0) 28vh),
     radial-gradient(120% 80% at 85% 20%, rgba(25, 67, 118, 0.38) 0%, rgba(25, 67, 118, 0) 60%),
     linear-gradient(180deg, var(--ink) 0%, #0c1830 100%);
   color: var(--white);
@@ -298,6 +300,83 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--silver-dim);
+}
+
+/* ==========================================================================
+   Skyline edge — the section's top border is a city silhouette that rises
+   into the bottom of the hero. A silver line traces the rooftops.
+   ========================================================================== */
+.skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 1px);
+  z-index: 2;
+  height: clamp(64px, 8.5vw, 150px);
+  pointer-events: none;
+}
+.skyline--mobile { display: none; }
+
+.skyline svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  overflow: visible;
+}
+.skyline__fill { fill: var(--ink); }
+.skyline__mast {
+  fill: none;
+  stroke: var(--silver-dim);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.skyline__line,
+.skyline__glint {
+  fill: none;
+  stroke-width: 1;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+}
+.skyline__line { stroke: rgba(227, 231, 237, 0.55); }
+.skyline__glint { stroke-width: 1.6; opacity: 0.9; }
+
+/* rooftop line draws left to right after the preloader lifts */
+.skyline__stroke {
+  clip-path: inset(-20px 100% -20px 0);
+  transition: clip-path 2.8s cubic-bezier(0.65, 0, 0.35, 1) 1.2s;
+}
+.is-ready .skyline__stroke { clip-path: inset(-20px 0 -20px 0); }
+
+.skyline__beacon {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.55);
+  opacity: 0;
+}
+.is-ready .skyline__beacon {
+  animation: skyline-beacon 2.8s ease-in-out infinite;
+  animation-delay: calc(3.6s + var(--i) * 0.45s);
+}
+@keyframes skyline-beacon {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 767px) {
+  .skyline--desktop { display: none; }
+  .skyline--mobile { display: block; height: 58px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skyline__stroke { clip-path: none; }
+  .skyline__glint { display: none; }
+  .skyline__beacon { opacity: 0.8; animation: none; }
 }
 
 /* Shorter desktop screens: keep the whole scene inside the pinned frame */
