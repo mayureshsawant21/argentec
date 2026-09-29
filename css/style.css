@@ -197,14 +197,26 @@ img, svg, video { display: block; max-width: 100%; }
   right: 0;
   z-index: 50;
   padding-top: env(safe-area-inset-top, 0px);
-  color: var(--white);
-  transition: background-color 0.5s ease, backdrop-filter 0.5s ease, transform 0.6s var(--ease-out);
+  --hdr-fg: var(--white);
+  --hdr-line: var(--line);
+  color: var(--hdr-fg);
+  transition: background-color 0.5s ease, backdrop-filter 0.5s ease, box-shadow 0.5s ease, color 0.4s ease, transform 0.6s var(--ease-out);
 }
+/* Scrolled: frosted white glass with dark text */
 .site-header.is-scrolled {
-  background: rgba(10, 18, 32, 0.78);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
+  --hdr-fg: var(--ink);
+  --hdr-line: rgba(10, 18, 32, 0.1);
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 10px 30px -18px rgba(10, 18, 32, 0.35);
 }
+.site-header.is-scrolled :focus-visible { outline-color: var(--navy); }
+/* Careers keeps its navy style; hover fill goes dark so it stays visible on white */
+.site-header.is-scrolled .btn--navy::before { background: var(--ink); }
+.site-header.is-scrolled .btn--navy:hover,
+.site-header.is-scrolled .btn--navy:focus-visible { color: var(--white); }
+.site-header .icon-btn { color: inherit; }
 .site-header.is-hidden { transform: translateY(-100%); }
 
 .site-header__top {
@@ -214,8 +226,8 @@ img, svg, video { display: block; max-width: 100%; }
   align-items: center;
   height: var(--header-top-h);
   padding-inline: var(--gutter);
-  border-bottom: 1px solid var(--line);
-  transition: height 0.5s var(--ease-out);
+  border-bottom: 1px solid var(--hdr-line);
+  transition: height 0.5s var(--ease-out), border-color 0.4s ease;
 }
 .site-header.is-scrolled .site-header__top { height: 74px; }
 
@@ -258,7 +270,7 @@ img, svg, video { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   gap: 14px;
-  color: var(--white);
+  color: inherit;
 }
 .brand__mark { height: 38px; width: auto; }
 .brand__word { height: 22px; width: auto; }
@@ -270,8 +282,8 @@ img, svg, video { display: block; max-width: 100%; }
   gap: clamp(2rem, 4.4vw, 4.5rem);
   height: var(--header-main-h);
   padding-inline: var(--gutter);
-  border-bottom: 1px solid var(--line);
-  transition: height 0.5s var(--ease-out), opacity 0.4s ease;
+  border-bottom: 1px solid var(--hdr-line);
+  transition: height 0.5s var(--ease-out), opacity 0.4s ease, border-color 0.4s ease;
 }
 
 .menu-toggle,
@@ -288,7 +300,7 @@ img, svg, video { display: block; max-width: 100%; }
 
 .is-ready .site-header__top,
 .is-ready .site-header__main {
-  border-bottom-color: var(--line);
+  border-bottom-color: var(--hdr-line);
   transition: border-color 1.2s ease 0.3s, height 0.5s var(--ease-out);
 }
 .is-ready .site-header__top > *,
@@ -529,7 +541,7 @@ img, svg, video { display: block; max-width: 100%; }
     padding: 0;
     border: 0;
     background: none;
-    color: var(--white);
+    color: inherit;
     cursor: pointer;
   }
   .menu-toggle span {
@@ -544,7 +556,14 @@ img, svg, video { display: block; max-width: 100%; }
   .menu-toggle span:nth-child(2) { top: 23px; }
   .menu-open .menu-toggle span:nth-child(1) { top: 19px; transform: rotate(45deg); }
   .menu-open .menu-toggle span:nth-child(2) { top: 19px; transform: rotate(-45deg); }
-  .menu-open .site-header { background: transparent; backdrop-filter: none; }
+  .menu-open .site-header {
+    --hdr-fg: var(--white);
+    --hdr-line: var(--line);
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
 
   .brand { gap: 10px; }
   .brand__mark { height: 30px; }
