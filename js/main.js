@@ -94,18 +94,14 @@
   setTimeout(finish, MAX_TIME);
 
   /* ------------------------------------------------------------------
-     Header: solid background after scrolling, hides on scroll down
+     Header: stays fixed on every section; turns compact white glass
+     once the page is scrolled
      ------------------------------------------------------------------ */
   var header = document.getElementById("site-header");
-  var lastY = window.scrollY;
   var ticking = false;
 
   function onScroll() {
-    var y = window.scrollY;
-    header.classList.toggle("is-scrolled", y > 40);
-    var goingDown = y > lastY;
-    header.classList.toggle("is-hidden", goingDown && y > window.innerHeight * 0.6 && !body.classList.contains("menu-open"));
-    lastY = y;
+    header.classList.toggle("is-scrolled", window.scrollY > 40);
     ticking = false;
   }
   window.addEventListener("scroll", function () {

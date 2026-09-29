@@ -206,7 +206,7 @@ img, svg, video { display: block; max-width: 100%; }
 .site-header.is-scrolled {
   --hdr-fg: var(--ink);
   --hdr-line: rgba(10, 18, 32, 0.1);
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.92);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
   backdrop-filter: blur(18px) saturate(160%);
   box-shadow: 0 10px 30px -18px rgba(10, 18, 32, 0.35);
@@ -217,7 +217,6 @@ img, svg, video { display: block; max-width: 100%; }
 .site-header.is-scrolled .btn--navy:hover,
 .site-header.is-scrolled .btn--navy:focus-visible { color: var(--white); }
 .site-header .icon-btn { color: inherit; }
-.site-header.is-hidden { transform: translateY(-100%); }
 
 .site-header__top {
   position: relative;
@@ -229,7 +228,14 @@ img, svg, video { display: block; max-width: 100%; }
   border-bottom: 1px solid var(--hdr-line);
   transition: height 0.5s var(--ease-out), border-color 0.4s ease;
 }
-.site-header.is-scrolled .site-header__top { height: 74px; }
+.site-header.is-scrolled .site-header__top { height: 58px; }
+.site-header.is-scrolled .site-header__main { height: 42px; }
+
+/* Logo returns to its original Argentec navy on the white header */
+.site-header.is-scrolled .brand { color: var(--navy); }
+.site-header.is-scrolled .brand__mark { height: 30px; }
+.site-header.is-scrolled .brand__word { height: 18px; }
+.site-header.is-scrolled .utility-nav .btn--navy { padding-block: 0.7rem; }
 
 .utility-nav {
   display: flex;
@@ -271,9 +277,10 @@ img, svg, video { display: block; max-width: 100%; }
   align-items: center;
   gap: 14px;
   color: inherit;
+  transition: color 0.4s ease;
 }
-.brand__mark { height: 38px; width: auto; }
-.brand__word { height: 22px; width: auto; }
+.brand__mark { height: 38px; width: auto; transition: height 0.5s var(--ease-out); }
+.brand__word { height: 22px; width: auto; transition: height 0.5s var(--ease-out); }
 
 .site-header__main {
   display: flex;
@@ -526,7 +533,9 @@ img, svg, video { display: block; max-width: 100%; }
   .site-header__main { display: none; }
 
   .site-header__top { padding-inline: 1rem; }
-  .site-header.is-scrolled .site-header__top { height: 68px; }
+  .site-header.is-scrolled .site-header__top { height: 56px; }
+  .site-header.is-scrolled .brand__mark { height: 26px; }
+  .site-header.is-scrolled .brand__word { height: 15px; }
 
   .menu-toggle,
   .icon-btn--mobile { display: inline-grid; }
