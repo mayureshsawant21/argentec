@@ -8,8 +8,10 @@ Plain HTML, CSS and JavaScript. There's no build step, so it can be hosted direc
 
 ```
 index.html              Page markup (sections are added one at a time)
-css/style.css           All styles
+css/style.css           Base styles, header and hero (section 1)
+css/about.css           Section 2: Built for Progress
 js/main.js              Preloader, hero video, header, mobile menu, search
+js/about.js             Section 2 scroll scene (word reveal, tower drawing)
 assets/img/             Logo (SVG, taken from the company profile) and video posters
 assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9:16)
 ```
@@ -20,6 +22,7 @@ assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9
 |---|---------|--------|
 | 0 | Preloader: logo on a white screen, then the page reveals | Done |
 | 1 | Header (utility row + primary nav) and full-screen video hero | Done |
+| 2 | Built for Progress: pinned scroll scene with the tower elevation drawing | Done |
 
 ## Preview locally
 

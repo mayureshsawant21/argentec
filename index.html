@@ -19,6 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,500;1,8..60,600&display=swap">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/about.css">
 </head>
 <body class="is-loading">
 
@@ -141,8 +142,59 @@
         </button>
       </div>
     </section>
+
+    <!-- ============ SECTION 2: ABOUT / BUILT FOR PROGRESS ============ -->
+    <section class="about" id="about" aria-labelledby="about-title">
+      <div class="about__pin">
+        <div class="about__grid" aria-hidden="true"></div>
+
+        <div class="about__inner">
+          <div class="about__copy">
+            <p class="eyebrow reveal-up">
+              <span class="eyebrow__rule"></span>Who we are
+            </p>
+
+            <h2 class="about__title" id="about-title">
+              <span class="word-mask"><span>Built</span></span>
+              <span class="word-mask"><span>for</span></span>
+              <span class="word-mask"><span><em>Progress</em></span></span>
+            </h2>
+
+            <p class="about__lead" data-illuminate>Established in 2015, Argentec is a Mumbai-based construction company delivering integrated solutions across residential, commercial, institutional and infrastructure-led developments.</p>
+
+            <div class="about__detail">
+              <p class="about__body reveal-up">From planning to execution, we bring together engineering expertise, project management and a strong execution network to deliver with precision.</p>
+
+              <ul class="about__sectors reveal-up" aria-label="Development types">
+                <li>Residential</li>
+                <li>Commercial</li>
+                <li>Institutional</li>
+                <li>Infrastructure</li>
+              </ul>
+
+              <a class="text-link reveal-up" href="#expertise">
+                <span>Discover Argentec</span>
+                <svg viewBox="0 0 32 12" width="32" height="12" aria-hidden="true"><path d="M0 6h30M25 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <figure class="about__visual" aria-hidden="true">
+            <div class="tower">
+              <svg class="tower__svg" id="tower-svg" viewBox="0 0 360 540" preserveAspectRatio="xMidYMax meet"></svg>
+            </div>
+            <figcaption class="tower__readout">
+              <span class="tower__label">Structure level</span>
+              <span class="tower__value"><span id="tower-level">&plusmn;0.00</span><small> m</small></span>
+              <span class="tower__floor">Floor <span id="tower-floor">G</span> &middot; 3.15 m floor-to-floor</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="js/main.js"></script>
+  <script src="js/about.js"></script>
 </body>
 </html>

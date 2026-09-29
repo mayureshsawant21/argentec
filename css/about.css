@@ -1,0 +1,351 @@
+/* ==========================================================================
+   Section 2 — Built for Progress
+   A pinned scroll scene on a blueprint grid: copy on the left, a tower
+   elevation on the right that rises floor by floor as the visitor scrolls.
+   Progress (0 → 1) is written to --p on .about by js/about.js.
+   ========================================================================== */
+
+.about {
+  --blueprint: rgba(163, 184, 214, 0.07);
+  --steel: #8fa6c4;
+  --p: 0;
+
+  position: relative;
+  height: 240vh;
+  background:
+    radial-gradient(120% 80% at 85% 20%, rgba(25, 67, 118, 0.38) 0%, rgba(25, 67, 118, 0) 60%),
+    linear-gradient(180deg, var(--ink) 0%, #0c1830 100%);
+  color: var(--white);
+}
+
+.about__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* Blueprint grid — major and minor lines, faded toward the edges */
+.about__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--blueprint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blueprint) 1px, transparent 1px),
+    linear-gradient(rgba(163, 184, 214, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(163, 184, 214, 0.035) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 60% 50%, #000 30%, transparent 85%);
+  mask-image: radial-gradient(ellipse 80% 70% at 60% 50%, #000 30%, transparent 85%);
+  transform: translateY(calc(var(--p) * -60px));
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.about.in-view .about__grid { opacity: 1; }
+
+.about__inner {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(2rem, 6vw, 7rem);
+  align-items: center;
+  padding: calc(var(--header-top-h) + var(--header-main-h) + 1rem) calc(var(--gutter) + clamp(0rem, 6.5vw, 8rem)) 2rem;
+}
+
+.about__copy { min-width: 0; }
+
+/* Eyebrow */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 clamp(1.5rem, 3vw, 2.25rem);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+}
+.eyebrow__rule {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 1.2s var(--ease-out) 0.1s;
+}
+.about.in-view .eyebrow__rule { transform: scaleX(1); }
+
+/* Headline — each word rises out of its own mask */
+.about__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3rem, 6.4vw, 7rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+.about__title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--silver);
+}
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+  vertical-align: top;
+}
+.word-mask > span {
+  display: inline-block;
+  transform: translateY(105%) rotate(4deg);
+  transform-origin: left bottom;
+  transition: transform 1.3s var(--ease-out);
+}
+.about.in-view .word-mask > span { transform: none; }
+.about.in-view .word-mask:nth-child(2) > span { transition-delay: 0.1s; }
+.about.in-view .word-mask:nth-child(3) > span { transition-delay: 0.2s; }
+
+/* Lead paragraph — words brighten with scroll progress */
+.about__lead {
+  max-width: 36ch;
+  margin: clamp(1.75rem, 3vw, 2.75rem) 0 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.3rem, 1.7vw, 1.8rem);
+  line-height: 1.38;
+  letter-spacing: -0.005em;
+  text-wrap: pretty;
+}
+.about__lead .w {
+  opacity: 0.2;
+  transition: opacity 0.35s ease;
+}
+.about__lead .w.is-lit { opacity: 1; }
+
+/* Secondary block — offset to the right, arrives late in the scene */
+.about__detail {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 36rem;
+  margin: clamp(1.75rem, 3vw, 2.5rem) 0 0 clamp(0rem, 7vw, 7rem);
+  padding-top: clamp(1.25rem, 2vw, 1.75rem);
+  border-top: 1px solid var(--line);
+}
+.about__body {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--silver-dim);
+}
+
+.about__sectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.about__sectors li {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--line);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--silver);
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+.about__sectors li:hover {
+  background: var(--silver);
+  border-color: var(--silver);
+  color: var(--navy-deep);
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: start;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.text-link span {
+  background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat;
+  padding-bottom: 4px;
+  transition: background-size 0.6s var(--ease-out);
+}
+.text-link svg { transition: transform 0.6s var(--ease-out); }
+.text-link:hover span,
+.text-link:focus-visible span { background-size: 100% 1px; }
+.text-link:hover svg,
+.text-link:focus-visible svg { transform: translateX(8px); }
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+.about.in-view .eyebrow.reveal-up { opacity: 1; transform: none; }
+.about.is-late .about__detail .reveal-up { opacity: 1; transform: none; }
+.about.is-late .about__detail .reveal-up:nth-child(2) { transition-delay: 0.12s; }
+.about.is-late .about__detail .reveal-up:nth-child(3) { transition-delay: 0.24s; }
+.about__detail { transition: border-color 1s ease; border-top-color: transparent; }
+.about.is-late .about__detail { border-top-color: var(--line); }
+
+/* ==========================================================================
+   Tower elevation
+   ========================================================================== */
+.about__visual {
+  position: relative;
+  margin: 0;
+  min-width: 0;
+  height: min(66vh, 620px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.tower {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.tower__svg {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  overflow: visible;
+}
+.tower__svg .t-line {
+  fill: none;
+  stroke: var(--steel);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.tower__svg .t-slab { stroke: var(--silver); stroke-width: 1.4; }
+.tower__svg .t-mullion { stroke-opacity: 0.45; }
+.tower__svg .t-ground { stroke: var(--silver); stroke-width: 1.2; }
+.tower__svg .t-hatch { stroke-opacity: 0.35; }
+.tower__svg .t-dim { stroke-opacity: 0.6; }
+.tower__svg .t-glass {
+  fill: var(--steel);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.tower__svg .t-glass.is-on { opacity: 0.07; }
+.tower__svg .t-tag {
+  fill: var(--silver-dim);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.tower__svg .t-tag.is-on { opacity: 1; }
+.tower__svg .t-beacon {
+  fill: var(--white);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.tower__svg .t-beacon.is-on {
+  opacity: 1;
+  animation: beacon 2.4s ease-in-out infinite;
+}
+@keyframes beacon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.tower__readout {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.tower__label,
+.tower__floor {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+}
+.tower__value {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.tower__value small {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--silver-dim);
+}
+
+/* Shorter desktop screens: keep the whole scene inside the pinned frame */
+@media (min-width: 1024px) and (max-height: 860px) {
+  .about__inner { padding-top: calc(var(--header-top-h) + 1.5rem); }
+  .about__title { font-size: clamp(3rem, 5.4vw, 5.25rem); }
+  .about__lead { font-size: clamp(1.2rem, 1.45vw, 1.45rem); margin-top: 1.5rem; }
+  .about__detail { margin-top: 1.5rem; gap: 1.1rem; padding-top: 1.1rem; }
+  .about__body { font-size: 0.9375rem; line-height: 1.65; }
+  .eyebrow { margin-bottom: 1.25rem; }
+  .about__visual { height: min(62vh, 520px); }
+}
+
+/* ==========================================================================
+   Responsive — no pinning on smaller screens; scene plays as it passes
+   ========================================================================== */
+@media (max-width: 1023px) {
+  .about { height: auto; }
+  .about__pin {
+    position: relative;
+    height: auto;
+    display: block;
+  }
+  .about__inner {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+    padding: clamp(5rem, 14vw, 7rem) 1.25rem clamp(4rem, 12vw, 6rem);
+  }
+  .about__detail { margin-left: 0; }
+  .about__visual { height: min(78vh, 560px); }
+}
+
+@media (max-width: 560px) {
+  .about__title { font-size: clamp(3rem, 15vw, 4.25rem); }
+  .about__lead { font-size: 1.3rem; }
+  .about__visual { height: 480px; }
+}
+
+/* ==========================================================================
+   Reduced motion — show the finished scene
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .about { height: auto; }
+  .about__pin { position: relative; height: auto; }
+  .about__grid { opacity: 1; transform: none; }
+  .eyebrow__rule,
+  .word-mask > span,
+  .reveal-up { opacity: 1; transform: none; }
+  .about__lead .w { opacity: 1; }
+  .about__detail { border-top-color: var(--line); }
+}
