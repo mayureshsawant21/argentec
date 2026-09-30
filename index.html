@@ -232,63 +232,77 @@
         <svg class="edge__shape" viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false"><path d="M0 0 L1000 100 L0 100 Z"/></svg>
         <svg class="edge__line" viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false"><path d="M0 0 L1000 100"/></svg>
       </div>
-      <div class="dial" id="services-dial">
-        <div class="dial__pin">
-          <div class="dial__wheel" aria-hidden="true">
-            <svg class="dial__svg" viewBox="-500 -500 1000 1000" focusable="false">
-              <g class="dial__rotor" id="dial-rotor"></g>
-              <g class="dial__fixed">
-                <circle class="dial__hub" r="64"/>
-                <circle class="dial__core" r="6"/>
-                <path class="dial__cross" d="M-24 0H24M0 -24V24"/>
-              </g>
-            </svg>
-          </div>
-          <div class="dial__arm" aria-hidden="true"><span class="dial__arm-tip"></span></div>
+      <div class="orbit" id="services-orbit">
+        <div class="orbit__head">
+          <p class="eyebrow eyebrow--dark orbit__eyebrow"><span class="eyebrow__rule"></span>Services<span class="eyebrow__rule"></span></p>
+          <h2 class="orbit__title" id="services-title">End-to-End Construction <em>Expertise</em></h2>
+        </div>
 
-          <div class="dial__stage">
-            <div class="dial__head">
-              <p class="eyebrow eyebrow--dark"><span class="eyebrow__rule"></span>Services</p>
-              <h2 class="dial__title" id="services-title">End-to-End Construction <em>Expertise</em></h2>
-            </div>
-            <ol class="dial__items">
-              <li class="dial__item" data-dial-item data-label="Pre-Construction">
-                <h3 class="dial__name"><span class="dial__mask"><span>Pre-Construction</span></span></h3>
-                <p class="dial__desc">Planning from the ground up, with every risk assessed and mitigated before work begins on site.</p>
+        <div class="orbit__stage">
+          <ul class="orbit__col orbit__col--left">
+              <li class="orbit__item" data-orbit-item data-side="left" style="--k:0">
+                <button class="orbit__btn" type="button" aria-expanded="false" aria-controls="svc-desc-0">
+                  <span class="orbit__name">Pre-Construction</span>
+                  <span class="orbit__tag">Planning &amp; risk</span>
+                  <span class="orbit__plus" aria-hidden="true"></span>
+                </button>
+                <div class="orbit__desc" id="svc-desc-0"><p>Planning from the ground up, with every risk assessed and mitigated before work begins on site.</p></div>
               </li>
-              <li class="dial__item" data-dial-item data-label="Civil & Structural Works">
-                <h3 class="dial__name"><span class="dial__mask"><span>Civil &amp; Structural Works</span></span></h3>
-                <p class="dial__desc">Structures engineered to stand the test of time, using systems like MIVAN formwork for speed, repeatability and less waste.</p>
+              <li class="orbit__item" data-orbit-item data-side="left" style="--k:1">
+                <button class="orbit__btn" type="button" aria-expanded="false" aria-controls="svc-desc-1">
+                  <span class="orbit__name">Civil &amp; Structural Works</span>
+                  <span class="orbit__tag">Frames &amp; formwork</span>
+                  <span class="orbit__plus" aria-hidden="true"></span>
+                </button>
+                <div class="orbit__desc" id="svc-desc-1"><p>Structures engineered to stand the test of time, using systems like MIVAN formwork for speed, repeatability and less waste.</p></div>
               </li>
-              <li class="dial__item" data-dial-item data-label="MEP Works">
-                <h3 class="dial__name"><span class="dial__mask"><span>MEP Works</span></span></h3>
-                <p class="dial__desc">Integrated electrical, plumbing, fire-fighting and high and low voltage systems, from detailed engineering to execution.</p>
+              <li class="orbit__item" data-orbit-item data-side="left" style="--k:2">
+                <button class="orbit__btn" type="button" aria-expanded="false" aria-controls="svc-desc-2">
+                  <span class="orbit__name">MEP Works</span>
+                  <span class="orbit__tag">Electrical, plumbing, fire</span>
+                  <span class="orbit__plus" aria-hidden="true"></span>
+                </button>
+                <div class="orbit__desc" id="svc-desc-2"><p>Integrated electrical, plumbing, fire-fighting and high and low voltage systems, from detailed engineering to execution.</p></div>
               </li>
-              <li class="dial__item" data-dial-item data-label="Project Management">
-                <h3 class="dial__name"><span class="dial__mask"><span>Project Management</span></span></h3>
-                <p class="dial__desc">Planning, design and execution overseen end to end, tracked in MSP and held to stringent progress reviews.</p>
-              </li>
-              <li class="dial__item" data-dial-item data-label="EPC Services">
-                <h3 class="dial__name"><span class="dial__mask"><span>EPC Services</span></span></h3>
-                <p class="dial__desc">Engineering, procurement and construction delivered under one contract by one accountable team.</p>
-              </li>
-              <li class="dial__item" data-dial-item data-label="Turnkey Projects">
-                <h3 class="dial__name"><span class="dial__mask"><span>Turnkey Projects</span></span></h3>
-                <p class="dial__desc">Large and small projects taken through the complete cycle, from engineering to handover.</p>
-              </li>
-            </ol>
-            <div class="dial__foot">
-              <div class="dial__readout" aria-hidden="true">
-                <span class="dial__readout-label">Bearing</span>
-                <span class="dial__bearing" id="dial-bearing">000°</span>
-              </div>
-              <div class="dial__readout" aria-hidden="true">
-                <span class="dial__readout-label">Service</span>
-                <span class="dial__count"><span id="dial-index">01</span> / 06</span>
-              </div>
-              <a class="btn btn--navy dial__cta" href="#expertise">View Our Services</a>
-            </div>
+          </ul>
+
+          <div class="orbit__core" aria-hidden="true">
+            <div class="orbit__rings"><span></span><span></span><span></span></div>
+            <div class="orbit__glow"></div>
+            <canvas class="orbit__canvas" id="orbit-canvas"></canvas>
+            <svg class="orbit__fallback" viewBox="318.55 439.78 71.56 66.17"><path fill="currentColor" d="M367.85 465.74C367.83 465.70 367.82 465.66 367.80 465.63C365.51 461.71 363.24 457.78 360.98 453.85L354.27 441.78L347.71 453.85C345.40 457.87 343.13 461.86 340.88 465.86C335.72 474.82 325.75 491.95 320.55 500.99C323.26 500.99 329.06 501.06 331.30 500.95C331.88 500.92 332.68 500.49 332.97 500.00L346.11 477.06C348.14 480.68 350.09 484.14 352.68 488.65C353.02 489.23 353.30 489.84 353.76 490.73L343.24 490.73C343.38 490.59 337.30 500.94 337.30 500.94C337.30 500.94 353.60 500.99 359.07 500.99L371.44 500.99C370.87 499.97 370.52 499.34 370.16 498.71C364.34 488.60 358.51 479.67 352.71 469.55C352.37 468.95 351.86 468.04 352.09 467.61C353.76 464.45 352.82 466.12 354.73 462.79C358.15 468.70 359.40 471.11 362.75 476.90C362.75 476.90 362.76 476.90 362.76 476.90C364.08 479.21 365.41 481.44 365.51 481.63C366.92 484.10 369.24 487.77 371.45 491.20C375.09 496.83 381.33 500.24 388.03 500.24L388.11 500.24C383.23 491.76 373.32 475.15 367.85 465.74"/><path fill="none" stroke="currentColor" stroke-width="1.02" d="M321.10 503.64L387.45 503.94"/></svg>
           </div>
+
+          <ul class="orbit__col orbit__col--right">
+              <li class="orbit__item" data-orbit-item data-side="right" style="--k:0">
+                <button class="orbit__btn" type="button" aria-expanded="false" aria-controls="svc-desc-3">
+                  <span class="orbit__name">Project Management</span>
+                  <span class="orbit__tag">Schedule &amp; quality</span>
+                  <span class="orbit__plus" aria-hidden="true"></span>
+                </button>
+                <div class="orbit__desc" id="svc-desc-3"><p>Planning, design and execution overseen end to end, tracked in MSP and held to stringent progress reviews.</p></div>
+              </li>
+              <li class="orbit__item" data-orbit-item data-side="right" style="--k:1">
+                <button class="orbit__btn" type="button" aria-expanded="false" aria-controls="svc-desc-4">
+                  <span class="orbit__name">EPC Services</span>
+                  <span class="orbit__tag">Single-point delivery</span>
+                  <span class="orbit__plus" aria-hidden="true"></span>
+                </button>
+                <div class="orbit__desc" id="svc-desc-4"><p>Engineering, procurement and construction delivered under one contract by one accountable team.</p></div>
+              </li>
+              <li class="orbit__item" data-orbit-item data-side="right" style="--k:2">
+                <button class="orbit__btn" type="button" aria-expanded="false" aria-controls="svc-desc-5">
+                  <span class="orbit__name">Turnkey Projects</span>
+                  <span class="orbit__tag">Concept to handover</span>
+                  <span class="orbit__plus" aria-hidden="true"></span>
+                </button>
+                <div class="orbit__desc" id="svc-desc-5"><p>Large and small projects taken through the complete cycle, from engineering to handover.</p></div>
+              </li>
+          </ul>
+        </div>
+
+        <div class="orbit__foot">
+          <a class="btn btn--navy" href="#expertise">View Our Services</a>
         </div>
       </div>
     </section>
@@ -325,5 +339,6 @@
   <script src="js/main.js"></script>
   <script src="js/about.js"></script>
   <script src="js/overview.js"></script>
+  <script src="js/services-3d.js"></script>
 </body>
 </html>

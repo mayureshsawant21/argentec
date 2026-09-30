@@ -127,208 +127,243 @@
 .edge--paper .edge__line { clip-path: inset(-6px 0 -6px 0); }
 
 /* ==========================================================================
-   Services — the surveyor's dial. A theodolite-style ring sits half off the
-   left edge; the section pins and scrolling turns the dial so each service
-   lines up with a fixed arm. js/overview.js rotates the ring and switches
-   the active service; everything here is layout and transitions.
+   Services — orbit. A 3D chrome Argentec "A" (js/services-3d.js) turns at
+   the centre; the six services sit around it, three a side. Hovering (or
+   tapping) a service opens its description and turns the A toward it.
    ========================================================================== */
 .services {
   position: relative;
-  background: var(--paper);
+  background:
+    radial-gradient(60% 55% at 50% 56%, #ffffff 0%, rgba(255, 255, 255, 0) 70%),
+    var(--paper);
   color: var(--paper-ink);
+  overflow: hidden;
 }
 .services .btn--navy::before { background: var(--paper-ink); }
 .services .btn--navy:hover,
 .services .btn--navy:focus-visible { color: var(--white); }
 
-.dial {
-  --R: min(52vh, 30vw);          /* ring radius */
-  --pivot-x: 40vw;               /* where the arm meets the ring */
-  --pivot-y: calc(50% + 50px);   /* vertical centre, below the header */
-  position: relative;
-  height: calc(100vh + 6 * 62vh);
+.orbit {
+  padding: clamp(4.5rem, 9vw, 7.5rem) calc(var(--gutter) + clamp(0rem, 3vw, 4rem)) clamp(5rem, 9vw, 7rem);
 }
-.dial__pin {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
+.orbit__head {
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+  text-align: center;
 }
-
-/* Ring */
-.dial__wheel {
-  position: absolute;
-  width: calc(var(--R) * 2);
-  height: calc(var(--R) * 2);
-  left: calc(var(--pivot-x) - var(--R) * 2);
-  top: calc(var(--pivot-y) - var(--R));
-  opacity: 0;
-  transform: rotate(-24deg) scale(0.94);
-  transition: opacity 1.2s ease, transform 1.6s var(--ease-out);
-}
-.services.in-view .dial__wheel { opacity: 1; transform: none; }
-.dial__svg { width: 100%; height: 100%; max-width: none; overflow: visible; }
-
-.dial__svg .ring { fill: none; stroke: var(--paper-ink); stroke-opacity: 0.22; stroke-width: 1; vector-effect: non-scaling-stroke; }
-.dial__svg .ring--outer { stroke-opacity: 0.4; }
-.dial__svg .tick { stroke: var(--paper-ink); stroke-opacity: 0.28; stroke-width: 1; vector-effect: non-scaling-stroke; }
-.dial__svg .tick--major { stroke-opacity: 0.6; }
-.dial__svg .deg {
-  fill: var(--paper-muted);
-  font-family: var(--font-ui);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  font-variant-numeric: tabular-nums;
-}
-.dial__svg .svc-label {
-  fill: var(--paper-muted);
-  font-family: var(--font-ui);
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.55;
-  transition: fill 0.5s ease, opacity 0.5s ease;
-}
-.dial__svg .svc-label.is-active { fill: var(--navy); opacity: 1; }
-.dial__svg .svc-dot { fill: var(--paper-ink); opacity: 0.35; transition: fill 0.5s ease, opacity 0.5s ease; }
-.dial__svg .svc-dot.is-active { fill: var(--navy); opacity: 1; }
-.dial__hub { fill: none; stroke: var(--paper-ink); stroke-opacity: 0.14; stroke-width: 1; vector-effect: non-scaling-stroke; }
-.dial__core { fill: var(--navy); }
-.dial__cross { stroke: var(--navy); stroke-width: 1; vector-effect: non-scaling-stroke; }
-
-/* Fixed arm from the ring's centre out toward the text */
-.dial__arm {
-  position: absolute;
-  left: calc(var(--pivot-x) - var(--R));
-  top: var(--pivot-y);
-  width: calc(var(--R) + 7vw);
-  height: 1px;
-  background: var(--navy);
-  transform-origin: left;
-  transform: scaleX(0);
-  transition: transform 1.4s var(--ease-out) 0.3s;
-}
-.services.in-view .dial__arm { transform: scaleX(1); }
-.dial__arm-tip {
-  position: absolute;
-  right: -1px;
-  top: -4px;
-  width: 9px;
-  height: 9px;
-  border-top: 1px solid var(--navy);
-  border-right: 1px solid var(--navy);
-  transform: rotate(45deg);
-}
-
-/* Right-hand stage */
-.dial__stage {
-  position: absolute;
-  top: calc(100px + clamp(1.5rem, 4vh, 3rem));
-  bottom: clamp(1.5rem, 5vh, 3rem);
-  left: calc(var(--pivot-x) + 9vw);
-  right: calc(var(--gutter) + clamp(0rem, 3vw, 4rem));
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-width: 0;
-}
-.dial__head .eyebrow { margin-bottom: 1rem; }
-.dial__title {
-  max-width: 18ch;
+.orbit__eyebrow { margin: 0; }
+.orbit__eyebrow .eyebrow__rule { width: 36px; }
+.orbit__title {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(1.5rem, 2.2vw, 2.25rem);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  font-size: clamp(2.25rem, 4.2vw, 4.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1s var(--ease-out) 0.1s, transform 1s var(--ease-out) 0.1s;
 }
-.dial__title em { font-style: italic; font-weight: 500; color: var(--navy); }
+.orbit__title em { font-style: italic; font-weight: 500; color: var(--navy); }
+.services.in-view .orbit__title { opacity: 1; transform: none; }
 
-.dial__items {
+.orbit__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1rem, 3vw, 3rem);
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+/* Centre */
+.orbit__core {
   position: relative;
-  flex: 1;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1;
+  justify-self: center;
+}
+.orbit__canvas,
+.orbit__fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.orbit__canvas { opacity: 0; transition: opacity 1.2s ease; }
+.orbit__core.is-3d .orbit__canvas { opacity: 1; }
+.orbit__fallback {
+  inset: 30%;
+  width: 40%;
+  height: 40%;
+  color: var(--navy);
+  animation: orbit-float 6s ease-in-out infinite;
+  transition: opacity 0.6s ease;
+}
+.orbit__core.is-3d .orbit__fallback { opacity: 0; }
+@keyframes orbit-float {
+  0%, 100% { transform: translateY(-6px) rotate(-2deg); }
+  50% { transform: translateY(6px) rotate(2deg); }
+}
+
+.orbit__glow {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(25, 67, 118, 0.14) 0%, rgba(25, 67, 118, 0) 70%);
+  filter: blur(10px);
+}
+.orbit__rings { position: absolute; inset: 0; }
+.orbit__rings span {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--paper-line);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 1.4s ease, transform 1.6s var(--ease-out);
+}
+.orbit__rings span:nth-child(1) { inset: 4%; border-style: dashed; animation: orbit-spin 60s linear infinite; }
+.orbit__rings span:nth-child(2) { inset: 14%; }
+.orbit__rings span:nth-child(3) { inset: 24%; border-color: rgba(25, 67, 118, 0.22); }
+.services.in-view .orbit__rings span { opacity: 1; transform: none; }
+.services.in-view .orbit__rings span:nth-child(2) { transition-delay: 0.15s; }
+.services.in-view .orbit__rings span:nth-child(3) { transition-delay: 0.3s; }
+@keyframes orbit-spin { to { transform: rotate(360deg); } }
+.services.in-view .orbit__rings span:nth-child(1) { transform: none; }
+
+/* Service columns */
+.orbit__col {
+  display: grid;
+  align-content: start;
+  padding-top: clamp(3rem, 8.5vw, 9rem);  /* sits level with the A; opening a card only pushes cards below it */
+  gap: clamp(0.9rem, 1.6vw, 1.25rem);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.dial__item {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: var(--pivot-offset, 50%);
-  transform: translateY(-50%);
-  pointer-events: none;
+.orbit__item {
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.9s ease, transform 1s var(--ease-out);
+  transition-delay: calc(0.35s + var(--k) * 0.12s);
 }
-.dial__item.is-active { pointer-events: auto; }
+.orbit__item[data-side="left"] { transform: translateX(-40px); }
+.orbit__item[data-side="right"] { transform: translateX(40px); }
+.services.in-view .orbit__item { opacity: 1; transform: none; }
 
-.dial__name {
-  margin: 0;
+/* connector that reaches toward the centre on hover */
+.orbit__item::after {
+  content: "";
+  position: absolute;
+  top: 2.05rem;
+  width: clamp(1rem, 3vw, 3rem);
+  height: 1px;
+  background: var(--navy);
+  transform: scaleX(0);
+  transition: transform 0.6s var(--ease-out);
+}
+.orbit__item[data-side="left"]::after { left: 100%; transform-origin: left; }
+.orbit__item[data-side="right"]::after { right: 100%; transform-origin: right; }
+.orbit__item.is-open::after { transform: scaleX(1); }
+
+.orbit__btn {
+  position: relative;
+  display: grid;
+  gap: 0.3rem;
+  width: 100%;
+  padding: 1.15rem 3.25rem 1.15rem 1.35rem;
+  border: 1px solid rgba(15, 42, 77, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.62);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 12px 30px -24px rgba(14, 27, 46, 0.45);
+  color: var(--paper-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s var(--ease-out);
+}
+.orbit__item[data-side="right"] .orbit__btn { text-align: right; padding: 1.15rem 1.35rem 1.15rem 3.25rem; }
+.orbit__item.is-open .orbit__btn {
+  background: var(--white);
+  border-color: rgba(25, 67, 118, 0.35);
+  box-shadow: 0 1px 0 #fff inset, 0 18px 40px -26px rgba(25, 67, 118, 0.55);
+}
+.orbit__item[data-side="left"].is-open .orbit__btn { transform: translateX(6px); }
+.orbit__item[data-side="right"].is-open .orbit__btn { transform: translateX(-6px); }
+
+.orbit__name {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(2.5rem, 4.8vw, 5.25rem);
-  line-height: 1.02;
-  letter-spacing: -0.025em;
-  color: var(--paper-ink);
+  font-size: clamp(1.15rem, 1.5vw, 1.45rem);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
 }
-.dial__mask {
-  display: block;
-  overflow: hidden;
-  padding-bottom: 0.08em;
-}
-.dial__mask > span {
-  display: block;
-  transform: translateY(105%);
-  transition: transform 0.9s var(--ease-out);
-}
-.dial__item.is-past .dial__mask > span { transform: translateY(-105%); }
-.dial__item.is-active .dial__mask > span { transform: none; }
-
-.dial__desc {
-  max-width: 40ch;
-  margin: 1.25rem 0 0;
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--paper-muted);
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.6s var(--ease-out);
-}
-.dial__item.is-active .dial__desc {
-  opacity: 1;
-  transform: none;
-  transition: opacity 0.7s ease 0.2s, transform 0.8s var(--ease-out) 0.2s;
-}
-
-.dial__foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 1.25rem clamp(1.5rem, 3vw, 3rem);
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--paper-line);
-}
-.dial__readout { display: grid; gap: 0.35rem; }
-.dial__readout-label {
+.orbit__tag {
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--paper-muted);
 }
-.dial__bearing,
-.dial__count {
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  font-weight: 600;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  color: var(--paper-ink);
+.orbit__plus {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  color: var(--navy);
 }
-.dial__count { color: var(--navy); }
-.dial__cta { margin-left: auto; }
+.orbit__item[data-side="left"] .orbit__plus { right: 1.35rem; }
+.orbit__item[data-side="right"] .orbit__plus { left: 1.35rem; }
+.orbit__plus::before,
+.orbit__plus::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1.5px;
+  margin-top: -0.75px;
+  background: currentColor;
+  transition: transform 0.5s var(--ease-out);
+}
+.orbit__plus::after { transform: rotate(90deg); }
+.orbit__item.is-open .orbit__plus::after { transform: rotate(0deg); }
+
+.orbit__desc {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s var(--ease-out);
+}
+.orbit__desc > p {
+  min-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0 1.35rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--paper-muted);
+  opacity: 0;
+  transition: opacity 0.4s ease, padding 0.6s var(--ease-out);
+}
+.orbit__item[data-side="right"] .orbit__desc > p { text-align: right; }
+.orbit__item.is-open .orbit__desc { grid-template-rows: 1fr; }
+.orbit__item.is-open .orbit__desc > p {
+  padding-top: 0.9rem;
+  padding-bottom: 0.25rem;
+  opacity: 1;
+  transition: opacity 0.6s ease 0.15s, padding 0.6s var(--ease-out);
+}
+
+.orbit__foot {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
 
 /* ==========================================================================
    Sectors — two lines of sector names drift in opposite directions with scroll
@@ -492,40 +527,16 @@
   .figure.is-on { border-top-color: rgba(255, 255, 255, 0.5); }
   .figure:last-child { grid-column: 1 / -1; }
 
-  /* Dial sits at the bottom with the arm pointing up; text above it */
-  .dial {
-    --R: min(46vw, 34vh);
-    --pivot-x: 50vw;
-    height: calc(100vh + 6 * 55vh);
-  }
-  .dial__wheel {
-    left: calc(50vw - var(--R));
-    top: auto;
-    bottom: calc(var(--R) * -1 + 3vh);
-  }
-  .dial__arm {
-    left: 50vw;
-    top: auto;
-    bottom: calc(3vh - 1px);
-    width: 1px;
-    height: calc(var(--R) + 6vh);
-    transform-origin: bottom;
-    transform: scaleY(0);
-  }
-  .services.in-view .dial__arm { transform: scaleY(1); }
-  .dial__arm-tip { right: -4px; top: -1px; transform: rotate(-45deg); }
-  .dial__svg .svc-label { display: none; }
-  .dial__stage {
-    left: 1.25rem;
-    right: 1.25rem;
-    top: calc(56px + 1.5rem);
-    bottom: calc(var(--R) + 9vh);
-  }
-  .dial__name { font-size: clamp(2.1rem, 9vw, 3rem); }
-  .dial__desc { font-size: 1rem; margin-top: 0.9rem; }
-  .dial__foot { padding-top: 1rem; }
-  .dial__bearing, .dial__count { font-size: 1.35rem; }
-  .dial__cta { display: none; }
+  /* Orbit: the A on top, services stacked beneath as an accordion */
+  .orbit { padding-inline: 1.25rem; }
+  .orbit__stage { grid-template-columns: 1fr; gap: 1rem; }
+  .orbit__core { order: -1; width: min(78vw, 360px); }
+  .orbit__col { gap: 0.75rem; padding-top: 0; }
+  .orbit__item[data-side] { transform: translateY(24px); }
+  .orbit__item::after { display: none; }
+  .orbit__item[data-side] .orbit__btn { text-align: left; padding: 1.05rem 3rem 1.05rem 1.15rem; transform: none; }
+  .orbit__item[data-side] .orbit__plus { left: auto; right: 1.15rem; }
+  .orbit__item[data-side] .orbit__desc > p { text-align: left; padding-inline: 1.15rem; }
 
   .closing__image { background-position: 12% center; }
 }
@@ -545,14 +556,8 @@
   .closing__text,
   .closing__cta { opacity: 1; transform: none; }
   .figures__scale-fill { transform: none; }
-  .dial { height: auto; }
-  .dial__pin { position: relative; height: auto; overflow: visible; }
-  .dial__wheel, .dial__arm, .dial__foot .dial__readout { display: none; }
-  .dial__stage { position: relative; inset: auto; padding: 8rem calc(var(--gutter) + 1rem) 5rem; gap: 2.5rem; }
-  .dial__item { position: relative; top: auto; transform: none; margin-bottom: 2.5rem; }
-  .dial__mask > span, .dial__item.is-past .dial__mask > span { transform: none; }
-  .dial__desc { opacity: 1; transform: none; }
-  .closing__frame { clip-path: none; }
-  .closing:not(.in-view) .line__inner { transform: none; }
+  .orbit__title, .orbit__item { opacity: 1; transform: none; }
+  .orbit__rings span { opacity: 1; transform: none; animation: none; }
+  .orbit__fallback { animation: none; }
   .closing__image { transform: none; }
 }
