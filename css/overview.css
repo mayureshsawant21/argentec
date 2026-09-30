@@ -359,11 +359,6 @@
   transition: opacity 0.6s ease 0.15s, padding 0.6s var(--ease-out);
 }
 
-.orbit__foot {
-  display: flex;
-  justify-content: center;
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-}
 
 /* ==========================================================================
    Sectors — two lines of sector names drift in opposite directions with scroll
