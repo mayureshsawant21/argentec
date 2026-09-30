@@ -149,10 +149,10 @@
     var size = new THREE.Vector3();
     geo.computeBoundingBox();
     geo.boundingBox.getSize(size);
-    var scale = 2.6 / Math.max(size.x, size.y);
+    var scale = 2.1 / Math.max(size.x, size.y);
 
     var material = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
+      color: 0x8fb0e0,   // blue-tinted chrome
       metalness: 1,
       roughness: 0.1,
       clearcoat: 1,
