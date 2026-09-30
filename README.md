@@ -13,7 +13,7 @@ css/about.css           Section 2: Built for Progress (intro scene, diagonal edg
 css/overview.css        Section 2 continued: key numbers, services, sectors, closing
 js/main.js              Preloader, hero video, header, mobile menu, search
 js/about.js             Section 2 scroll scene (word reveal, tower drawing)
-js/overview.js          Key-number count-up, active service, sector drift, closing push-in
+js/overview.js          Key-number count-up, services dial, sector drift, closing push-in
 assets/img/             Logo (SVG, taken from the company profile) and video posters
 assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9:16)
 ```
