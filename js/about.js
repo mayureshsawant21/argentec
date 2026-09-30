@@ -162,6 +162,25 @@
   var detail = section.querySelector(".about__detail");
   var ticking = false;
 
+  // Redraw the edge geometry rather than stretching it, so the hairline
+  // renders as one clean line at every angle.
+  var edgeShape = edge && edge.querySelector(".edge__shape path");
+  var edgeLine = edge && edge.querySelector(".edge__line path");
+  var lastTilt = -1;
+  function setEdge(el, tilt) {
+    var t = Math.round(tilt * 1000) / 1000;
+    if (t === lastTilt) return;
+    lastTilt = t;
+    var y = (100 - t * 100).toFixed(2);
+    edgeShape.setAttribute("d", "M0 100 L1000 " + y + " L1000 100 Z");
+    edgeLine.setAttribute("d", "M0 100 L1000 " + y);
+  }
+  // Once the draw-in has finished, drop the clip so nothing re-rasterises
+  if (edge) {
+    var edgeLineSvg = edge.querySelector(".edge__line");
+    edgeLineSvg.addEventListener("transitionend", function () { edgeLineSvg.style.clipPath = "none"; });
+  }
+
   function update() {
     ticking = false;
     var vh = window.innerHeight;
@@ -170,7 +189,7 @@
     if (rect.top < vh * 0.65) section.classList.add("in-view");
 
     // Diagonal edge levels out as the section rises to meet the header
-    if (edge) edge.style.setProperty("--tilt", clamp((rect.top - vh * 0.12) / (vh * 0.78)).toFixed(4));
+    if (edge) setEdge(edge, clamp((rect.top - vh * 0.12) / (vh * 0.78)));
 
     if (pinQuery.matches) {
       // Pinned: progress across the section's scroll distance

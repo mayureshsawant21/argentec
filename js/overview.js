@@ -48,31 +48,33 @@
   }
 
   /* ------------------------------------------------------------------
-     Services
+     Services: stacking cards
      ------------------------------------------------------------------ */
-  var svcEls = Array.prototype.slice.call(services.querySelectorAll("[data-svc]"));
-  var svcList = services.querySelector(".services__list");
-  var activeSvc = null;
-
-  function setActive(el) {
-    if (el === activeSvc) return;
-    if (activeSvc) activeSvc.classList.remove("is-active");
-    if (el) el.classList.add("is-active");
-    activeSvc = el;
-  }
+  var stackItems = Array.prototype.slice.call(services.querySelectorAll("[data-stack]"));
 
   /* ------------------------------------------------------------------
      Diagonal edges on these blocks (the section-2 intro edge is handled
      in about.js)
      ------------------------------------------------------------------ */
-  var edges = Array.prototype.slice.call(document.querySelectorAll("[data-scroll-edge]"));
+  var edges = Array.prototype.slice.call(document.querySelectorAll("[data-scroll-edge]")).map(function (el) {
+    return { el: el, shape: el.querySelector(".edge__shape path"), line: el.querySelector(".edge__line path"), last: -1 };
+  });
+  // Mirrored diagonal (high on the left). Geometry is redrawn, never stretched,
+  // so the hairline stays solid while it levels out.
+  function setEdge(e, tilt) {
+    var t = Math.round(tilt * 1000) / 1000;
+    if (t === e.last) return;
+    e.last = t;
+    var y = (100 - t * 100).toFixed(2);
+    e.shape.setAttribute("d", "M0 " + y + " L1000 100 L0 100 Z");
+    e.line.setAttribute("d", "M0 " + y + " L1000 100");
+  }
 
   if (reduceMotion) {
     blocks.forEach(function (b) { b.classList.add("in-view"); });
     figureEls.forEach(function (f) { f.classList.add("is-on"); });
     figures.style.setProperty("--fill", "1");
-    services.style.setProperty("--fill", "1");
-    svcEls.forEach(function (s) { s.classList.add("is-active"); });
+    stackItems.forEach(function (s) { s.classList.add("is-active"); });
     return;
   }
 
@@ -103,21 +105,19 @@
       });
     }
 
-    // Services: the row crossing the middle of the screen is active
-    var lr = svcList.getBoundingClientRect();
-    if (lr.bottom > 0 && lr.top < vh) {
-      var mid = vh * 0.5;
-      var best = null;
-      var bestDist = Infinity;
-      svcEls.forEach(function (s) {
-        var r = s.getBoundingClientRect();
-        var d = Math.abs(r.top + Math.min(r.height, 90) / 2 - mid);
-        if (d < bestDist) { bestDist = d; best = s; }
-      });
-      if (lr.top > mid) best = svcEls[0];
-      setActive(best);
-      services.style.setProperty("--fill", clamp((mid - lr.top) / (lr.height - 60)).toFixed(4));
-    }
+    // Services: cards beneath the newest one settle back as others stack on
+    var arrivals = stackItems.map(function (item) {
+      var stick = parseFloat(window.getComputedStyle(item).top) || 0;
+      var r = item.getBoundingClientRect();
+      var a = clamp(1 - (r.top - stick) / (vh * 0.65));
+      if (a > 0.7) item.classList.add("is-active");
+      return a;
+    });
+    stackItems.forEach(function (item, i) {
+      var depth = 0;
+      for (var j = i + 1; j < arrivals.length; j++) depth += arrivals[j];
+      item.style.setProperty("--depth", Math.min(depth, 3).toFixed(3));
+    });
 
     // Sectors drift
     var kr = sectors.getBoundingClientRect();
@@ -133,8 +133,8 @@
 
     // Edges level out as their block rises
     edges.forEach(function (e) {
-      var r = e.parentElement.getBoundingClientRect();
-      e.style.setProperty("--tilt", clamp((r.top - vh * 0.12) / (vh * 0.78)).toFixed(4));
+      var r = e.el.parentElement.getBoundingClientRect();
+      setEdge(e, clamp((r.top - vh * 0.12) / (vh * 0.78)));
     });
   }
 

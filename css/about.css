@@ -304,10 +304,10 @@
 
 /* ==========================================================================
    Section edge — one diagonal, low on the left and high on the right.
-   --tilt (1 → 0, set by js/about.js) flattens it as the section scrolls up.
+   js/about.js redraws the path itself on scroll (no stretching), so the
+   hairline stays one solid line while the diagonal levels out.
    ========================================================================== */
 .edge {
-  --tilt: 1;
   position: absolute;
   left: 0;
   right: 0;
@@ -315,9 +315,6 @@
   z-index: 2;
   height: clamp(56px, 9.5vw, 190px);
   pointer-events: none;
-  transform: scaleY(var(--tilt));
-  transform-origin: 50% 100%;
-  will-change: transform;
 }
 .edge svg {
   position: absolute;
@@ -332,7 +329,9 @@
   fill: none;
   stroke: rgba(227, 231, 237, 0.7);
   stroke-width: 1.25;
+  stroke-linecap: round;
   vector-effect: non-scaling-stroke;
+  shape-rendering: geometricPrecision;
 }
 /* hairline draws left to right once the preloader lifts */
 .edge__line {
