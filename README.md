@@ -7,11 +7,14 @@ Plain HTML, CSS and JavaScript. There's no build step, so it can be hosted direc
 ## Structure
 
 ```
-index.html              Page markup (sections are added one at a time)
+index.html              Home page
+about.html              About page ("Take the lift")
 css/style.css           Base styles, header and hero (section 1)
 css/about.css           Section 2: Built for Progress (intro scene, diagonal edge)
 css/overview.css        Section 2 continued: key numbers, services, sectors, closing
-js/main.js              Preloader, hero video, header, mobile menu, search
+js/main.js              Shared: header, mobile menu, search; home-only preloader and hero video
+css/about-page.css      About page: lift doors, floors, lift panel
+js/about-page.js        About page: doors, floor reveals, headcount grid, lift panel
 js/about.js             Section 2 scroll scene (word reveal, tower drawing)
 js/overview.js          Key-number count-up, sector drift, closing push-in
 js/services-3d.js       Services: 3D chrome A (three.js) with hover-to-open services
@@ -28,6 +31,7 @@ assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9
 | 1 | Header (utility row + primary nav) and full-screen video hero | Done |
 | 2 | Built for Progress: pinned scroll scene with the tower elevation drawing | Done |
 | 2b | Key numbers, services preview, sectors, closing statement | Done |
+| About | Lift doors, lobby, 7 floors and the roof (founder), with a lift-panel floor nav | Done |
 
 ## Preview locally
 
