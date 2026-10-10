@@ -288,15 +288,6 @@ body.is-boarding { overflow: hidden; }
   font-weight: 500;
   line-height: 1.35;
 }
-.foundation__body {
-  max-width: 50ch;
-  margin-top: 1.75rem;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.75;
-}
-.foundation__body p { margin: 0 0 1rem; }
-
 .borehole { margin: 0; }
 .borehole__head {
   display: flex;
@@ -336,8 +327,7 @@ body.is-boarding { overflow: hidden; }
 .stratum:nth-child(2) .stratum__band { background: radial-gradient(circle at 30% 40%, #8fa6c4 1.5px, transparent 2px) 0 0 / 9px 9px, #d7e0ec; }
 .stratum:nth-child(3) .stratum__band { background: repeating-linear-gradient(45deg, #6f8db4 0 2px, #c2d0e2 2px 8px); }
 .stratum:nth-child(4) .stratum__band { background: repeating-linear-gradient(-45deg, #4f72a0 0 2px, #a9bcd5 2px 7px); }
-.stratum:nth-child(5) .stratum__band { background: radial-gradient(circle at 50% 50%, #e3e9f2 1.5px, transparent 2px) 0 0 / 8px 8px, #2d5687; }
-.stratum:nth-child(6) .stratum__band { background: repeating-linear-gradient(90deg, #0f2a4d 0 3px, #194376 3px 6px); }
+.stratum:nth-child(5) .stratum__band { background: repeating-linear-gradient(90deg, #0f2a4d 0 3px, #194376 3px 6px); }
 .stratum__text {
   font-size: 0.9375rem;
   color: var(--paper-muted);
@@ -356,24 +346,41 @@ body.is-boarding { overflow: hidden; }
 .borehole.is-in .stratum__text { opacity: 1; transform: none; }
 
 /* ==========================================================================
-   02 · Structure — beam, four columns, footing
+   02 · Vision & Mission — two large statements, then the four pillars rise
+   as columns under a beam
    ========================================================================== */
-.frame { margin-top: clamp(3rem, 6vw, 4.5rem); }
-.frame__beam {
+.vm__statements {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 6vw, 7rem);
+}
+.vm__item { padding-top: 1.5rem; border-top: 2px solid var(--silver); }
+.vm__item:nth-child(2) { transition-delay: 0.15s; }
+.vm__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #e9d7a8;
+}
+.vm__text {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.9rem);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.vm__text em { font-style: italic; font-weight: 500; color: var(--silver); }
+
+.frame { margin-top: clamp(4rem, 8vw, 6rem); }
+.frame__beam {
+  padding: 0.9rem 0;
   border-top: 2px solid var(--silver);
   border-bottom: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.025);
-}
-.frame__beam-cell { padding: clamp(1.25rem, 2.5vw, 2rem); }
-.frame__beam-cell + .frame__beam-cell { border-left: 1px solid var(--line); }
-.frame__beam-cell p {
-  margin: 0.75rem 0 0;
-  max-width: 38ch;
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
-  line-height: 1.4;
+  text-align: center;
 }
 .frame__label {
   font-size: 0.6875rem;
@@ -385,7 +392,7 @@ body.is-boarding { overflow: hidden; }
 .frame__columns {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  height: clamp(220px, 34vh, 340px);
+  height: clamp(170px, 26vh, 250px);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -396,7 +403,7 @@ body.is-boarding { overflow: hidden; }
   justify-content: center;
 }
 .column__shaft {
-  width: clamp(26px, 3vw, 42px);
+  width: clamp(24px, 2.6vw, 36px);
   height: 100%;
   border-left: 1px solid var(--silver);
   border-right: 1px solid var(--silver);
@@ -408,11 +415,11 @@ body.is-boarding { overflow: hidden; }
 }
 .column__name {
   position: absolute;
-  bottom: 1rem;
-  left: calc(50% + clamp(26px, 3vw, 42px) / 2 + 0.8rem);
+  bottom: 0.75rem;
+  left: calc(50% + clamp(24px, 2.6vw, 36px) / 2 + 0.75rem);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -424,16 +431,10 @@ body.is-boarding { overflow: hidden; }
 .frame.is-in .column__shaft { transform: none; }
 .frame.is-in .column__name { opacity: 1; }
 .frame__footing {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5rem 1.5rem;
-  padding: 1.25rem clamp(1.25rem, 2.5vw, 2rem);
-  border-top: 6px solid transparent;
-  border-image: repeating-linear-gradient(-45deg, var(--silver-dim) 0 1px, transparent 1px 6px) 6;
-  background: rgba(255, 255, 255, 0.04);
+  height: 10px;
+  background: repeating-linear-gradient(-45deg, var(--silver-dim) 0 1px, transparent 1px 6px);
+  opacity: 0.6;
 }
-.frame__footing p { margin: 0; color: var(--silver); }
 
 /* ==========================================================================
    03 · Workforce — headcount grid
@@ -446,25 +447,6 @@ body.is-boarding { overflow: hidden; }
 }
 .workforce__count { font-variant-numeric: tabular-nums; }
 .workforce__note { margin: 1.5rem 0 0; color: var(--muted); }
-.legend {
-  display: grid;
-  gap: 0.6rem;
-  margin: 2rem 0 0;
-  padding: 0;
-  list-style: none;
-  color: var(--paper-muted);
-}
-.legend b { color: var(--paper-ink); margin-right: 0.35rem; }
-.legend__dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-right: 0.75rem;
-  border-radius: 50%;
-  vertical-align: 0;
-}
-.legend__dot--labour { background: #8fa6c4; }
-.legend__dot--tech { background: var(--navy); }
 .network {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -510,17 +492,9 @@ body.is-boarding { overflow: hidden; }
 /* ==========================================================================
    04 · Character — specification schedule
    ========================================================================== */
-.character__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5rem 3rem;
-}
-.character__note { max-width: 32ch; margin: 0; color: var(--silver-dim); }
 .spec {
   width: 100%;
-  margin-top: clamp(2.5rem, 5vw, 4rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
 }
@@ -567,14 +541,6 @@ body.is-boarding { overflow: hidden; }
 /* ==========================================================================
    05 · Method — project schedule
    ========================================================================== */
-.method__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5rem 3rem;
-}
-.method__note { max-width: 34ch; margin: 0; color: var(--paper-muted); }
 .gantt {
   --name-w: clamp(11rem, 24vw, 19rem);
   position: relative;
@@ -670,104 +636,6 @@ body.is-boarding { overflow: hidden; }
 }
 
 /* ==========================================================================
-   06 · Philosophy — five line drawings
-   ========================================================================== */
-.principles {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(1.25rem, 2.5vw, 2.5rem);
-  margin: clamp(3rem, 6vw, 4.5rem) 0 0;
-  padding: 0;
-  list-style: none;
-}
-.principle {
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-  transition-delay: calc(var(--p) * 0.1s);
-}
-.principle__art {
-  width: clamp(72px, 7vw, 104px);
-  height: auto;
-  fill: none;
-  stroke: var(--silver);
-  stroke-width: 1.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  overflow: visible;
-}
-.principle__art path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1.6s var(--ease-out);
-  transition-delay: calc(0.3s + var(--p) * 0.12s);
-}
-.principle__art path[stroke-dasharray] { stroke-dasharray: none; opacity: 0; transition: opacity 1s ease 1.2s; }
-.principle.is-in .principle__art path { stroke-dashoffset: 0; }
-.principle.is-in .principle__art path[stroke-dasharray] { opacity: 0.6; }
-.principle:hover .principle__art { stroke: #e9d7a8; }
-.principle h3 {
-  margin: 1.5rem 0 0.75rem;
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2vw, 1.9rem);
-  font-weight: 600;
-}
-.principle p { margin: 0; color: var(--silver-dim); font-size: 0.9375rem; line-height: 1.65; }
-
-/* ==========================================================================
-   07 · Responsibility
-   ========================================================================== */
-.duties {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(1.25rem, 2.5vw, 2.5rem);
-  margin: clamp(3rem, 6vw, 4.5rem) 0 0;
-  padding: 0;
-  list-style: none;
-}
-.duty {
-  position: relative;
-  padding-top: 1.5rem;
-  transition-delay: calc(var(--u) * 0.1s);
-}
-.duty::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--navy);
-  transform-origin: left;
-  transform: scaleX(0);
-  transition: transform 1s var(--ease-out);
-  transition-delay: calc(0.2s + var(--u) * 0.12s);
-}
-.duty.is-in::before { transform: none; }
-.duty__code {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 6vw, 5.5rem);
-  font-weight: 600;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--navy);
-}
-.duty h3 {
-  margin: 1rem 0 0.6rem;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-.duty p { margin: 0; color: var(--paper-muted); font-size: 0.9375rem; line-height: 1.65; }
-.responsibility__csr {
-  margin: clamp(3rem, 6vw, 4rem) 0 0;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--paper-line);
-  color: var(--paper-muted);
-}
-.responsibility__csr b { font-family: var(--font-display); font-size: 1.6rem; color: var(--navy); margin-right: 0.4rem; }
-
-/* ==========================================================================
    R · Roof
    ========================================================================== */
 .roof { padding-bottom: 0; }
@@ -809,25 +677,8 @@ body.is-boarding { overflow: hidden; }
   color: var(--navy);
   align-self: center;
 }
-.roof__bio { max-width: 58ch; margin-top: 1.75rem; color: var(--silver); line-height: 1.75; }
+.roof__bio { max-width: 52ch; margin-top: 1.75rem; color: var(--silver); font-size: 1.0625rem; line-height: 1.75; }
 .roof__bio p { margin: 0 0 1rem; }
-.roof__facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem 3.5rem;
-  margin: 2rem 0 0;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-}
-.roof__facts dt { font-family: var(--font-display); font-size: 2rem; font-weight: 600; }
-.roof__facts dd {
-  margin: 0.35rem 0 0;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--silver-dim);
-}
 
 .roof__exit {
   display: grid;
@@ -981,10 +832,7 @@ body.is-boarding { overflow: hidden; }
   .foundation,
   .workforce,
   .roof__inner { grid-template-columns: 1fr; }
-  .frame__beam { grid-template-columns: 1fr; }
-  .frame__beam-cell + .frame__beam-cell { border-left: 0; border-top: 1px solid var(--line); }
-  .principles { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
-  .duties { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
+  .vm__statements { grid-template-columns: 1fr; }
   .plaque { max-width: 420px; }
 
   /* Lift panel becomes a compact floor display */
@@ -1003,8 +851,6 @@ body.is-boarding { overflow: hidden; }
 }
 
 @media (max-width: 640px) {
-  .principles,
-  .duties { grid-template-columns: 1fr; }
   .headcount { grid-template-columns: repeat(15, 1fr); }
   .gantt { --name-w: 8.5rem; }
   .task__tip { width: 64vw; }
@@ -1028,9 +874,7 @@ body.is-boarding { overflow: hidden; }
   .slab::before,
   .stratum__band,
   .column__shaft,
-  .task__bar,
-  .duty::before { transform: none; }
+  .task__bar { transform: none; }
   .column__name { opacity: 1; }
-  .principle__art path { stroke-dashoffset: 0; }
   .headcount i { transform: none; }
 }

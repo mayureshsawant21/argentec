@@ -31,7 +31,7 @@ assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9
 | 1 | Header (utility row + primary nav) and full-screen video hero | Done |
 | 2 | Built for Progress: pinned scroll scene with the tower elevation drawing | Done |
 | 2b | Key numbers, services preview, sectors, closing statement | Done |
-| About | Lift doors, lobby, 7 floors and the roof (founder), with a lift-panel floor nav | Done |
+| About | Lift doors, lobby, 5 floors (incl. Vision & Mission) and the roof (founder), with a lift-panel floor nav | Done |
 
 ## Preview locally
 
