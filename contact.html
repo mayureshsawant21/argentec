@@ -140,18 +140,24 @@
       <div class="ct-body__inner">
 
         <form class="docket" id="docket" novalidate>
-          <header class="docket__head">
-            <div><span class="docket__label">Enquiry no.</span><span class="docket__value" id="docket-ref">ARG-0000</span></div>
-            <div><span class="docket__label">Date</span><span class="docket__value" id="docket-date">&mdash;</span></div>
-            <div><span class="docket__label">Type</span><span class="docket__value" id="docket-type">Not selected</span></div>
-          </header>
 
           <div class="docket__empty" id="docket-empty">
-            <p><span class="docket__step">02</span> Choose an enquiry type above to open the form.</p>
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 34V14M16 22l8-8 8 8"/></svg>
+            <p class="docket__empty-title">Choose an enquiry type above</p>
+            <p>The form will open here with the questions for your enquiry.</p>
           </div>
 
           <div class="docket__fields" id="docket-fields" hidden>
-            <p class="docket__section"><span class="docket__step">02</span> Your details</p>
+            <div class="form-type">
+              <div>
+                <span class="form-type__label">Enquiry type</span>
+                <strong class="form-type__name" id="form-type-name">Material supply</strong>
+              </div>
+              <button class="form-type__change" type="button" id="change-type">Change</button>
+            </div>
+            <p class="form-note"><span class="req" aria-hidden="true">*</span> Required fields</p>
+
+            <p class="docket__section"><span class="docket__step">1</span> Your details</p>
             <div class="row">
               <div class="field">
                 <label for="f-name">Full name</label>
@@ -175,8 +181,9 @@
 
             <!-- Supplier -->
             <div class="group" data-for="supplier">
-              <p class="docket__section"><span class="docket__step">03</span> What you supply</p>
-              <div class="chips" role="group" aria-label="Materials you supply">
+              <p class="docket__section"><span class="docket__step">2</span> What you supply</p>
+              <span class="field__label field__label--req" id="materials-label">Materials you supply</span>
+              <div class="chips" role="group" aria-labelledby="materials-label">
                 <label class="chip"><input type="checkbox" name="materials" value="Cement"><span>Cement</span></label>
                 <label class="chip"><input type="checkbox" name="materials" value="Steel / TMT"><span>Steel / TMT</span></label>
                 <label class="chip"><input type="checkbox" name="materials" value="Ready-mix concrete"><span>Ready-mix concrete</span></label>
@@ -206,7 +213,7 @@
 
             <!-- Home -->
             <div class="group" data-for="home">
-              <p class="docket__section"><span class="docket__step">03</span> About your home</p>
+              <p class="docket__section"><span class="docket__step">2</span> About your home</p>
               <div class="row">
                 <div class="field">
                   <label for="f-property">Property type</label>
@@ -268,7 +275,7 @@
 
             <!-- Development -->
             <div class="group" data-for="development">
-              <p class="docket__section"><span class="docket__step">03</span> About the project</p>
+              <p class="docket__section"><span class="docket__step">2</span> About the project</p>
               <div class="row">
                 <div class="field">
                   <label for="f-role">You are a</label>
@@ -305,7 +312,7 @@
                 </div>
               </div>
               <div class="field">
-                <span class="field__label" id="stage-label">Current stage</span>
+                <span class="field__label" id="stage-label">Current stage <span class="opt">optional</span></span>
                 <div class="chips chips--single" role="radiogroup" aria-labelledby="stage-label">
                   <label class="chip"><input type="radio" name="stage" value="Land acquired"><span>Land acquired</span></label>
                   <label class="chip"><input type="radio" name="stage" value="Approvals in progress"><span>Approvals in progress</span></label>
@@ -315,9 +322,9 @@
               </div>
             </div>
 
-            <p class="docket__section"><span class="docket__step">04</span> Your message</p>
+            <p class="docket__section"><span class="docket__step">3</span> Your message</p>
             <div class="field">
-              <label for="f-message">Anything else we should know?</label>
+              <label for="f-message">Anything else we should know? <span class="opt">optional</span></label>
               <textarea id="f-message" name="message" rows="4"></textarea>
               <p class="careers-hint" id="careers-hint" hidden>Looking for a job? Applications go through our <a href="careers.html">Careers page</a>, where the hiring team will see them.</p>
             </div>
@@ -333,10 +340,21 @@
           </div>
 
           <div class="docket__done" id="docket-done" hidden tabindex="-1">
-            <div class="stamp" aria-hidden="true"><span>Received</span><small id="stamp-ref">ARG-0000</small></div>
+            <svg class="done__tick" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29"/><path d="M20 33l8 8 16-17"/></svg>
             <h2>Thank you, <span id="done-name">there</span>.</h2>
-            <p>Your enquiry <b id="done-ref">ARG-0000</b> is with our <span id="done-team">team</span>. We&rsquo;ll reply within two working days.</p>
-            <button class="text-link docket__again" type="button" id="docket-again"><span>Send another enquiry</span></button>
+            <p>Your enquiry is with our <span id="done-team">team</span>. We&rsquo;ll reply within two working days.</p>
+            <div class="done__id">
+              <span class="done__id-label">Your enquiry ID</span>
+              <div class="done__id-row">
+                <code class="done__id-value" id="done-ref"></code>
+                <button class="done__copy" type="button" id="copy-ref" aria-label="Copy enquiry ID">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>
+                  <span id="copy-label">Copy</span>
+                </button>
+              </div>
+              <span class="done__id-note">Save this ID and quote it when you follow up.</span>
+            </div>
+            <button class="docket__again" type="button" id="docket-again"><span>Send another enquiry</span></button>
           </div>
         </form>
 
@@ -348,15 +366,10 @@
             Khar West, Mumbai 400052
           </address>
           <p class="office__coords">19.07&deg; N &middot; 72.84&deg; E</p>
-          <a class="office__map" href="https://www.google.com/maps/search/?api=1&amp;query=Prabhat+Chambers+SV+Road+Khar+West+Mumbai+400052" target="_blank" rel="noopener">
-            <svg class="office__plan" viewBox="0 0 240 150" aria-hidden="true">
-              <path class="road" d="M0 92h240"/><path class="road road--minor" d="M150 0v150"/><path class="road road--minor" d="M40 0l30 150"/>
-              <rect class="block" x="88" y="40" width="44" height="40"/><rect class="block block--muted" x="160" y="18" width="50" height="58"/><rect class="block block--muted" x="160" y="104" width="62" height="34"/><rect class="block block--muted" x="80" y="104" width="56" height="30"/>
-              <circle class="pin-pulse" cx="110" cy="60" r="10"/><circle class="pin" cx="110" cy="60" r="4"/>
-              <text x="4" y="86">SV ROAD</text>
-            </svg>
-            <span class="office__map-label">Open in Google Maps <span aria-hidden="true">&nearr;</span></span>
-          </a>
+          <div class="office__map">
+            <iframe title="Argentec head office on Google Maps" src="https://www.google.com/maps?q=Prabhat+Chambers,+SV+Road,+Khar+West,+Mumbai+400052&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            <a class="office__map-label" href="https://www.google.com/maps/search/?api=1&amp;query=Prabhat+Chambers+SV+Road+Khar+West+Mumbai+400052" target="_blank" rel="noopener">Open in Google Maps <span aria-hidden="true">&nearr;</span></a>
+          </div>
           <dl class="office__routes">
             <div><dt>Suppliers</dt><dd>Procurement team</dd></div>
             <div><dt>Homes</dt><dd>Residential projects team</dd></div>

@@ -36,6 +36,8 @@
 
 html { -webkit-text-size-adjust: 100%; }
 
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
   background: var(--ink);

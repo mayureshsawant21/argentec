@@ -31,17 +31,19 @@
   var empty = document.getElementById("docket-empty");
   var fields = document.getElementById("docket-fields");
   var done = document.getElementById("docket-done");
-  var typeOut = document.getElementById("docket-type");
-  var refOut = document.getElementById("docket-ref");
+  var typeOut = document.getElementById("form-type-name");
   var errorOut = document.getElementById("docket-error");
   var radios = Array.prototype.slice.call(document.querySelectorAll('input[name="enquiry-type"]'));
   var scoped = Array.prototype.slice.call(form.querySelectorAll("[data-for]"));
   var current = null;
 
-  /* Docket header: reference and date */
-  var ref = "ARG-" + String(new Date().getFullYear()).slice(2) + "-" + String(Math.floor(1000 + Math.random() * 9000));
-  refOut.textContent = ref;
-  document.getElementById("docket-date").textContent = new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  /* Enquiry ID: created when the enquiry is sent, e.g. ARG-261012-4821 */
+  function newRef() {
+    var d = new Date();
+    var ymd = String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+    return "ARG-" + ymd + "-" + String(Math.floor(1000 + Math.random() * 9000));
+  }
+  var ref = "";
 
   /* Type selection */
   function setType(type, scroll) {
@@ -64,6 +66,11 @@
       void fields.offsetWidth;
       fields.classList.add("is-entering");
     }
+    // mark fields required for this type
+    Array.prototype.forEach.call(form.querySelectorAll("input, select, textarea"), function (el) {
+      var wrap = el.closest(".field");
+      if (wrap && el.id !== "f-consent") wrap.classList.toggle("is-req", required(el));
+    });
     clearErrors();
     if (scroll) {
       var top = form.getBoundingClientRect().top + window.scrollY - 110;
@@ -162,6 +169,7 @@
     if (!validate()) return;
 
     var btn = form.querySelector(".docket__btn");
+    ref = newRef();
     var data = collect();
     btn.disabled = true;
     btn.firstElementChild.textContent = "Sending…";
@@ -180,7 +188,8 @@
     send.then(function () {
       document.getElementById("done-name").textContent = (data.name || "").split(" ")[0] || "there";
       document.getElementById("done-ref").textContent = ref;
-      document.getElementById("stamp-ref").textContent = ref;
+      copyLabel.textContent = "Copy";
+      copyBtn.classList.remove("is-copied");
       document.getElementById("done-team").textContent = TYPES[current].team;
       fields.hidden = true;
       done.hidden = false;
@@ -194,11 +203,42 @@
     });
   });
 
+  /* Copy enquiry ID */
+  var copyBtn = document.getElementById("copy-ref");
+  var copyLabel = document.getElementById("copy-label");
+  copyBtn.addEventListener("click", function () {
+    var refEl = document.getElementById("done-ref");
+    function copied() {
+      copyLabel.textContent = "Copied";
+      copyBtn.classList.add("is-copied");
+      setTimeout(function () { copyLabel.textContent = "Copy"; copyBtn.classList.remove("is-copied"); }, 2000);
+    }
+    function selectIt() {
+      var range = document.createRange();
+      range.selectNodeContents(refEl);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      copyLabel.textContent = "Press Ctrl+C";
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(ref).then(copied, selectIt);
+    } else {
+      selectIt();
+    }
+  });
+
+  /* Change type: back to the tiles */
+  document.getElementById("change-type").addEventListener("click", function () {
+    var types = document.getElementById("types");
+    window.scrollTo({ top: types.getBoundingClientRect().top + window.scrollY - 110, behavior: "smooth" });
+    var checked = types.querySelector("input:checked");
+    if (checked) checked.focus({ preventScroll: true });
+  });
+
   document.getElementById("docket-again").addEventListener("click", function () {
     form.reset();
     hint.hidden = true;
-    ref = "ARG-" + String(new Date().getFullYear()).slice(2) + "-" + String(Math.floor(1000 + Math.random() * 9000));
-    refOut.textContent = ref;
     var t = current;
     current = null;
     setType(t, true);
