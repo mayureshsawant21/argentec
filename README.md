@@ -9,12 +9,16 @@ Plain HTML, CSS and JavaScript. There's no build step, so it can be hosted direc
 ```
 index.html              Home page
 about.html              About page ("Take the lift")
+contact.html            Contact page: enquiry docket (supplier / home / development)
+careers.html            Careers placeholder (contact page redirects careers enquiries here)
 css/style.css           Base styles, header and hero (section 1)
 css/about.css           Section 2: Built for Progress (intro scene, diagonal edge)
 css/overview.css        Section 2 continued: key numbers, services, sectors, closing
 js/main.js              Shared: header, mobile menu, search; home-only preloader and hero video
 css/about-page.css      About page: lift doors, floors, lift panel
 js/about-page.js        About page: doors, floor reveals, headcount grid, lift panel
+css/contact.css         Contact + careers styles
+js/contact.js           Contact form: type switching, validation, careers redirect, submit
 js/about.js             Section 2 scroll scene (word reveal, tower drawing)
 js/overview.js          Key-number count-up, sector drift, closing push-in
 js/services-3d.js       Services: 3D chrome A (three.js) with hover-to-open services
@@ -31,7 +35,18 @@ assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9
 | 1 | Header (utility row + primary nav) and full-screen video hero | Done |
 | 2 | Built for Progress: pinned scroll scene with the tower elevation drawing | Done |
 | 2b | Key numbers, services preview, sectors, closing statement | Done |
+| Contact | Enquiry type tiles, adaptive docket form, office card; careers redirect | Done |
 | About | Lift doors, lobby, 5 floors (incl. Vision & Mission) and the roof (founder), with a lift-panel floor nav | Done |
+
+## Contact form delivery
+
+GitHub Pages can't process forms, so the contact form posts to a form service.
+Create a free endpoint (for example Formspree or Web3Forms), then set
+`FORM_ENDPOINT` at the top of `js/contact.js`. Until then the form validates and
+shows its "Received" screen, but **no enquiry is sent**.
+
+`contact.html?type=supplier|home|development` opens the form preselected;
+`?type=careers` redirects to `careers.html`.
 
 ## Preview locally
 
