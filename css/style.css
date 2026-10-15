@@ -637,8 +637,7 @@ img, svg, video { display: block; max-width: 100%; }
 .nav-item.is-open .nav-item__toggle svg { transform: rotate(180deg); }
 .nav-link.is-current::after { transform: scaleX(1); }
 
-/* Glassmorphism panel: a floating, dark-tinted translucent card with a
-   strong blur, a thin light edge and a soft top highlight. */
+/* Expertise panel: solid white, full width, with a navy wipe on hover */
 .mega {
   position: absolute;
   top: 100%;
@@ -647,32 +646,22 @@ img, svg, video { display: block; max-width: 100%; }
   z-index: 2;
   overflow: hidden;
   padding: clamp(1.75rem, 3vw, 2.5rem) var(--gutter) clamp(2rem, 3.5vw, 2.75rem);
-  border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 0;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(255, 255, 255, 0.02) 100%),
-    rgba(12, 26, 46, 0.52);
-  -webkit-backdrop-filter: blur(26px) saturate(140%);
-  backdrop-filter: blur(26px) saturate(140%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
-    0 30px 70px -30px rgba(0, 0, 0, 0.55);
-  color: var(--white);
+  background: var(--white);
+  border-top: 1px solid rgba(10, 18, 32, 0.08);
+  box-shadow: 0 30px 60px -30px rgba(10, 18, 32, 0.45);
+  color: var(--ink);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
-  transform-origin: top center;
-  transition: opacity 0.3s ease, transform 0.45s var(--ease-out), visibility 0s linear 0.45s;
+  transition: opacity 0.3s ease, transform 0.4s var(--ease-out), visibility 0s linear 0.4s;
 }
 .nav-item.is-open .mega {
   opacity: 1;
   visibility: visible;
   transform: none;
-  transition: opacity 0.3s ease, transform 0.45s var(--ease-out);
+  transition: opacity 0.3s ease, transform 0.4s var(--ease-out);
 }
-/* Large A mark watermark on the left, in white */
+/* Large A mark watermark on the left */
 .mega::before {
   content: "";
   position: absolute;
@@ -681,8 +670,7 @@ img, svg, video { display: block; max-width: 100%; }
   width: clamp(320px, 34vw, 520px);
   aspect-ratio: 71.56 / 66.17;
   background: url("../assets/img/argentec-mark.svg") center / contain no-repeat;
-  filter: brightness(0) invert(1);
-  opacity: 0.08;
+  opacity: 0.1;
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -702,7 +690,7 @@ img, svg, video { display: block; max-width: 100%; }
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #e9d7a8;
+  color: var(--navy);
 }
 .mega__lead {
   margin: 0;
@@ -710,7 +698,7 @@ img, svg, video { display: block; max-width: 100%; }
   font-size: 1.45rem;
   font-weight: 600;
   line-height: 1.25;
-  color: var(--white);
+  color: var(--ink);
 }
 .mega__all {
   display: inline-block;
@@ -721,56 +709,112 @@ img, svg, video { display: block; max-width: 100%; }
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--white);
+  color: var(--navy);
 }
 .mega__list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.25rem 1.5rem;
+  gap: 0.35rem 1.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
+
+/* Item: on hover a navy panel wipes in from the left (like a slab being
+   poured), the number becomes a gold arrow and the text turns white. */
 .mega__link {
+  position: relative;
+  isolation: isolate;
   display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr);
+  grid-template-columns: 2.25rem minmax(0, 1fr);
   column-gap: 0.75rem;
-  padding: 0.85rem 0.9rem;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  transition: background-color 0.25s ease, border-color 0.25s ease;
+  padding: 0.9rem 2.75rem 0.9rem 0.9rem;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(10, 18, 32, 0.08);
+}
+.mega__link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 7px),
+    var(--navy);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.55s var(--ease-out);
+}
+.mega__link::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M1 9h15M10 3l6 6-6 6' fill='none' stroke='%23e9d7a8' stroke-width='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  opacity: 0;
+  transform: translateX(-14px);
+  transition: opacity 0.35s ease, transform 0.5s var(--ease-out);
 }
 .mega__num {
   grid-row: span 2;
-  padding-top: 0.15rem;
+  align-self: start;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgba(10, 18, 32, 0.14);
+  border-radius: 50%;
   font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.04em;
+  color: var(--navy);
   font-variant-numeric: tabular-nums;
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, transform 0.5s var(--ease-out);
 }
-.mega__name { font-size: 0.9375rem; font-weight: 700; color: var(--white); }
-.mega__desc { margin-top: 0.15rem; font-size: 0.8125rem; font-weight: 500; line-height: 1.45; color: rgba(255, 255, 255, 0.74); }
-.mega__link:hover,
-.mega__link:focus-visible {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.16);
-  outline: none;
+.mega__name {
+  padding-top: 0.15rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ink);
+  transition: color 0.35s ease, transform 0.5s var(--ease-out);
 }
-.mega__link:focus-visible { box-shadow: 0 0 0 2px rgba(233, 215, 168, 0.7); }
-.mega__link[aria-current="page"] {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: inset 3px 0 0 #e9d7a8;
+.mega__desc {
+  margin-top: 0.15rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #56657a;
+  transition: color 0.35s ease, transform 0.5s var(--ease-out);
 }
-.mega__link[aria-current="page"] .mega__num { color: #e9d7a8; }
+.mega__link:hover::before,
+.mega__link:focus-visible::before { clip-path: inset(0 0 0 0); }
+.mega__link:hover::after,
+.mega__link:focus-visible::after { opacity: 1; transform: none; transition-delay: 0.1s; }
+.mega__link:hover .mega__num,
+.mega__link:focus-visible .mega__num {
+  background: #e9d7a8;
+  border-color: #e9d7a8;
+  color: var(--navy-deep);
+  transform: rotate(-12deg);
+}
+.mega__link:hover .mega__name,
+.mega__link:focus-visible .mega__name { color: var(--white); transform: translateX(4px); }
+.mega__link:hover .mega__desc,
+.mega__link:focus-visible .mega__desc { color: rgba(255, 255, 255, 0.78); transform: translateX(4px); }
+.mega__link:focus-visible { outline: none; box-shadow: inset 0 0 0 2px #e9d7a8; }
 
-/* While the panel is open the header drops its own blur: a blurred parent
-   would otherwise stop the panel's blur from reaching the page behind. */
+/* Current page: a navy rule on the left and a filled number */
+.mega__link[aria-current="page"] { box-shadow: inset 3px 0 0 var(--navy); }
+.mega__link[aria-current="page"] .mega__num { background: var(--navy); border-color: var(--navy); color: var(--white); }
+
+/* Open panel: header takes the solid white treatment */
 .site-header.has-mega {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+  --hdr-fg: var(--ink);
+  --hdr-line: rgba(10, 18, 32, 0.1);
+  background: var(--white);
 }
+.site-header.has-mega .brand { color: var(--navy); }
 
 /* Mobile menu group */
 .mm-group__row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
