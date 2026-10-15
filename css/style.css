@@ -251,7 +251,7 @@ img, svg, video { display: block; max-width: 100%; }
   position: relative;
   padding-block: 0.4rem;
   font-size: 0.8125rem;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -646,9 +646,9 @@ img, svg, video { display: block; max-width: 100%; }
   padding: clamp(1.75rem, 3vw, 2.5rem) var(--gutter) clamp(2rem, 3.5vw, 3rem);
   /* textured (pebbled) frosted glass: strong blur, cool-to-warm tint,
      and a relief texture blended over it in .mega::after */
-  background: linear-gradient(170deg, rgba(222, 236, 250, 0.66) 0%, rgba(236, 241, 246, 0.62) 50%, rgba(242, 238, 226, 0.66) 100%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  backdrop-filter: blur(26px) saturate(150%);
+  background: linear-gradient(170deg, rgba(222, 236, 250, 0.3) 0%, rgba(236, 241, 246, 0.26) 50%, rgba(242, 238, 226, 0.3) 100%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  backdrop-filter: blur(28px) saturate(150%);
   color: var(--ink);
   border-top: 1px solid rgba(10, 18, 32, 0.08);
   box-shadow: 0 30px 60px -30px rgba(10, 18, 32, 0.45);
@@ -683,7 +683,7 @@ img, svg, video { display: block; max-width: 100%; }
   inset: 0;
   background: url("../assets/img/glass-texture.svg") 0 0 / 420px 420px repeat;
   mix-blend-mode: overlay;
-  opacity: 0.38;
+  opacity: 0.3;
   pointer-events: none;
 }
 .mega__inner {
@@ -744,11 +744,11 @@ img, svg, video { display: block; max-width: 100%; }
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: #7a879a;
+  color: #34445c;
   font-variant-numeric: tabular-nums;
 }
 .mega__name { font-size: 0.9375rem; font-weight: 700; color: var(--ink); }
-.mega__desc { margin-top: 0.15rem; font-size: 0.8125rem; line-height: 1.45; color: #56657a; }
+.mega__desc { margin-top: 0.15rem; font-size: 0.8125rem; font-weight: 500; line-height: 1.45; color: #243247; }
 .mega__link:hover,
 .mega__link:focus-visible { background: #eef2f8; outline: none; }
 .mega__link:hover .mega__name,
