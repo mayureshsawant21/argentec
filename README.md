@@ -11,6 +11,7 @@ index.html              Home page
 about.html              About page ("Take the lift")
 contact.html            Contact page: enquiry docket (supplier / home / development)
 careers.html            Careers placeholder (contact page redirects careers enquiries here)
+expertise/              Expertise hub + 7 service pages (GENERATED, see below)
 css/style.css           Base styles, header and hero (section 1)
 css/about.css           Section 2: Built for Progress (intro scene, diagonal edge)
 css/overview.css        Section 2 continued: key numbers, services, sectors, closing
@@ -18,6 +19,11 @@ js/main.js              Shared: header, mobile menu, search; home-only preloader
 css/about-page.css      About page: lift doors, floors, lift panel
 js/about-page.js        About page: doors, floor reveals, headcount grid, lift panel
 css/contact.css         Contact + careers styles
+css/expertise.css       Expertise pages
+css/footer.css          Shared footer (used on Expertise pages)
+js/expertise.js         Expertise pages: reveals, methodology timeline
+scripts/                build_expertise.py + expertise_content.py (Expertise generator)
+docs/                   expertise-content-review.md (claims awaiting client approval)
 js/contact.js           Contact form: type switching, validation, careers redirect, submit
 js/about.js             Section 2 scroll scene (word reveal, tower drawing)
 js/overview.js          Key-number count-up, sector drift, closing push-in
@@ -36,7 +42,26 @@ assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9
 | 2 | Built for Progress: pinned scroll scene with the tower elevation drawing | Done |
 | 2b | Key numbers, services preview, sectors, closing statement | Done |
 | Contact | Enquiry type tiles, adaptive docket form, office card; careers redirect | Done |
+| Expertise | Mega menu + hub + 7 service pages, shared footer (generated) | Done, content pending approval |
 | About | Lift doors, lobby, 5 floors (incl. Vision & Mission) and the roof (founder), with a lift-panel floor nav | Done |
+
+## Expertise pages
+
+The Expertise mega menu and the pages in `expertise/` are generated from
+`scripts/expertise_content.py`. To change service content or the menu, edit that
+file (or the template in `scripts/build_expertise.py`) and run:
+
+```bash
+python3 scripts/build_expertise.py
+```
+
+The script updates the Expertise menu in every root page (between
+`<!-- expertise-menu -->` markers), rewrites `expertise/*.html` and refreshes
+`docs/expertise-content-review.md`. It needs only Python 3, and the output is plain
+HTML, so GitHub Pages needs no build step. Don't hand-edit generated pages.
+
+**Before publishing**, go through `docs/expertise-content-review.md` with Argentec.
+The BIM page carries `noindex` until its services are confirmed.
 
 ## Contact form delivery
 

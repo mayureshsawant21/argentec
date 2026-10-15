@@ -62,7 +62,30 @@
     </div>
 
     <nav class="site-header__main" aria-label="Primary">
-      <a class="nav-link" href="index.html#expertise">Expertise</a>
+      <!-- expertise-menu:desktop -->
+      <div class="nav-item" data-mega>
+        <a class="nav-link" href="expertise/index.html">Expertise</a>
+        <button class="nav-item__toggle" type="button" aria-expanded="false" aria-controls="mega-expertise" aria-label="Show Expertise pages"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        <div class="mega" id="mega-expertise">
+          <div class="mega__inner">
+            <div class="mega__intro">
+              <p class="mega__eyebrow">Expertise</p>
+              <p class="mega__lead">Seven connected services, from the first study to handover.</p>
+              <a class="mega__all" href="expertise/index.html">View all expertise</a>
+            </div>
+            <ul class="mega__list">
+            <li><a class="mega__link" href="expertise/pre-construction-planning.html"><span class="mega__num">01</span><span class="mega__name">Pre-Construction &amp; Planning</span><span class="mega__desc">Feasibility, budgets, risk and programme before ground-breaking</span></a></li>
+            <li><a class="mega__link" href="expertise/civil-structural-engineering.html"><span class="mega__num">02</span><span class="mega__name">Civil &amp; Structural Engineering</span><span class="mega__desc">Foundations, RCC frames and formwork systems for lasting structures</span></a></li>
+            <li><a class="mega__link" href="expertise/mep-building-services.html"><span class="mega__num">03</span><span class="mega__name">MEP &amp; Building Services</span><span class="mega__desc">Electrical, plumbing, fire-fighting and HV/LV systems</span></a></li>
+            <li><a class="mega__link" href="expertise/construction-project-management.html"><span class="mega__num">04</span><span class="mega__name">Construction &amp; Project Management</span><span class="mega__desc">Programme, cost, quality and stakeholder control from start to handover</span></a></li>
+            <li><a class="mega__link" href="expertise/epc-integrated-project-delivery.html"><span class="mega__num">05</span><span class="mega__name">EPC &amp; Integrated Project Delivery</span><span class="mega__desc">Engineering, procurement and construction under one contract</span></a></li>
+            <li><a class="mega__link" href="expertise/turnkey-construction-fit-outs.html"><span class="mega__num">06</span><span class="mega__name">Turnkey Construction &amp; Fit-Outs</span><span class="mega__desc">Complete delivery from engineering to a ready-to-use space</span></a></li>
+            <li><a class="mega__link" href="expertise/bim-digital-construction.html"><span class="mega__num">07</span><span class="mega__name">BIM &amp; Digital Construction</span><span class="mega__desc">Coordinated models, digital scheduling and shared project data</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /expertise-menu:desktop -->
       <a class="nav-link" href="index.html#projects">Projects</a>
       <a class="nav-link" href="index.html#approach">Our Approach</a>
       <a class="nav-link" href="index.html#sectors">Sectors</a>
@@ -74,7 +97,23 @@
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <nav class="mobile-menu__primary" aria-label="Mobile primary">
-      <a href="index.html#expertise">Expertise</a>
+      <!-- expertise-menu:mobile -->
+      <div class="mm-group">
+        <div class="mm-group__row">
+          <a href="expertise/index.html">Expertise</a>
+          <button class="mm-group__toggle" type="button" aria-expanded="false" aria-controls="mm-expertise" aria-label="Show Expertise pages"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        </div>
+        <ul class="mm-group__list" id="mm-expertise" hidden>
+          <li><a href="expertise/pre-construction-planning.html">Pre-Construction &amp; Planning</a></li>
+          <li><a href="expertise/civil-structural-engineering.html">Civil &amp; Structural Engineering</a></li>
+          <li><a href="expertise/mep-building-services.html">MEP &amp; Building Services</a></li>
+          <li><a href="expertise/construction-project-management.html">Construction &amp; Project Management</a></li>
+          <li><a href="expertise/epc-integrated-project-delivery.html">EPC &amp; Integrated Project Delivery</a></li>
+          <li><a href="expertise/turnkey-construction-fit-outs.html">Turnkey Construction &amp; Fit-Outs</a></li>
+          <li><a href="expertise/bim-digital-construction.html">BIM &amp; Digital Construction</a></li>
+        </ul>
+      </div>
+      <!-- /expertise-menu:mobile -->
       <a href="index.html#projects">Projects</a>
       <a href="index.html#approach">Our Approach</a>
       <a href="index.html#sectors">Sectors</a>

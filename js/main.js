@@ -151,9 +151,83 @@
   document.getElementById("search-close").addEventListener("click", function () { setSearch(false); });
   document.getElementById("search-form").addEventListener("submit", function (e) { e.preventDefault(); });
 
+  /* ------------------------------------------------------------------
+     Expertise mega menu (desktop): opens on hover with a short grace
+     period, on the chevron button, and from the keyboard. Escape closes
+     and returns focus to the toggle.
+     ------------------------------------------------------------------ */
+  var megaItems = Array.prototype.slice.call(document.querySelectorAll("[data-mega]"));
+  var hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  function setMega(item, open) {
+    var btn = item.querySelector(".nav-item__toggle");
+    item.classList.toggle("is-open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    header.classList.toggle("has-mega", megaItems.some(function (m) { return m.classList.contains("is-open"); }));
+  }
+
+  megaItems.forEach(function (item) {
+    var btn = item.querySelector(".nav-item__toggle");
+    var panel = item.querySelector(".mega");
+    var closeTimer = null;
+
+    btn.addEventListener("click", function () {
+      var open = !item.classList.contains("is-open");
+      setMega(item, open);
+      if (open) {
+        var first = panel.querySelector("a");
+        if (first) first.focus();
+      }
+    });
+    item.addEventListener("mouseenter", function () {
+      if (!hoverCapable.matches) return;
+      clearTimeout(closeTimer);
+      setMega(item, true);
+    });
+    item.addEventListener("mouseleave", function () {
+      if (!hoverCapable.matches) return;
+      closeTimer = setTimeout(function () { setMega(item, false); }, 180);
+    });
+    // Closing when focus leaves the menu (Tab past the last link)
+    item.addEventListener("focusout", function (e) {
+      if (!item.contains(e.relatedTarget)) setMega(item, false);
+    });
+    // Arrow keys move between links inside the panel
+    panel.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      var links = Array.prototype.slice.call(panel.querySelectorAll("a"));
+      var i = links.indexOf(document.activeElement);
+      if (i === -1) return;
+      e.preventDefault();
+      links[(i + (e.key === "ArrowDown" ? 1 : -1) + links.length) % links.length].focus();
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    megaItems.forEach(function (item) {
+      if (item.classList.contains("is-open") && !item.contains(e.target)) setMega(item, false);
+    });
+  });
+
+  /* Mobile menu: expandable Expertise group */
+  Array.prototype.forEach.call(document.querySelectorAll(".mm-group__toggle"), function (btn) {
+    var list = document.getElementById(btn.getAttribute("aria-controls"));
+    btn.addEventListener("click", function () {
+      var open = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      list.hidden = !open;
+    });
+  });
+
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
     setSearch(false);
     setMenu(false);
+    megaItems.forEach(function (item) {
+      if (item.classList.contains("is-open")) {
+        setMega(item, false);
+        if (item.contains(document.activeElement)) item.querySelector(".nav-item__toggle").focus();
+      }
+    });
   });
 })();
