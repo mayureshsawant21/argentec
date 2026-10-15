@@ -644,7 +644,10 @@ img, svg, video { display: block; max-width: 100%; }
   right: 0;
   z-index: 2;
   padding: clamp(1.75rem, 3vw, 2.5rem) var(--gutter) clamp(2rem, 3.5vw, 3rem);
-  background: var(--white);
+  /* frosted glass, matching the scrolled header */
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
   color: var(--ink);
   border-top: 1px solid rgba(10, 18, 32, 0.08);
   box-shadow: 0 30px 60px -30px rgba(10, 18, 32, 0.45);
@@ -743,11 +746,15 @@ img, svg, video { display: block; max-width: 100%; }
 .mega__link[aria-current="page"] { background: #eef2f8; box-shadow: inset 3px 0 0 var(--navy); }
 .mega__link[aria-current="page"] .mega__name { color: var(--navy); }
 
-/* Open mega menu: header takes the white treatment */
+/* Open mega menu: header takes the white glass treatment. The header's own
+   blur is dropped while open so the panel's blur can see the page behind it
+   (a blurred parent would otherwise limit what the child can blur). */
 .site-header.has-mega {
   --hdr-fg: var(--ink);
   --hdr-line: rgba(10, 18, 32, 0.1);
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 .site-header.has-mega .brand { color: var(--navy); }
 
