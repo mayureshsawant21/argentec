@@ -160,7 +160,7 @@ def footer(prefix):
       </div>
     </div>
     <div class="site-footer__base">
-      <span>&copy; <span data-year>2026</span> Argentec. All rights reserved.</span>
+      <span>&copy; <span data-year>2026</span> Argentec Infrastructure Limited. All rights reserved.</span>
       <span>Contracting arm of Paradigm Realty</span>
     </div>
   </footer>""" % {"p": prefix, "services": services}

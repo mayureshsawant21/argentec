@@ -105,7 +105,7 @@
   var ticking = false;
 
   function onScroll() {
-    header.classList.toggle("is-scrolled", window.scrollY > 40);
+    header.classList.toggle("is-scrolled", window.scrollY > 40 || body.classList.contains("header-solid"));
     ticking = false;
   }
   window.addEventListener("scroll", function () {

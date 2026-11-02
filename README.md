@@ -12,6 +12,7 @@ about.html              About page ("Take the lift")
 contact.html            Contact page: enquiry docket (supplier / home / development)
 careers.html            Careers placeholder (contact page redirects careers enquiries here)
 expertise/              Expertise hub + 7 service pages (GENERATED, see below)
+projects/               Projects hub + 20 project pages (GENERATED from scripts/projects_data.py)
 css/style.css           Base styles, header and hero (section 1)
 css/about.css           Section 2: Built for Progress (intro scene, diagonal edge)
 css/overview.css        Section 2 continued: key numbers, services, sectors, closing
@@ -20,9 +21,11 @@ css/about-page.css      About page: lift doors, floors, lift panel
 js/about-page.js        About page: doors, floor reveals, headcount grid, lift panel
 css/contact.css         Contact + careers styles
 css/expertise.css       Expertise pages
-css/footer.css          Shared footer (used on Expertise pages)
+css/footer.css          Shared footer (Expertise and Projects pages)
+css/projects.css        Projects pages (white & silver contracting palette)
+js/projects.js          Projects hub filters (stage, location; kept in the URL)
 js/expertise.js         Expertise pages: reveals, methodology timeline
-scripts/                build_expertise.py + expertise_content.py (Expertise generator)
+scripts/                Generators: build_expertise.py (+ expertise_content.py), build_projects.py (+ projects_data.py)
 docs/                   expertise-content-review.md (claims awaiting client approval)
 js/contact.js           Contact form: type switching, validation, careers redirect, submit
 js/about.js             Section 2 scroll scene (word reveal, tower drawing)
@@ -43,6 +46,7 @@ assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9
 | 2b | Key numbers, services preview, sectors, closing statement | Done |
 | Contact | Enquiry type tiles, adaptive docket form, office card; careers redirect | Done |
 | Expertise | Mega menu + hub + 7 service pages, shared footer (generated) | Done, content pending approval |
+| Projects | Hub with portfolio stats + filters, 20 project pages with building-wise status (Phase 1) | Done |
 | About | Lift doors, lobby, 5 floors (incl. Vision & Mission) and the roof (founder), with a lift-panel floor nav | Done |
 
 ## Expertise pages
@@ -62,6 +66,19 @@ HTML, so GitHub Pages needs no build step. Don't hand-edit generated pages.
 
 **Before publishing**, go through `docs/expertise-content-review.md` with Argentec.
 The BIM page carries `noindex` until its services are confirmed.
+
+## Projects pages
+
+Project data lives in `scripts/projects_data.py` (transcribed from the
+October 2026 portfolio PDF). After editing statuses, run:
+
+```bash
+python3 scripts/build_expertise.py   # only if the header/menu changed
+python3 scripts/build_projects.py
+```
+
+Images are neutral placeholders (`assets/img/projects/placeholder-1..4.svg`),
+labelled "Representative image"; replace with real photography when available.
 
 ## Contact form delivery
 
