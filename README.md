@@ -90,6 +90,12 @@ shows its "Received" screen, but **no enquiry is sent**.
 `contact.html?type=supplier|home|development` opens the form preselected;
 `?type=careers` redirects to `careers.html`.
 
+## Asset versions
+
+CSS and JS links carry a content-hash version (`?v=…`) so browsers never use a
+stale copy. The build scripts update it automatically; after editing CSS or JS by
+hand, run `python3 scripts/cache_bust.py`.
+
 ## Preview locally
 
 ```bash
