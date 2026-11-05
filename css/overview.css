@@ -361,71 +361,138 @@
 
 
 /* ==========================================================================
-   Sectors — two lines of sector names drift in opposite directions with scroll
+   Sectors — a white & silver sector index: sticky heading on the left, a
+   blueprint-ruled grid of eight tiles on the right. Line icons draw in as
+   the grid enters; hover draws a navy outline.
    ========================================================================== */
 .sectors {
-  --drift: 0;
   position: relative;
-  overflow: hidden;
-  background: var(--navy);
-  color: var(--white);
-  padding-block: clamp(5rem, 10vw, 8.5rem);
+  background: var(--white);
+  color: var(--paper-ink);
+  padding-block: clamp(5rem, 10vw, 8rem);
 }
-.sectors__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 1.5rem 3rem;
-  padding-inline: calc(var(--gutter) + clamp(0rem, 6.5vw, 8rem));
-  margin-bottom: clamp(3rem, 6vw, 5rem);
-}
-.sectors__head .eyebrow { flex-basis: 100%; margin: 0; color: rgba(255, 255, 255, 0.7); }
-.sectors__title {
-  margin: 0 auto 0 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.sectors__title em { font-style: italic; font-weight: 500; color: var(--silver); }
-.sectors__head .text-link { margin-bottom: 0.6rem; }
-
-.sectors__rows {
+.sx {
   display: grid;
-  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 2fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: start;
+  padding-inline: calc(var(--gutter) + clamp(0rem, 4vw, 5rem));
 }
-.sectors__row {
-  display: flex;
-  align-items: center;
-  gap: clamp(1.5rem, 3vw, 3rem);
-  width: max-content;
-  white-space: nowrap;
+.sx__head { position: sticky; top: calc(100px + 3rem); }
+.sx__head .eyebrow { margin-bottom: 1.25rem; }
+.sx__title {
+  margin: 0;
   font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.6vw, 4.5rem);
   font-weight: 600;
-  font-size: clamp(3rem, 8.5vw, 9rem);
-  line-height: 1.1;
+  line-height: 1.02;
   letter-spacing: -0.02em;
-  will-change: transform;
 }
-.sectors__row[data-drift="-1"] { transform: translateX(calc(-8% - var(--drift) * 22%)); }
-.sectors__row[data-drift="1"] { transform: translateX(calc(-38% + var(--drift) * 22%)); }
+.sx__title em { font-style: italic; font-weight: 500; color: #8d97a5; }
+.sx__lead { max-width: 30ch; margin: 1.5rem 0 0; line-height: 1.7; color: var(--paper-muted); }
+.sx__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--paper-ink);
+}
+.sx__link span { padding-bottom: 4px; border-bottom: 1px solid #c5ccd6; transition: border-color 0.3s ease; }
+.sx__link svg { transition: transform 0.5s var(--ease-out); }
+.sx__link:hover span { border-color: var(--paper-ink); }
+.sx__link:hover svg { transform: translateX(8px); }
 
-.sectors__row--outline {
-  font-style: italic;
-  font-weight: 500;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(227, 231, 237, 0.55);
+.sx__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #c5ccd6;
+  border-left: 1px solid #e4e8ee;
 }
-.sectors__word { transition: color 0.4s ease; }
-.sectors__sep {
-  flex: none;
-  width: 0.28em;
-  height: 0.26em;
-  color: var(--silver-dim);
-  opacity: 0.7;
+.sx-tile {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  min-height: 15rem;
+  padding: 1.5rem 1.4rem 1.6rem;
+  border-right: 1px solid #e4e8ee;
+  border-bottom: 1px solid #e4e8ee;
+  background: var(--white);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out), background-color 0.3s ease;
+  transition-delay: calc(var(--i) * 0.07s);
 }
-.sectors__row--outline .sectors__sep { -webkit-text-stroke: 0; }
+.sectors.in-view .sx-tile { opacity: 1; transform: none; }
+/* hover outline sits above the shared hairlines */
+.sx-tile::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--navy);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.sx-tile:hover { background: #f8f9fb; }
+.sx-tile:hover::after { opacity: 1; }
+.sx-tile__num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.16em; color: #8d97a5; font-variant-numeric: tabular-nums; }
+.sx-tile__icon {
+  width: 48px;
+  height: 48px;
+  margin: 1.25rem 0 auto;
+  fill: none;
+  stroke: var(--paper-ink);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.3s ease;
+}
+.sx-tile__icon path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.4s var(--ease-out);
+  transition-delay: calc(0.25s + var(--i) * 0.08s);
+}
+.sectors.in-view .sx-tile__icon path { stroke-dashoffset: 0; }
+.sx-tile:hover .sx-tile__icon { stroke: var(--navy); }
+.sx-tile__name {
+  margin: 1.5rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.15;
+  transition: color 0.3s ease;
+}
+.sx-tile:hover .sx-tile__name { color: var(--navy); }
+.sx-tile__desc { margin: 0; font-size: 0.875rem; line-height: 1.55; color: var(--paper-muted); }
+
+@media (max-width: 1180px) {
+  .sx { grid-template-columns: 1fr; }
+  .sx__head { position: static; }
+}
+@media (max-width: 900px) {
+  .sx__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sx-tile { min-height: 13rem; }
+}
+@media (max-width: 1023px) {
+  .sx { padding-inline: 1.25rem; }
+}
+@media (max-width: 420px) {
+  .sx-tile { padding: 1.2rem 1rem 1.3rem; }
+  .sx-tile__name { font-size: 1.15rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sx-tile { opacity: 1; transform: none; }
+  .sx-tile__icon path { stroke-dashoffset: 0; }
+}
 
 /* ==========================================================================
    Closing — slow push-in on a darkened site image, lines rise into place
@@ -513,8 +580,7 @@
    Responsive
    ========================================================================== */
 @media (max-width: 1023px) {
-  .figures__inner,
-  .sectors__head { padding-inline: 1.25rem; }
+  .figures__inner { padding-inline: 1.25rem; }
   .figures__list { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
   .figures__scale { display: none; }
   .figure { padding: 1.5rem 1rem 0 0; border-top: 1px solid var(--line); }
@@ -538,7 +604,6 @@
 
 @media (max-width: 560px) {
   .figure__value { font-size: 2.6rem; }
-  .sectors__row { font-size: 3.25rem; }
 }
 
 /* ==========================================================================

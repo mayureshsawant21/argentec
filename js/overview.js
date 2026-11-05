@@ -99,12 +99,6 @@
       });
     }
 
-    // Sectors drift
-    var kr = sectors.getBoundingClientRect();
-    if (kr.bottom > 0 && kr.top < vh) {
-      sectors.style.setProperty("--drift", clamp((vh - kr.top) / (vh + kr.height)).toFixed(4));
-    }
-
     // Closing push-in
     var cr = closing.getBoundingClientRect();
     if (cr.bottom > 0 && cr.top < vh) {
