@@ -29,7 +29,7 @@ scripts/                Generators: build_expertise.py (+ expertise_content.py),
 docs/                   expertise-content-review.md (claims awaiting client approval)
 js/contact.js           Contact form: type switching, validation, careers redirect, submit
 js/about.js             Section 2 scroll scene (word reveal, tower drawing)
-js/overview.js          Key-number count-up, sector drift, closing push-in
+js/overview.js          Key-number count-up, sector reveal, closing push-in
 js/services-3d.js       Services: 3D chrome A (three.js) with hover-to-open services
 assets/vendor/          three.js r128 (MIT), loaded only when Services comes near
 assets/img/             Logo (SVG, taken from the company profile) and video posters

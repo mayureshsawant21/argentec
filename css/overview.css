@@ -426,23 +426,18 @@
   border-bottom: 1px solid #e4e8ee;
   background: var(--white);
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out), background-color 0.3s ease;
-  transition-delay: calc(var(--i) * 0.07s);
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out), background-color 0.3s ease;
 }
-.sectors.in-view .sx-tile { opacity: 1; transform: none; }
-/* hover outline sits above the shared hairlines */
-.sx-tile::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border: 1px solid var(--navy);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+/* entrance uses an animation so hover transitions stay instant */
+.sectors.in-view .sx-tile { opacity: 1; animation: sx-in 0.7s var(--ease-out) backwards; animation-delay: calc(var(--i) * 0.07s); }
+@keyframes sx-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+/* hover: the tile lifts off the grid with a soft shadow, no outline */
+.sectors.in-view .sx-tile:hover {
+  z-index: 2;
+  background: var(--white);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 28px 50px -22px rgba(14, 27, 46, 0.32), 0 8px 18px -10px rgba(14, 27, 46, 0.18);
 }
-.sx-tile:hover { background: #f8f9fb; }
-.sx-tile:hover::after { opacity: 1; }
 .sx-tile__num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.16em; color: #8d97a5; font-variant-numeric: tabular-nums; }
 .sx-tile__icon {
   width: 48px;
