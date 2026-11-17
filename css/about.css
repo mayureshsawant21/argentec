@@ -6,18 +6,21 @@
    ========================================================================== */
 
 .about {
-  --blueprint: rgba(163, 184, 214, 0.07);
-  --steel: #8fa6c4;
+  /* contracting palette: white and silver, ink type, navy as a small accent */
+  --blueprint: rgba(25, 67, 118, 0.07);
+  --steel: #8d97a5;
+  --a-ink: #0e1b2e;
+  --a-muted: #5b6676;
+  --a-line: rgba(14, 27, 46, 0.12);
   --p: 0;
 
   position: relative;
   height: 240vh;
-  /* solid ink at the very top so the diagonal edge joins seamlessly */
+  /* solid white at the very top so the diagonal edge joins seamlessly */
   background:
-    linear-gradient(180deg, var(--ink) 0, rgba(10, 18, 32, 0) 28vh),
-    radial-gradient(120% 80% at 85% 20%, rgba(25, 67, 118, 0.38) 0%, rgba(25, 67, 118, 0) 60%),
-    linear-gradient(180deg, var(--ink) 0%, #0c1830 100%);
-  color: var(--white);
+    radial-gradient(120% 80% at 85% 20%, rgba(197, 204, 214, 0.35) 0%, rgba(197, 204, 214, 0) 60%),
+    linear-gradient(180deg, var(--white) 0%, #f3f5f8 100%);
+  color: var(--a-ink);
 }
 
 .about__pin {
@@ -37,8 +40,8 @@
   background-image:
     linear-gradient(var(--blueprint) 1px, transparent 1px),
     linear-gradient(90deg, var(--blueprint) 1px, transparent 1px),
-    linear-gradient(rgba(163, 184, 214, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(163, 184, 214, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(25, 67, 118, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(25, 67, 118, 0.035) 1px, transparent 1px);
   background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
   background-position: center;
   -webkit-mask-image: radial-gradient(ellipse 80% 70% at 60% 50%, #000 30%, transparent 85%);
@@ -71,7 +74,7 @@
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--silver-dim);
+  color: var(--steel);
 }
 .eyebrow__rule {
   display: block;
@@ -96,7 +99,7 @@
 .about__title em {
   font-style: italic;
   font-weight: 500;
-  color: var(--silver);
+  color: var(--steel);
 }
 .word-mask {
   display: inline-block;
@@ -139,13 +142,13 @@
   max-width: 36rem;
   margin: clamp(1.75rem, 3vw, 2.5rem) 0 0 clamp(0rem, 7vw, 7rem);
   padding-top: clamp(1.25rem, 2vw, 1.75rem);
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--a-line);
 }
 .about__body {
   margin: 0;
   font-size: 1rem;
   line-height: 1.75;
-  color: var(--silver-dim);
+  color: var(--a-muted);
 }
 
 .about__sectors {
@@ -158,18 +161,18 @@
 }
 .about__sectors li {
   padding: 0.5rem 0.8rem;
-  border: 1px solid var(--line);
+  border: 1px solid var(--a-line);
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--silver);
+  color: var(--a-muted);
   transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
 }
 .about__sectors li:hover {
-  background: var(--silver);
-  border-color: var(--silver);
-  color: var(--navy-deep);
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
 }
 
 .text-link {
@@ -203,7 +206,7 @@
 .about.is-late .about__detail .reveal-up:nth-child(2) { transition-delay: 0.12s; }
 .about.is-late .about__detail .reveal-up:nth-child(3) { transition-delay: 0.24s; }
 .about__detail { transition: border-color 1s ease; border-top-color: transparent; }
-.about.is-late .about__detail { border-top-color: var(--line); }
+.about.is-late .about__detail { border-top-color: var(--a-line); }
 
 /* ==========================================================================
    Tower elevation
@@ -235,9 +238,9 @@
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
 }
-.tower__svg .t-slab { stroke: var(--silver); stroke-width: 1.4; }
+.tower__svg .t-slab { stroke: var(--navy); stroke-width: 1.4; }
 .tower__svg .t-mullion { stroke-opacity: 0.45; }
-.tower__svg .t-ground { stroke: var(--silver); stroke-width: 1.2; }
+.tower__svg .t-ground { stroke: var(--a-ink); stroke-width: 1.2; }
 .tower__svg .t-hatch { stroke-opacity: 0.35; }
 .tower__svg .t-dim { stroke-opacity: 0.6; }
 .tower__svg .t-glass {
@@ -245,9 +248,9 @@
   opacity: 0;
   transition: opacity 0.8s ease;
 }
-.tower__svg .t-glass.is-on { opacity: 0.07; }
+.tower__svg .t-glass.is-on { opacity: 0.12; }
 .tower__svg .t-tag {
-  fill: var(--silver-dim);
+  fill: var(--a-muted);
   font-family: var(--font-ui);
   font-size: 9px;
   font-weight: 600;
@@ -258,7 +261,7 @@
 }
 .tower__svg .t-tag.is-on { opacity: 1; }
 .tower__svg .t-beacon {
-  fill: var(--white);
+  fill: var(--navy);
   opacity: 0;
   transition: opacity 0.6s ease;
 }
@@ -276,7 +279,7 @@
   gap: 0.35rem;
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--a-line);
   font-variant-numeric: tabular-nums;
 }
 .tower__label,
@@ -285,7 +288,7 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--silver-dim);
+  color: var(--a-muted);
 }
 .tower__value {
   font-family: var(--font-display);
@@ -299,7 +302,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  color: var(--silver-dim);
+  color: var(--a-muted);
 }
 
 /* ==========================================================================
@@ -324,10 +327,10 @@
   max-width: none;
   overflow: visible;
 }
-.edge__shape path { fill: var(--ink); }
+.edge__shape path { fill: var(--white); }
 .edge__line path {
   fill: none;
-  stroke: rgba(227, 231, 237, 0.7);
+  stroke: rgba(141, 151, 165, 0.9);
   stroke-width: 1.25;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
@@ -391,5 +394,5 @@
   .word-mask > span,
   .reveal-up { opacity: 1; transform: none; }
   .about__lead .w { opacity: 1; }
-  .about__detail { border-top-color: var(--line); }
+  .about__detail { border-top-color: var(--a-line); }
 }

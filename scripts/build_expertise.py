@@ -136,7 +136,7 @@ def footer(prefix):
       <div class="site-footer__brand">
         <a class="site-footer__logo" href="%(p)sindex.html" aria-label="Argentec home"><img src="%(p)sassets/img/argentec-logo.svg" alt="" width="64" height="64"><span>Argentec</span></a>
         <p>Shaping the foundation of growth.</p>
-        <a class="btn btn--silver site-footer__cta" href="%(p)scontact.html?type=development">Start a project</a>
+        <a class="btn btn--navy site-footer__cta" href="%(p)scontact.html?type=development">Start a project</a>
       </div>
       <nav class="site-footer__col" aria-label="Expertise">
         <p class="site-footer__title">Expertise</p>
@@ -254,12 +254,12 @@ def cta_band(prefix, heading, text):
     return """    <!-- ============ PROJECT ENQUIRY ============ -->
     <section class="xp-cta" aria-labelledby="cta-title">
       <div class="xp-cta__inner">
-        <p class="xp-eyebrow xp-eyebrow--light" data-reveal><span class="xp-eyebrow__rule"></span>Project enquiry</p>
+        <p class="xp-eyebrow" data-reveal><span class="xp-eyebrow__rule"></span>Project enquiry</p>
         <h2 class="xp-cta__title" id="cta-title" data-reveal>%s</h2>
         <p class="xp-cta__text" data-reveal>%s</p>
         <div class="xp-cta__actions" data-reveal>
-          <a class="btn btn--silver" href="%scontact.html?type=development">Discuss your project</a>
-          <a class="xp-link xp-link--light" href="%scontact.html"><span>Other enquiries</span>%s</a>
+          <a class="btn btn--navy" href="%scontact.html?type=development">Discuss your project</a>
+          <a class="xp-link" href="%scontact.html"><span>Other enquiries</span>%s</a>
         </div>
       </div>
     </section>""" % (accent(heading), esc(text), prefix, prefix, ARROW)

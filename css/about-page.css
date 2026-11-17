@@ -2,7 +2,8 @@
    About page — "Take the lift"
    The page is a building: lift doors open onto the lobby, every section is a
    floor with its real level, and a lift panel tracks where you are.
-   Floors alternate ink and paper, like passing slab after slab.
+   Floors alternate white and silver, like passing slab after slab; only
+   the lobby, which carries a photograph, stays dark.
    Scroll states (.is-in, lit dots, panel floor) come from js/about-page.js.
    ========================================================================== */
 
@@ -16,7 +17,7 @@
   --inner-x: calc(var(--gutter) + clamp(0rem, 4vw, 5rem));
 }
 
-body.page-about { background: var(--ink); }
+body.page-about { background: var(--white); }
 body.is-boarding { overflow: hidden; }
 /* keep pop-ups (schedule notes) from widening the page */
 .building { overflow-x: clip; }
@@ -76,7 +77,7 @@ body.is-boarding { overflow: hidden; }
   white-space: nowrap;
   transition: opacity 0.5s ease;
 }
-.doors__arrow { display: inline-block; margin-right: 0.5em; color: #ffd27a; animation: call-blink 1s steps(2) infinite; }
+.doors__arrow { display: inline-block; margin-right: 0.5em; color: #d6e4ff; animation: call-blink 1s steps(2) infinite; }
 @keyframes call-blink { 50% { opacity: 0.25; } }
 .doors.is-open .doors__call { opacity: 0; }
 
@@ -93,14 +94,33 @@ body.is-boarding { overflow: hidden; }
   --muted: var(--silver-dim);
   --rule: var(--line);
   --accent: var(--silver);
+  --strong: var(--silver);
+  --soft: var(--silver);
+  --hatch: rgba(227, 231, 237, 0.16);
+  --hover: rgba(255, 255, 255, 0.04);
+  --glow: rgba(25, 67, 118, 0.45);
 }
 .floor--paper {
-  background: var(--paper);
+  background: var(--white);
   color: var(--paper-ink);
   --muted: var(--paper-muted);
   --rule: var(--paper-line);
   --accent: var(--navy);
 }
+/* contracting palette: the alternate floors are silver, ink type */
+.floor--silver {
+  background: linear-gradient(180deg, #eef1f5 0%, #e4e8ee 100%);
+  color: var(--paper-ink);
+  --muted: var(--paper-muted);
+  --rule: var(--paper-line);
+  --accent: var(--navy);
+  --strong: var(--paper-ink);
+  --soft: #2a3546;
+  --hatch: rgba(14, 27, 46, 0.1);
+  --hover: rgba(255, 255, 255, 0.6);
+  --glow: rgba(25, 67, 118, 0.1);
+}
+.floor--silver .floor__title em { color: #8d97a5; }
 
 /* slab: the floor line with its level, drawn as you arrive */
 .slab {
@@ -237,7 +257,7 @@ body.is-boarding { overflow: hidden; }
   line-height: 0.95;
   letter-spacing: -0.03em;
 }
-.lobby__title em { font-style: italic; font-weight: 500; color: #e9d7a8; }
+.lobby__title em { font-style: italic; font-weight: 500; color: var(--silver); }
 .lobby__lead {
   max-width: 44ch;
   margin: clamp(1.75rem, 3vw, 2.5rem) 0 0;
@@ -354,7 +374,7 @@ body.is-boarding { overflow: hidden; }
   grid-template-columns: 1fr 1fr;
   gap: clamp(2.5rem, 6vw, 7rem);
 }
-.vm__item { padding-top: 1.5rem; border-top: 2px solid var(--silver); }
+.vm__item { padding-top: 1.5rem; border-top: 2px solid var(--strong); }
 .vm__item:nth-child(2) { transition-delay: 0.15s; }
 .vm__label {
   display: block;
@@ -362,7 +382,7 @@ body.is-boarding { overflow: hidden; }
   font-weight: 700;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: #e9d7a8;
+  color: var(--accent);
 }
 .vm__text {
   margin: 1.25rem 0 0;
@@ -373,13 +393,13 @@ body.is-boarding { overflow: hidden; }
   letter-spacing: -0.015em;
   text-wrap: balance;
 }
-.vm__text em { font-style: italic; font-weight: 500; color: var(--silver); }
+.vm__text em { font-style: italic; font-weight: 500; color: var(--muted); }
 
 .frame { margin-top: clamp(4rem, 8vw, 6rem); }
 .frame__beam {
   padding: 0.9rem 0;
-  border-top: 2px solid var(--silver);
-  border-bottom: 1px solid var(--line);
+  border-top: 2px solid var(--strong);
+  border-bottom: 1px solid var(--rule);
   text-align: center;
 }
 .frame__label {
@@ -387,7 +407,7 @@ body.is-boarding { overflow: hidden; }
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--silver-dim);
+  color: var(--muted);
 }
 .frame__columns {
   display: grid;
@@ -405,9 +425,9 @@ body.is-boarding { overflow: hidden; }
 .column__shaft {
   width: clamp(24px, 2.6vw, 36px);
   height: 100%;
-  border-left: 1px solid var(--silver);
-  border-right: 1px solid var(--silver);
-  background: repeating-linear-gradient(-45deg, rgba(227, 231, 237, 0.16) 0 1px, transparent 1px 7px);
+  border-left: 1px solid var(--strong);
+  border-right: 1px solid var(--strong);
+  background: repeating-linear-gradient(-45deg, var(--hatch) 0 1px, transparent 1px 7px);
   transform-origin: bottom;
   transform: scaleY(0);
   transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
@@ -432,7 +452,7 @@ body.is-boarding { overflow: hidden; }
 .frame.is-in .column__name { opacity: 1; }
 .frame__footing {
   height: 10px;
-  background: repeating-linear-gradient(-45deg, var(--silver-dim) 0 1px, transparent 1px 6px);
+  background: repeating-linear-gradient(-45deg, var(--muted) 0 1px, transparent 1px 6px);
   opacity: 0.6;
 }
 
@@ -500,24 +520,24 @@ body.is-boarding { overflow: hidden; }
 }
 .spec thead th {
   padding: 0 1rem 1rem 0;
-  border-bottom: 2px solid var(--silver);
+  border-bottom: 2px solid var(--strong);
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   text-align: left;
-  color: var(--silver-dim);
+  color: var(--muted);
 }
 .spec tbody tr {
   position: relative;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.8s ease, transform 0.8s var(--ease-out), background-color 0.4s ease;
   transition-delay: calc(var(--r) * 0.1s);
 }
 .spec.is-in tbody tr { opacity: 1; transform: none; }
-.spec tbody tr:hover { background: rgba(255, 255, 255, 0.04); transition-delay: 0s; }
+.spec tbody tr:hover { background: var(--hover); transition-delay: 0s; }
 .spec td,
 .spec tbody th { padding: clamp(1rem, 2vw, 1.5rem) 1rem clamp(1rem, 2vw, 1.5rem) 0; text-align: left; vertical-align: baseline; }
 .spec td:first-child {
@@ -525,7 +545,7 @@ body.is-boarding { overflow: hidden; }
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: var(--silver-dim);
+  color: var(--muted);
 }
 .spec tbody th {
   width: 34%;
@@ -535,8 +555,8 @@ body.is-boarding { overflow: hidden; }
   letter-spacing: -0.01em;
   transition: color 0.4s ease, letter-spacing 0.5s var(--ease-out);
 }
-.spec tbody tr:hover th { color: #e9d7a8; letter-spacing: 0.01em; }
-.spec td:last-child { color: var(--silver); font-size: 1rem; }
+.spec tbody tr:hover th { color: var(--accent); letter-spacing: 0.01em; }
+.spec td:last-child { color: var(--soft); font-size: 1rem; }
 
 /* ==========================================================================
    05 · Method — project schedule
@@ -677,7 +697,7 @@ body.is-boarding { overflow: hidden; }
   color: var(--navy);
   align-self: center;
 }
-.roof__bio { max-width: 52ch; margin-top: 1.75rem; color: var(--silver); font-size: 1.0625rem; line-height: 1.75; }
+.roof__bio { max-width: 52ch; margin-top: 1.75rem; color: var(--soft); font-size: 1.0625rem; line-height: 1.75; }
 .roof__bio p { margin: 0 0 1rem; }
 
 .roof__exit {
@@ -686,9 +706,9 @@ body.is-boarding { overflow: hidden; }
   gap: 2rem;
   margin-top: var(--floor-pad);
   padding: clamp(4rem, 9vw, 7rem) var(--inner-x) clamp(5rem, 10vw, 8rem);
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
   text-align: center;
-  background: radial-gradient(60% 80% at 50% 100%, rgba(25, 67, 118, 0.45), rgba(25, 67, 118, 0) 70%);
+  background: radial-gradient(60% 80% at 50% 100%, var(--glow), rgba(25, 67, 118, 0) 70%);
 }
 .roof__exit-text {
   margin: 0;
@@ -698,7 +718,7 @@ body.is-boarding { overflow: hidden; }
   line-height: 1;
   letter-spacing: -0.02em;
 }
-.roof__exit-text em { font-style: italic; font-weight: 500; color: #e9d7a8; }
+.roof__exit-text em { font-style: italic; font-weight: 500; color: #8d97a5; }
 .roof__exit-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.5rem 2.5rem; }
 
 /* ==========================================================================
@@ -732,8 +752,8 @@ body.is-boarding { overflow: hidden; }
   padding: 0.5rem 0 0.6rem;
   border-radius: 999px;
   background: #050a12;
-  color: #ffd27a;
-  box-shadow: inset 0 0 0 1px rgba(255, 210, 122, 0.12);
+  color: #d6e4ff;
+  box-shadow: inset 0 0 0 1px rgba(214, 228, 255, 0.12);
 }
 .lift__dir { height: 0.7rem; font-size: 0.55rem; line-height: 0.7rem; }
 .lift__floor {
@@ -744,7 +764,7 @@ body.is-boarding { overflow: hidden; }
   font-weight: 700;
   line-height: 1.25rem;
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 8px rgba(255, 210, 122, 0.6);
+  text-shadow: 0 0 8px rgba(214, 228, 255, 0.6);
 }
 .lift__floor-roll { display: block; }
 .lift__floor-roll.roll-up { animation: roll-up 0.45s var(--ease-out); }
@@ -799,9 +819,9 @@ body.is-boarding { overflow: hidden; }
   background: var(--white);
   border-color: var(--white);
   color: var(--navy-deep);
-  box-shadow: 0 0 0 4px rgba(255, 210, 122, 0.22), 0 0 14px rgba(255, 210, 122, 0.55);
+  box-shadow: 0 0 0 4px rgba(214, 228, 255, 0.22), 0 0 14px rgba(214, 228, 255, 0.55);
 }
-.lift__btn.is-called { border-color: #ffd27a; color: #ffd27a; }
+.lift__btn.is-called { border-color: #d6e4ff; color: #d6e4ff; }
 .lift__btn-label {
   position: absolute;
   right: calc(100% + 0.9rem);

@@ -1,6 +1,6 @@
 /* ==========================================================================
    Contact (and Careers placeholder)
-   Dark intro with the enquiry-type tiles; below it a paper "site enquiry
+   Light (white and silver) intro with the enquiry-type tiles; below it a paper "site enquiry
    docket" whose fields change with the type chosen. js/contact.js.
    ========================================================================== */
 
@@ -9,7 +9,7 @@
   --paper-ink: #0e1b2e;
   --paper-muted: #56657a;
   --paper-line: rgba(15, 42, 77, 0.16);
-  --gold: #e9d7a8;
+  --highlight: #cfd6e0;
   --inner-x: calc(var(--gutter) + clamp(0rem, 4vw, 5rem));
 }
 
@@ -22,8 +22,9 @@ body.page-contact { background: var(--paper); }
 .ct-intro {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--ink) 0%, #0c1830 100%);
-  color: var(--white);
+  background: linear-gradient(180deg, var(--white) 0%, #eef1f5 100%);
+  color: var(--paper-ink);
+  border-bottom: 1px solid var(--paper-line);
   padding: calc(160px + clamp(2rem, 5vw, 4rem)) var(--inner-x) clamp(4rem, 8vw, 6rem);
 }
 .ct-intro--full { min-height: 100vh; min-height: 100svh; display: grid; align-items: center; }
@@ -31,8 +32,8 @@ body.page-contact { background: var(--paper); }
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(163, 184, 214, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(163, 184, 214, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(25, 67, 118, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(25, 67, 118, 0.06) 1px, transparent 1px);
   background-size: 96px 96px;
   -webkit-mask-image: radial-gradient(ellipse 80% 70% at 70% 30%, #000 20%, transparent 80%);
   mask-image: radial-gradient(ellipse 80% 70% at 70% 30%, #000 20%, transparent 80%);
@@ -48,7 +49,7 @@ body.page-contact { background: var(--paper); }
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--silver-dim);
+  color: #8d97a5;
 }
 .ct-kicker__rule { width: 48px; height: 1px; background: currentColor; }
 .ct-title {
@@ -59,17 +60,17 @@ body.page-contact { background: var(--paper); }
   line-height: 0.98;
   letter-spacing: -0.03em;
 }
-.ct-title em { font-style: italic; font-weight: 500; color: var(--gold); }
+.ct-title em { font-style: italic; font-weight: 500; color: #8d97a5; }
 .ct-title .line:nth-child(2) .line__inner { transition-delay: 0.15s; }
 .ct-lead {
   max-width: 46ch;
   margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
   font-size: clamp(1rem, 1.3vw, 1.15rem);
   line-height: 1.7;
-  color: var(--silver);
+  color: var(--paper-muted);
 }
-.ct-lead--small { font-size: 0.9375rem; color: var(--silver-dim); }
-.ct-lead a { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
+.ct-lead--small { font-size: 0.9375rem; color: var(--paper-muted); }
+.ct-lead a { color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
 
 /* Enquiry type tiles */
 .types {
@@ -85,7 +86,7 @@ body.page-contact { background: var(--paper); }
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--silver-dim);
+  color: var(--paper-muted);
 }
 .types__legend span,
 .docket__step {
@@ -103,8 +104,8 @@ body.page-contact { background: var(--paper); }
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 0.8fr);
   gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  background: var(--paper-line);
+  border: 1px solid var(--paper-line);
 }
 .type {
   position: relative;
@@ -113,13 +114,13 @@ body.page-contact { background: var(--paper); }
   gap: 0.5rem;
   min-height: 13.5rem;
   padding: clamp(1.25rem, 2.2vw, 1.75rem);
-  background: #0c1830;
-  color: var(--white);
+  background: var(--white);
+  color: var(--paper-ink);
   cursor: pointer;
   opacity: 0;
   transform: translateY(20px);
-  transition: background-color 0.45s ease, color 0.45s ease, opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
-  transition-delay: 0s, 0s, calc(0.5s + var(--k) * 0.08s), calc(0.5s + var(--k) * 0.08s);
+  transition: background-color 0.45s ease, color 0.45s ease, box-shadow 0.45s var(--ease-out), opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: 0s, 0s, 0s, calc(0.5s + var(--k) * 0.08s), calc(0.5s + var(--k) * 0.08s);
 }
 .is-ready .type { opacity: 1; transform: none; }
 .type input {
@@ -132,7 +133,7 @@ body.page-contact { background: var(--paper); }
   height: 52px;
   margin-bottom: auto;
   fill: none;
-  stroke: var(--silver);
+  stroke: var(--paper-ink);
   stroke-width: 1.3;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -145,7 +146,7 @@ body.page-contact { background: var(--paper); }
   font-weight: 600;
   line-height: 1.15;
 }
-.type__desc { font-size: 0.875rem; line-height: 1.5; color: var(--silver-dim); transition: color 0.4s ease; }
+.type__desc { font-size: 0.875rem; line-height: 1.5; color: var(--paper-muted); transition: color 0.4s ease; }
 .type::after {
   content: "";
   position: absolute;
@@ -153,23 +154,23 @@ body.page-contact { background: var(--paper); }
   right: 1.25rem;
   width: 18px;
   height: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--silver-dim);
   border-radius: 50%;
   transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-.type:hover { background: #12234099; }
-.type:hover .type__icon { transform: translateY(-4px); }
-.type:has(input:checked) { background: var(--paper); color: var(--paper-ink); }
+.type:hover { z-index: 1; box-shadow: 0 24px 44px -22px rgba(14, 27, 46, 0.3), 0 8px 16px -10px rgba(14, 27, 46, 0.16); }
+.type:hover .type__icon { transform: translateY(-4px); stroke: var(--navy); }
+.type:has(input:checked) { z-index: 1; box-shadow: inset 0 0 0 2px var(--navy); }
 .type:has(input:checked) .type__icon { stroke: var(--navy); }
-.type:has(input:checked) .type__desc { color: var(--paper-muted); }
-.type:has(input:checked)::after { border-color: var(--navy); background: var(--navy); box-shadow: inset 0 0 0 4px var(--paper); }
-.type:has(input:focus-visible) { outline: 2px solid var(--gold); outline-offset: -2px; }
-.type.is-checked { background: var(--paper); color: var(--paper-ink); }
-.type--careers { background: transparent; }
+.type:has(input:checked) .type__name { color: var(--navy); }
+.type:has(input:checked)::after { border-color: var(--navy); background: var(--navy); box-shadow: inset 0 0 0 4px var(--white); }
+.type:has(input:focus-visible) { outline: 2px solid var(--navy); outline-offset: -2px; }
+.type.is-checked { box-shadow: inset 0 0 0 2px var(--navy); }
+.type--careers { background: #eef1f5; }
 .type--careers::after { display: none; }
-.type--careers .type__icon { stroke: var(--silver-dim); }
+.type--careers .type__icon { stroke: var(--paper-muted); }
 .type__arrow { display: inline-block; transition: transform 0.5s var(--ease-out); }
-.type--careers:hover { background: rgba(233, 215, 168, 0.08); }
+.type--careers:hover { background: var(--white); }
 .type--careers:hover .type__arrow { transform: translateX(6px); }
 
 /* ==========================================================================
@@ -360,7 +361,7 @@ body.page-contact { background: var(--paper); }
 .careers-hint {
   margin: 0.25rem 0 0;
   padding: 0.75rem 1rem;
-  border-left: 3px solid var(--gold);
+  border-left: 3px solid var(--highlight);
   border-radius: 0 8px 8px 0;
   background: #fbf6ea;
   font-size: 0.875rem;

@@ -1,6 +1,6 @@
 /* ==========================================================================
    Section 2 (continued) — Key numbers, Services, Sectors, Closing
-   Rhythm: ink (numbers) → paper (services) → navy (sectors) → ink (closing).
+   Rhythm: white (numbers) → paper (services) → white (sectors) → photo (closing).
    Each block adds .in-view when it enters; scroll-linked values
    (--fill, --drift, --zoom) are written by js/overview.js.
    ========================================================================== */
@@ -23,8 +23,9 @@
 .figures {
   --fill: 0;
   position: relative;
-  background: #0c1830;
-  color: var(--white);
+  background: var(--white);
+  color: var(--paper-ink);
+  border-top: 1px solid var(--paper-line);
   padding-block: clamp(5rem, 11vw, 9rem) clamp(7rem, 14vw, 12rem);
 }
 .figures__inner {
@@ -49,18 +50,19 @@
   transform: translateY(24px);
   transition: opacity 1s var(--ease-out) 0.15s, transform 1s var(--ease-out) 0.15s;
 }
-.figures__title em { font-style: italic; font-weight: 500; color: var(--silver); }
+.figures__title em { font-style: italic; font-weight: 500; color: #8d97a5; }
+.figures .eyebrow { color: #8d97a5; }
 .figures.in-view .figures__title { opacity: 1; transform: none; }
 
 .figures__scale {
   position: relative;
   height: 1px;
-  background: var(--line);
+  background: var(--paper-line);
 }
 .figures__scale-fill {
   position: absolute;
   inset: 0;
-  background: var(--silver);
+  background: var(--navy);
   transform-origin: left;
   transform: scaleX(var(--fill));
 }
@@ -84,10 +86,10 @@
   left: 0;
   width: 1px;
   height: 12px;
-  background: var(--line);
+  background: var(--paper-line);
   transition: background-color 0.4s ease, height 0.5s var(--ease-out), top 0.5s var(--ease-out);
 }
-.figure.is-on .figure__tick { background: var(--white); height: 22px; top: -11px; }
+.figure.is-on .figure__tick { background: var(--navy); height: 22px; top: -11px; }
 
 .figure__value {
   font-family: var(--font-display);
@@ -96,14 +98,14 @@
   line-height: 1;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums lining-nums;
-  opacity: 0.18;
+  opacity: 0.14;
   transition: opacity 0.8s ease;
 }
 .figure.is-on .figure__value { opacity: 1; }
 .figure__suffix {
   margin-left: 0.04em;
   font-weight: 500;
-  color: var(--silver-dim);
+  color: #8d97a5;
 }
 .figure__label {
   max-width: 14ch;
@@ -112,7 +114,7 @@
   line-height: 1.5;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--silver-dim);
+  color: var(--paper-muted);
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.8s var(--ease-out) 0.2s, transform 0.8s var(--ease-out) 0.2s;
@@ -123,7 +125,7 @@
    Diagonal edge variant — paper-coloured, mirrored (high on the left)
    ========================================================================== */
 .edge--paper .edge__shape path { fill: var(--paper); }
-.edge--paper .edge__line path { stroke: rgba(143, 166, 196, 0.55); }
+.edge--paper .edge__line path { stroke: rgba(141, 151, 165, 0.6); }
 .edge--paper .edge__line { clip-path: inset(-6px 0 -6px 0); }
 
 /* ==========================================================================
