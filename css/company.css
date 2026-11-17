@@ -281,6 +281,3 @@ body.page-company { background: var(--white); color: var(--co-ink); }
 .co-upload__drop:focus-within { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(25, 67, 118, 0.12); }
 .co-upload__drop.has-file { border-style: solid; border-color: var(--navy); background: var(--white); }
 .co-upload.is-invalid .co-upload__drop { border-color: #b3261e; box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.1); }
-
-/* live roles loading from the careers backend */
-.co-roles.is-loading { opacity: 0.35; pointer-events: none; transition: opacity 0.3s ease; }

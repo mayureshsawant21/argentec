@@ -62,14 +62,10 @@ def done_panel(title, text, again):
           </div>""" % (CHECK, title, text, again)
 
 
-def scripts(p, backend=False):
-    live = ("""
-  <script src="%(p)sassets/vendor/supabase/supabase.js"></script>
-  <script src="%(p)sjs/backend-config.js"></script>
-  <script src="%(p)sjs/careers-backend.js"></script>""" % {"p": p}) if backend else ""
+def scripts(p):
     return """  <script src="%(p)sjs/main.js"></script>
-  <script src="%(p)sjs/expertise.js"></script>%(live)s
-  <script src="%(p)sjs/company.js"></script>""" % {"p": p, "live": live}
+  <script src="%(p)sjs/expertise.js"></script>
+  <script src="%(p)sjs/company.js"></script>""" % {"p": p}
 
 
 # ---------------------------------------------------------------------------
@@ -185,7 +181,7 @@ def vendors(header_markup):
           <div class="co-fields">
             <label class="co-field co-field--wide"><span>Company name</span><input name="company" autocomplete="organization" required></label>
             <label class="co-field"><span>Contact person</span><input name="name" autocomplete="name" required></label>
-            <label class="co-field"><span>Mobile number</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9+ ()-]{10,16}"></label>
+            <label class="co-field"><span>Mobile number</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9+ \\(\\)\\-]{10,16}"></label>
             <label class="co-field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
             <label class="co-field"><span>GST number</span><input name="gst" required maxlength="15" pattern="[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z][1-9A-Za-z][Zz][0-9A-Za-z]" placeholder="27ABCDE1234F1Z5" autocapitalize="characters" data-msg="Please enter a valid 15-character GSTIN."></label>
           </div>
@@ -246,8 +242,8 @@ def careers(header_markup):
           </li>""" % (i, i + 1, esc(t), esc(d)) for i, (t, d) in enumerate(D.WHY_ARGENTEC))
     counts = {k: sum(1 for r in D.ROLES if r["department"] == k) for k in D.DEPARTMENTS}
     depts = "\n".join(
-        """          <li class="co-dept" data-dept-name="%s" data-reveal style="--i:%d"><span>%s</span><b>%s</b></li>""" % (
-            esc(name), i % 3, esc(name), ("%d open" % counts[k]) if counts[k] else "&nbsp;")
+        """          <li class="co-dept" data-reveal style="--i:%d"><span>%s</span><b>%s</b></li>""" % (
+            i % 3, esc(name), ("%d open" % counts[k]) if counts[k] else "&nbsp;")
         for i, (k, name) in enumerate(D.DEPARTMENTS.items()))
     chips = ['<button class="co-filter is-active" type="button" data-filter="all" aria-pressed="true">All <span>%d</span></button>' % len(D.ROLES)]
     for k, name in D.DEPARTMENTS.items():
@@ -363,12 +359,12 @@ def careers(header_markup):
             <label class="co-field co-field--wide"><span>Role</span>
               <select name="role" required><option value="general">General application</option>%(role_opts)s</select></label>
             <label class="co-field"><span>Full name</span><input name="name" autocomplete="name" required></label>
-            <label class="co-field"><span>Mobile number</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9+ ()-]{10,16}"></label>
+            <label class="co-field"><span>Mobile number</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9+ \\(\\)\\-]{10,16}"></label>
             <label class="co-field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
             <label class="co-field"><span>Current location</span><input name="location" autocomplete="address-level2" required></label>
             <label class="co-field"><span>Total experience</span>
               <select name="experience" required><option value="">Select</option><option>Fresher</option><option>Less than 2 years</option><option>2 to 5 years</option><option>5 to 10 years</option><option>More than 10 years</option></select></label>
-            <label class="co-field"><span>Current or last company <small>(optional)</small></span><input name="company" autocomplete="organization"></label>
+            <label class="co-field"><span>Current or last company</span><input name="company" autocomplete="organization" required></label>
             <label class="co-field"><span>Current CTC <small>(&#8377; lakhs per annum)</small></span><input name="current_ctc" inputmode="decimal" required pattern="[0-9]+([.][0-9]{1,2})?" placeholder="e.g. 6.5 (0 if fresher)" data-msg="Please enter your CTC in lakhs, for example 6.5"></label>
             <label class="co-field"><span>Expected CTC <small>(&#8377; lakhs per annum)</small></span><input name="expected_ctc" inputmode="decimal" required pattern="[0-9]+([.][0-9]{1,2})?" placeholder="e.g. 8" data-msg="Please enter your CTC in lakhs, for example 8"></label>
             <div class="co-field co-field--wide co-upload">
@@ -380,7 +376,7 @@ def careers(header_markup):
                 <span class="co-upload__hint">PDF or Word, up to 5 MB</span>
               </label>
             </div>
-            <label class="co-field co-field--wide"><span>LinkedIn profile <small>(optional)</small></span><input name="linkedin" type="url" placeholder="https://www.linkedin.com/in/..." data-msg="Please enter a full link starting with https://"></label>
+            <label class="co-field co-field--wide"><span>LinkedIn profile</span><input name="linkedin" type="url" required placeholder="https://www.linkedin.com/in/..." data-msg="Please enter a full link starting with https://"></label>
             <label class="co-field co-field--wide"><span>Any specific thoughts or questions? <small>(optional)</small></span><textarea name="message" rows="3"></textarea></label>
           </div>
           <label class="co-consent"><input type="checkbox" name="consent" required><span>Argentec may store my details for recruitment and contact me about openings.</span></label>
@@ -401,7 +397,7 @@ def careers(header_markup):
 """ % {"header": page_header(header_markup, p, "careers"), "crumbs": crumbs, "arrow": ARROW, "stats": stats(D.CAREER_STATS),
        "why": why, "depts": depts, "chips": "".join(chips), "roles": roles, "role_opts": role_opts,
        "done": done_panel("Application received.", "Thank you. Our team reviews every application and will contact you if your profile matches an opening.", "Send another application"),
-       "footer": footer(p), "scripts": scripts(p, backend=True), "crumbs_ld": crumbs_ld,
+       "footer": footer(p), "scripts": scripts(p), "crumbs_ld": crumbs_ld,
        "jobs_ld": "".join('\n  <script type="application/ld+json">%s</script>' % json.dumps(j, ensure_ascii=False) for j in jobs_ld)}
     return head(p, "Careers | Argentec, Construction Company in Mumbai",
                 "Build your career with Argentec: open roles for site engineers, MEP engineers, planners, quantity surveyors and safety officers in Mumbai.",

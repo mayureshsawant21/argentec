@@ -135,10 +135,7 @@
       } else {
         request = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) };
       }
-      // the careers backend (js/careers-backend.js) saves to Supabase when configured
-      var hook = window.ARGENTEC_SUBMIT && window.ARGENTEC_SUBMIT[kind];
-      var send = hook ? hook(form, ref)
-        : endpoint
+      var send = endpoint
         ? fetch(endpoint, request).then(function (r) { if (!r.ok) throw new Error(r.status); })
         : new Promise(function (resolve) {
             if (window.console) console.warn("Argentec " + kind + " form: endpoint is not set, nothing was sent.", data);
@@ -167,9 +164,7 @@
     });
   });
 
-  /* --------------------------------------------------- careers: filters
-     Delegated, so it keeps working when js/careers-backend.js replaces the
-     list with the live roles. */
+  /* --------------------------------------------------- careers: filters */
   var list = document.querySelector("[data-roles]");
   if (!list) return;
   var none = document.querySelector(".co-roles__none");
@@ -206,7 +201,7 @@
     }, 700);
   });
 
-  // careers.html#site-engineer-civil opens that role (built-in or live list)
+  // careers.html#site-engineer-civil opens that role
   function openFromHash() {
     var hash = window.location.hash.slice(1).replace(/[^A-Za-z0-9-]/g, "");
     if (!hash || hash === "apply" || hash === "openings") return;
@@ -214,5 +209,4 @@
     if (btn) { var det = btn.closest("details"); det.open = true; det.scrollIntoView(); }
   }
   openFromHash();
-  document.addEventListener("careers:roles", openFromHash);
 })();
