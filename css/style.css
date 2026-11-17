@@ -569,13 +569,10 @@ img, svg, video { display: block; max-width: 100%; }
 /* ==========================================================================
    Responsive
    ========================================================================== */
-/* the business switch takes priority in the utility row: the placeholder
-   News link drops first, then Blog (still in the footer) on small laptops */
-@media (max-width: 1399px) {
-  .utility-nav--left .nav-link:nth-of-type(1) { display: none; }
-}
-@media (max-width: 1100px) {
-  .utility-nav--left .nav-link:nth-of-type(2) { display: none; }
+/* the business switch takes priority in the utility row: on smaller
+   laptops the placeholder News link drops out */
+@media (max-width: 1279px) {
+  .utility-nav--left .nav-link { display: none; }
 }
 @media (max-width: 1180px) {
   .site-header__main { gap: 2.25rem; }
