@@ -149,6 +149,7 @@ def footer(prefix):
         <ul>
           <li><a href="%(p)sabout.html">About</a></li>
           <li><a href="%(p)sexpertise/index.html">All expertise</a></li>
+          <li><a href="%(p)sblog/index.html">Blog</a></li>
           <li><a href="%(p)scontact.html">Contact</a></li>
           <li><a href="%(p)scontact.html?type=supplier">Suppliers &amp; subcontractors</a></li>
           <li><a href="%(p)scareers.html">Careers</a></li>

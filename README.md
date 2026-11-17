@@ -13,6 +13,8 @@ contact.html            Contact page: enquiry docket (supplier / home / developm
 careers.html            Careers placeholder (contact page redirects careers enquiries here)
 expertise/              Expertise hub + 7 service pages (GENERATED, see below)
 projects/               Projects hub + 20 project pages (GENERATED from scripts/projects_data.py)
+blog/                   Blog hub + one page per article (GENERATED from content/blog/*.md)
+content/blog/           Blog articles in Markdown with a front-matter block
 css/style.css           Base styles, header and hero (section 1)
 css/about.css           Section 2: Built for Progress (intro scene, diagonal edge)
 css/overview.css        Section 2 continued: key numbers, services, sectors, closing
@@ -23,6 +25,8 @@ css/contact.css         Contact + careers styles
 css/expertise.css       Expertise pages
 css/footer.css          Shared footer (Expertise and Projects pages)
 css/projects.css        Projects pages (white & silver contracting palette)
+css/blog.css            Blog hub and article pages
+js/blog.js              Blog article: copy-link button
 js/projects.js          Projects hub filters (stage, location; kept in the URL)
 js/expertise.js         Expertise pages: reveals, methodology timeline
 scripts/                Generators: build_expertise.py (+ expertise_content.py), build_projects.py (+ projects_data.py)
@@ -47,6 +51,7 @@ assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9
 | Contact | Enquiry type tiles, adaptive docket form, office card; careers redirect | Done |
 | Expertise | Mega menu + hub + 7 service pages, shared footer (generated) | Done, content pending approval |
 | Projects | Hub with portfolio stats + filters, 20 project pages with building-wise status (Phase 1) | Done |
+| Blog | Hub (featured + card grid) and article pages; one sample article (noindex) | Done |
 | About | Lift doors, lobby, 5 floors (incl. Vision & Mission) and the roof (founder), with a lift-panel floor nav | Done |
 
 ## Expertise pages
@@ -79,6 +84,19 @@ python3 scripts/build_projects.py
 
 Images are neutral placeholders (`assets/img/projects/placeholder-1..4.svg`),
 labelled "Representative image"; replace with real photography when available.
+
+## Blog
+
+Each article is a Markdown file in `content/blog/` (see the sample,
+`before-construction-starts.md`, for the front-matter fields). The newest
+article is shown as the large featured card. After adding or editing one, run:
+
+```bash
+python3 scripts/build_blog.py
+```
+
+The sample article carries `noindex: true`; delete it (or replace its content)
+before launch. Cover images go in `assets/img/blog/`.
 
 ## Contact form delivery
 
