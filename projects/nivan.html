@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,500;1,8..60,600&display=swap">
-  <link rel="stylesheet" href="../css/style.css?v=c9b684ef">
+  <link rel="stylesheet" href="../css/style.css?v=6c2b11e4">
   <link rel="stylesheet" href="../css/projects.css?v=b7bd9b7b">
   <link rel="stylesheet" href="../css/footer.css?v=a3965185">
 </head>
@@ -29,6 +29,10 @@
         <button class="icon-btn" type="button" id="search-open" aria-label="Search">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         </button>
+        <div class="biz-switch" role="group" aria-label="Argentec business">
+          <a class="biz-switch__opt is-active" href="../index.html" aria-current="true">Contracting</a>
+          <a class="biz-switch__opt" href="../development/index.html">Development</a>
+        </div>
         <a class="nav-link" href="../index.html#news">News</a>
         <a class="nav-link" href="../blog/index.html">Blog</a>
       </nav>
@@ -87,6 +91,10 @@
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="biz-switch biz-switch--mobile" role="group" aria-label="Argentec business">
+      <a class="biz-switch__opt is-active" href="../index.html" aria-current="true">Contracting</a>
+      <a class="biz-switch__opt" href="../development/index.html">Development</a>
+    </div>
     <nav class="mobile-menu__primary" aria-label="Mobile primary">
       <!-- expertise-menu:mobile -->
       <div class="mm-group">

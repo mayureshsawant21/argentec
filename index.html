@@ -18,9 +18,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,500;1,8..60,600&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=c9b684ef">
+  <link rel="stylesheet" href="css/style.css?v=6c2b11e4">
   <link rel="stylesheet" href="css/about.css?v=044ca296">
-  <link rel="stylesheet" href="css/overview.css?v=c2001507">
+  <link rel="stylesheet" href="css/overview.css?v=26373294">
 </head>
 <body class="is-loading">
 
@@ -42,6 +42,10 @@
         <button class="icon-btn" type="button" id="search-open" aria-label="Search">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         </button>
+        <div class="biz-switch" role="group" aria-label="Argentec business">
+          <a class="biz-switch__opt is-active" href="index.html" aria-current="true">Contracting</a>
+          <a class="biz-switch__opt" href="development/index.html">Development</a>
+        </div>
         <a class="nav-link" href="#news">News</a>
         <a class="nav-link" href="blog/index.html">Blog</a>
       </nav>
@@ -100,6 +104,10 @@
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="biz-switch biz-switch--mobile" role="group" aria-label="Argentec business">
+      <a class="biz-switch__opt is-active" href="index.html" aria-current="true">Contracting</a>
+      <a class="biz-switch__opt" href="development/index.html">Development</a>
+    </div>
     <nav class="mobile-menu__primary" aria-label="Mobile primary">
       <!-- expertise-menu:mobile -->
       <div class="mm-group">
@@ -398,6 +406,31 @@
             <p class="sx-tile__desc">Planned residential enclaves</p>
           </li>
         </ul>
+      </div>
+    </section>
+
+    <!-- ============ TWO BUSINESSES: CONTRACTING | DEVELOPMENT ============ -->
+    <section class="biz" id="businesses" aria-labelledby="biz-title">
+      <div class="biz__head">
+        <p class="eyebrow eyebrow--dark"><span class="eyebrow__rule"></span>Two businesses</p>
+        <h2 class="biz__title" id="biz-title">One standard, <em>two ways to build.</em></h2>
+      </div>
+      <div class="biz__panels">
+        <a class="biz-panel biz-panel--contracting" href="expertise/index.html">
+          <span class="biz-panel__tag"><i></i>Argentec Contracting</span>
+          <h3 class="biz-panel__title">Build <em>with us.</em></h3>
+          <p class="biz-panel__text">Pre-construction, engineering, MEP and complete project delivery for developers, institutions and industry.</p>
+          <span class="biz-panel__meta">40+ projects &middot; 10.75 Mn sq ft</span>
+          <span class="biz-panel__go">Explore contracting <svg viewBox="0 0 32 12" width="32" height="12" aria-hidden="true"><path d="M0 6h30M25 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span>
+        </a>
+        <a class="biz-panel biz-panel--development" href="development/index.html">
+          <span class="biz-panel__rings" aria-hidden="true"></span>
+          <span class="biz-panel__tag"><i></i>Argentec Development</span>
+          <h3 class="biz-panel__title">Upcoming in <em>Navi Mumbai.</em></h3>
+          <p class="biz-panel__text">Homes planned, engineered and built by Argentec. Register your interest as a homebuyer, broker or housing society.</p>
+          <span class="biz-panel__meta">Registering interest</span>
+          <span class="biz-panel__go">Discover development <svg viewBox="0 0 32 12" width="32" height="12" aria-hidden="true"><path d="M0 6h30M25 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span>
+        </a>
       </div>
     </section>
 

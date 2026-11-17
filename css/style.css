@@ -247,6 +247,51 @@ img, svg, video { display: block; max-width: 100%; }
 .utility-nav--left { justify-self: start; margin-left: -10px; }
 .utility-nav--right { justify-self: end; }
 
+/* Contracting | Development switch: a quiet segmented control in the
+   utility row. The active business carries a filled dot (silver for
+   contracting, gold for development) and full-strength type. */
+.biz-switch {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  border: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 28%, transparent);
+  border-radius: 999px;
+}
+.biz-switch__opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.62;
+  transition: opacity 0.3s ease, background-color 0.35s ease, color 0.35s ease;
+}
+.biz-switch__opt::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.biz-switch__opt:hover,
+.biz-switch__opt:focus-visible { opacity: 1; }
+.biz-switch__opt.is-active { opacity: 1; background: color-mix(in srgb, currentColor 10%, transparent); }
+.biz-switch__opt.is-active::before { background: var(--silver-dim); border-color: var(--silver-dim); }
+.biz-switch__opt[href*="development"].is-active::before,
+.biz-switch__opt[href*="development"]:hover::before { background: #c9a55c; border-color: #c9a55c; }
+.site-header.is-scrolled .biz-switch__opt.is-active::before { background: var(--navy); border-color: var(--navy); }
+.site-header.is-scrolled .biz-switch__opt[href*="development"].is-active::before { background: #c9a55c; border-color: #c9a55c; }
+
+.biz-switch--mobile { align-self: flex-start; color: var(--white); }
+.biz-switch--mobile .biz-switch__opt { padding: 0.6rem 1rem; font-size: 0.75rem; }
+
 .nav-link {
   position: relative;
   padding-block: 0.4rem;
@@ -343,6 +388,7 @@ img, svg, video { display: block; max-width: 100%; }
   padding: calc(112px + env(safe-area-inset-top, 0px)) 1.5rem calc(2rem + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
   background: var(--navy-deep);
+  color: var(--white); /* never inherit a light page's ink */
   clip-path: inset(0 0 100% 0);
   visibility: hidden;
   transition: clip-path 0.8s var(--ease-in-out), visibility 0s linear 0.8s;
@@ -523,8 +569,15 @@ img, svg, video { display: block; max-width: 100%; }
 /* ==========================================================================
    Responsive
    ========================================================================== */
+/* the business switch takes priority in the utility row: the placeholder
+   News link drops first, then Blog (still in the footer) on small laptops */
+@media (max-width: 1399px) {
+  .utility-nav--left .nav-link:nth-of-type(1) { display: none; }
+}
+@media (max-width: 1100px) {
+  .utility-nav--left .nav-link:nth-of-type(2) { display: none; }
+}
 @media (max-width: 1180px) {
-  .utility-nav--left .nav-link:nth-of-type(3) { display: none; }
   .site-header__main { gap: 2.25rem; }
 }
 
