@@ -517,3 +517,7 @@ body.page-contact { background: var(--paper); }
   .careers-hint, .group.is-active, .docket__fields.is-entering, .docket__empty svg { animation: none; }
   .done__tick circle, .done__tick path { animation: none; stroke-dashoffset: 0; }
 }
+
+/* Supplier enquiries: pointer to the full vendor registration */
+.vendor-hint { margin: -0.25rem 0 1.25rem; padding-left: 0.9rem; border-left: 2px solid var(--navy); font-size: 0.875rem; line-height: 1.5; color: var(--paper-muted); }
+.vendor-hint a { color: var(--navy); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
