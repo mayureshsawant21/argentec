@@ -62,10 +62,14 @@ def done_panel(title, text, again):
           </div>""" % (CHECK, title, text, again)
 
 
-def scripts(p):
+def scripts(p, backend=False):
+    live = ("""
+  <script src="%(p)sassets/vendor/supabase/supabase.js"></script>
+  <script src="%(p)sjs/backend-config.js"></script>
+  <script src="%(p)sjs/careers-backend.js"></script>""" % {"p": p}) if backend else ""
     return """  <script src="%(p)sjs/main.js"></script>
-  <script src="%(p)sjs/expertise.js"></script>
-  <script src="%(p)sjs/company.js"></script>""" % {"p": p}
+  <script src="%(p)sjs/expertise.js"></script>%(live)s
+  <script src="%(p)sjs/company.js"></script>""" % {"p": p, "live": live}
 
 
 # ---------------------------------------------------------------------------
@@ -242,8 +246,8 @@ def careers(header_markup):
           </li>""" % (i, i + 1, esc(t), esc(d)) for i, (t, d) in enumerate(D.WHY_ARGENTEC))
     counts = {k: sum(1 for r in D.ROLES if r["department"] == k) for k in D.DEPARTMENTS}
     depts = "\n".join(
-        """          <li class="co-dept" data-reveal style="--i:%d"><span>%s</span><b>%s</b></li>""" % (
-            i % 3, esc(name), ("%d open" % counts[k]) if counts[k] else "&nbsp;")
+        """          <li class="co-dept" data-dept-name="%s" data-reveal style="--i:%d"><span>%s</span><b>%s</b></li>""" % (
+            esc(name), i % 3, esc(name), ("%d open" % counts[k]) if counts[k] else "&nbsp;")
         for i, (k, name) in enumerate(D.DEPARTMENTS.items()))
     chips = ['<button class="co-filter is-active" type="button" data-filter="all" aria-pressed="true">All <span>%d</span></button>' % len(D.ROLES)]
     for k, name in D.DEPARTMENTS.items():
@@ -397,7 +401,7 @@ def careers(header_markup):
 """ % {"header": page_header(header_markup, p, "careers"), "crumbs": crumbs, "arrow": ARROW, "stats": stats(D.CAREER_STATS),
        "why": why, "depts": depts, "chips": "".join(chips), "roles": roles, "role_opts": role_opts,
        "done": done_panel("Application received.", "Thank you. Our team reviews every application and will contact you if your profile matches an opening.", "Send another application"),
-       "footer": footer(p), "scripts": scripts(p), "crumbs_ld": crumbs_ld,
+       "footer": footer(p), "scripts": scripts(p, backend=True), "crumbs_ld": crumbs_ld,
        "jobs_ld": "".join('\n  <script type="application/ld+json">%s</script>' % json.dumps(j, ensure_ascii=False) for j in jobs_ld)}
     return head(p, "Careers | Argentec, Construction Company in Mumbai",
                 "Build your career with Argentec: open roles for site engineers, MEP engineers, planners, quantity surveyors and safety officers in Mumbai.",

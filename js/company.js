@@ -135,7 +135,10 @@
       } else {
         request = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) };
       }
-      var send = endpoint
+      // the careers backend (js/careers-backend.js) saves to Supabase when configured
+      var hook = window.ARGENTEC_SUBMIT && window.ARGENTEC_SUBMIT[kind];
+      var send = hook ? hook(form, ref)
+        : endpoint
         ? fetch(endpoint, request).then(function (r) { if (!r.ok) throw new Error(r.status); })
         : new Promise(function (resolve) {
             if (window.console) console.warn("Argentec " + kind + " form: endpoint is not set, nothing was sent.", data);
@@ -146,7 +149,8 @@
         form.classList.add("is-done");
         done.hidden = false;
         done.focus();
-      }).catch(function () {
+      }).catch(function (err) {
+        if (window.console) console.error("Argentec " + kind + " form:", err);
         errorOut.textContent = "Something went wrong while sending. Please try again in a moment.";
         errorOut.hidden = false;
       }).then(function () { submit.disabled = false; });
@@ -163,48 +167,52 @@
     });
   });
 
-  /* --------------------------------------------------- careers: filters */
+  /* --------------------------------------------------- careers: filters
+     Delegated, so it keeps working when js/careers-backend.js replaces the
+     list with the live roles. */
   var list = document.querySelector("[data-roles]");
   if (!list) return;
   var none = document.querySelector(".co-roles__none");
-  var filters = document.querySelectorAll(".co-filter");
-  each(filters, function (btn) {
-    btn.addEventListener("click", function () {
-      var f = btn.getAttribute("data-filter");
-      each(filters, function (b) {
-        var on = b === btn;
-        b.classList.toggle("is-active", on);
-        b.setAttribute("aria-pressed", on ? "true" : "false");
-      });
-      var shown = 0;
-      each(list.querySelectorAll(".co-role"), function (li) {
-        var on = f === "all" || li.getAttribute("data-dept") === f;
-        li.hidden = !on;
-        if (on) shown++;
-      });
-      none.hidden = shown > 0;
+  var filterBar = document.querySelector(".co-filters");
+  filterBar.addEventListener("click", function (e) {
+    var btn = e.target.closest(".co-filter");
+    if (!btn) return;
+    var f = btn.getAttribute("data-filter");
+    each(filterBar.querySelectorAll(".co-filter"), function (b) {
+      var on = b === btn;
+      b.classList.toggle("is-active", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
     });
+    var shown = 0;
+    each(list.querySelectorAll(".co-role"), function (li) {
+      var on = f === "all" || li.getAttribute("data-dept") === f;
+      li.hidden = !on;
+      if (on) shown++;
+    });
+    none.hidden = shown > 0 || !list.querySelector(".co-role");
   });
 
   /* "Apply for this role" picks the role in the form */
-  var select = document.querySelector('.co-form select[name="role"]');
-  each(document.querySelectorAll("[data-apply]"), function (a) {
-    a.addEventListener("click", function (e) {
-      e.preventDefault();
-      if (select) select.value = a.getAttribute("data-apply");
-      var target = document.getElementById("apply");
-      target.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-      setTimeout(function () {
-        var name = document.querySelector('.co-form input[name="name"]');
-        if (name) name.focus({ preventScroll: true });
-      }, 700);
-    });
+  list.addEventListener("click", function (e) {
+    var a = e.target.closest("[data-apply]");
+    if (!a) return;
+    e.preventDefault();
+    var select = document.querySelector('.co-form select[name="role"]');
+    if (select) select.value = a.getAttribute("data-apply");
+    document.getElementById("apply").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    setTimeout(function () {
+      var name = document.querySelector('.co-form input[name="name"]');
+      if (name) name.focus({ preventScroll: true });
+    }, 700);
   });
 
-  // careers.html#site-engineer-civil opens that role
-  var hash = window.location.hash.slice(1);
-  if (hash) {
-    var btn = document.querySelector('[data-apply="' + hash.replace(/[^a-z0-9-]/g, "") + '"]');
+  // careers.html#site-engineer-civil opens that role (built-in or live list)
+  function openFromHash() {
+    var hash = window.location.hash.slice(1).replace(/[^A-Za-z0-9-]/g, "");
+    if (!hash || hash === "apply" || hash === "openings") return;
+    var btn = list.querySelector('[data-apply="' + hash + '"]');
     if (btn) { var det = btn.closest("details"); det.open = true; det.scrollIntoView(); }
   }
+  openFromHash();
+  document.addEventListener("careers:roles", openFromHash);
 })();
