@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,500;1,8..60,600&display=swap">
   <link rel="stylesheet" href="css/style.css?v=ed0b2dbb">
   <link rel="stylesheet" href="css/footer.css?v=a3965185">
-  <link rel="stylesheet" href="css/company.css?v=f4d16a37">
+  <link rel="stylesheet" href="css/company.css?v=9ca03e5c">
 </head>
 <body class="page-company header-solid">
 
@@ -150,7 +150,7 @@
         <p class="co-hero__lead">Engineers, planners, surveyors and site teams who take pride in getting buildings right. Join the people behind 40+ projects across Mumbai and Thane.</p>
         <div class="co-hero__actions">
           <a class="btn btn--navy" href="#openings">See open roles</a>
-          <a class="co-link" href="#apply"><span>Send your CV</span><svg viewBox="0 0 32 12" width="32" height="12" aria-hidden="true"><path d="M0 6h30M25 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
+          <a class="co-link" href="#apply"><span>Send your resume</span><svg viewBox="0 0 32 12" width="32" height="12" aria-hidden="true"><path d="M0 6h30M25 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
         </div>
       </div>
       <dl class="co-inner co-stats">
@@ -217,7 +217,6 @@
             <p class="co-eyebrow" data-reveal><span class="co-eyebrow__rule"></span>Open roles</p>
             <h2 class="co-h2" id="open-title" data-reveal>Current <em>openings.</em></h2>
           </div>
-          <p class="co-sample" role="note">Sample openings shown for layout review. Real openings will replace them before launch.</p>
         </div>
         <div class="co-filters" role="group" aria-label="Filter by team"><button class="co-filter is-active" type="button" data-filter="all" aria-pressed="true">All <span>6</span></button><button class="co-filter" type="button" data-filter="projects" aria-pressed="false">Projects &amp; site execution <span>1</span></button><button class="co-filter" type="button" data-filter="engineering" aria-pressed="false">Engineering &amp; MEP <span>1</span></button><button class="co-filter" type="button" data-filter="planning" aria-pressed="false">Planning, QS &amp; contracts <span>2</span></button><button class="co-filter" type="button" data-filter="procurement" aria-pressed="false">Procurement <span>1</span></button><button class="co-filter" type="button" data-filter="safety" aria-pressed="false">Safety &amp; quality <span>1</span></button></div>
         <ul class="co-roles" data-roles>
@@ -338,9 +337,9 @@
       <div class="co-inner co-register__grid">
         <div class="co-head">
           <p class="co-eyebrow" data-reveal><span class="co-eyebrow__rule"></span>Apply</p>
-          <h2 class="co-h2" id="apply-title" data-reveal>Send us <em>your CV.</em></h2>
+          <h2 class="co-h2" id="apply-title" data-reveal>Send us <em>your resume.</em></h2>
           <p class="co-lead" data-reveal>Apply for an open role, or send a general application and we will keep it on file for the next suitable opening.</p>
-          <p class="co-note" data-reveal>Share your CV as a link (Google Drive, OneDrive or Dropbox) with access set to &ldquo;anyone with the link&rdquo;.</p>
+          
         </div>
 
         <form class="co-form" data-ref="CAR" data-kind="careers" novalidate data-reveal>
@@ -354,9 +353,19 @@
             <label class="co-field"><span>Total experience</span>
               <select name="experience" required><option value="">Select</option><option>Fresher</option><option>Less than 2 years</option><option>2 to 5 years</option><option>5 to 10 years</option><option>More than 10 years</option></select></label>
             <label class="co-field"><span>Current or last company <small>(optional)</small></span><input name="company" autocomplete="organization"></label>
-            <label class="co-field co-field--wide"><span>CV link</span><input name="cv" type="url" required placeholder="https://drive.google.com/..." data-msg="Please paste a full link to your CV, starting with https://"></label>
+            <label class="co-field"><span>Current CTC <small>(&#8377; lakhs per annum)</small></span><input name="current_ctc" inputmode="decimal" required pattern="[0-9]+([.][0-9]{1,2})?" placeholder="e.g. 6.5 (0 if fresher)" data-msg="Please enter your CTC in lakhs, for example 6.5"></label>
+            <label class="co-field"><span>Expected CTC <small>(&#8377; lakhs per annum)</small></span><input name="expected_ctc" inputmode="decimal" required pattern="[0-9]+([.][0-9]{1,2})?" placeholder="e.g. 8" data-msg="Please enter your CTC in lakhs, for example 8"></label>
+            <div class="co-field co-field--wide co-upload">
+              <span id="resume-label">Upload resume</span>
+              <label class="co-upload__drop">
+                <input name="resume" type="file" required accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-labelledby="resume-label" data-max-mb="5" data-msg="Please upload your resume as a PDF or Word file, up to 5 MB.">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                <span class="co-upload__text" data-file-name>Choose a file or drag it here</span>
+                <span class="co-upload__hint">PDF or Word, up to 5 MB</span>
+              </label>
+            </div>
             <label class="co-field co-field--wide"><span>LinkedIn profile <small>(optional)</small></span><input name="linkedin" type="url" placeholder="https://www.linkedin.com/in/..." data-msg="Please enter a full link starting with https://"></label>
-            <label class="co-field co-field--wide"><span>Why Argentec? <small>(optional)</small></span><textarea name="message" rows="3"></textarea></label>
+            <label class="co-field co-field--wide"><span>Any specific thoughts or questions? <small>(optional)</small></span><textarea name="message" rows="3"></textarea></label>
           </div>
           <label class="co-consent"><input type="checkbox" name="consent" required><span>Argentec may store my details for recruitment and contact me about openings.</span></label>
           <p class="co-form__error" role="alert" hidden></p>
@@ -417,7 +426,7 @@
 
   <script src="js/main.js?v=01f91d03"></script>
   <script src="js/expertise.js?v=f1ab59ed"></script>
-  <script src="js/company.js?v=397fd4b9"></script>
+  <script src="js/company.js?v=578e7516"></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://argentec.com/"}, {"@type": "ListItem", "position": 2, "name": "Careers"}]}</script>
 </body>
 </html>

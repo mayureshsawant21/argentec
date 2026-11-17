@@ -7,9 +7,9 @@ Edit this file, then run:
 OPEN ROLES
 ----------
 Each role is a dict. `department` must be one of the keys in DEPARTMENTS.
-Set SAMPLE_ROLES = False once the list holds Argentec's real openings; while
-it is True the page labels the list as sample openings so nobody applies to
-a role that does not exist. An empty ROLES list shows a "no openings right
+The roles below are SAMPLES. Replace them with Argentec's real openings
+and set SAMPLE_ROLES = False; while it is True, the job-posting schema for
+search engines is left out. An empty ROLES list shows a "no openings right
 now" message and keeps the general application form.
 """
 

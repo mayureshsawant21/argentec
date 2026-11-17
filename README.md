@@ -58,7 +58,7 @@ assets/video/           Hero videos: hero-desktop.mp4 (16:9), hero-mobile.mp4 (9
 | Expertise | Mega menu + hub + 7 service pages, shared footer (generated) | Done, content pending approval |
 | Projects | Hub with portfolio stats + filters, 20 project pages with building-wise status (Phase 1) | Done |
 | Phase 2 | Contracting pages in white and silver; Contracting \| Development switch in the header; home entry panels; Development page | Done, copy pending approval |
-| Phase 3 | Vendors page (what we buy, trade packages, registration with GSTIN check); Careers page (teams, filterable openings, CV-link application) | Done, sample roles |
+| Phase 3 | Vendors page (what we buy, trade packages, registration with GSTIN check); Careers page (teams, filterable openings, resume-upload application) | Done, sample roles |
 | Blog | Hub (featured + card grid) and article pages; one sample article (noindex) | Done |
 | About | Lift doors, lobby, 5 floors (incl. Vision & Mission) and the roof (founder), with a lift-panel floor nav | Done |
 

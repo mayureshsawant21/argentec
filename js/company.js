@@ -40,6 +40,33 @@
       var g = e.target.closest(".co-chips");
       if (g) g.classList.remove("is-invalid");
     });
+    // Resume upload: show the chosen file, check type and size
+    var ALLOWED = /\.(pdf|docx?)$/i;
+    function fileProblem(el) {
+      var f = el.files && el.files[0];
+      if (!f) return "";
+      var max = (+el.getAttribute("data-max-mb") || 5) * 1024 * 1024;
+      if (!ALLOWED.test(f.name) || f.size > max) return el.getAttribute("data-msg") || "Please check the file.";
+      return "";
+    }
+    each(form.querySelectorAll('input[type="file"]'), function (el) {
+      var out = el.closest(".co-upload").querySelector("[data-file-name]");
+      var empty = out.textContent;
+      var drop = el.closest(".co-upload__drop");
+      el.addEventListener("change", function () {
+        var f = el.files && el.files[0];
+        out.textContent = f ? f.name + " (" + Math.max(1, Math.round(f.size / 1024)) + " KB)" : empty;
+        drop.classList.toggle("has-file", !!f);
+        var bad = fileProblem(el);
+        el.setCustomValidity(bad);
+        var w = wrap(el);
+        if (w) w.classList.toggle("is-invalid", !!bad);
+        if (bad) { errorOut.textContent = bad; errorOut.hidden = false; } else { errorOut.hidden = true; }
+      });
+      ["dragenter", "dragover"].forEach(function (t) { el.addEventListener(t, function () { drop.classList.add("is-over"); }); });
+      ["dragleave", "drop"].forEach(function (t) { el.addEventListener(t, function () { drop.classList.remove("is-over"); }); });
+    });
+
     // GSTIN is always upper case
     each(form.querySelectorAll('input[name="gst"]'), function (el) {
       el.addEventListener("input", function () { var pos = el.selectionStart; el.value = el.value.toUpperCase(); el.setSelectionRange(pos, pos); });
@@ -77,8 +104,14 @@
         String(Math.floor(1000 + Math.random() * 9000));
       var kind = form.getAttribute("data-kind");
       var data = { reference: ref, form: kind };
+      var hasFile = false;
       each(form.querySelectorAll("input, select, textarea"), function (el) {
         if (el.disabled || !el.name) return;
+        if (el.type === "file") {
+          hasFile = true;
+          data[el.name] = el.files && el.files[0] ? el.files[0].name : "";
+          return;
+        }
         if (el.type === "checkbox" && el.name !== "consent") {
           if (el.checked) (data[el.name] = data[el.name] || []).push(el.value);
         } else if (el.type === "radio") {
@@ -92,12 +125,18 @@
 
       submit.disabled = true;
       var endpoint = FORM_ENDPOINTS[kind];
+      var request;
+      if (hasFile) {
+        // files must go as multipart form data, so the service receives the resume itself
+        var fd = new FormData(form);
+        fd.append("reference", ref);
+        fd.append("form", kind);
+        request = { method: "POST", headers: { Accept: "application/json" }, body: fd };
+      } else {
+        request = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) };
+      }
       var send = endpoint
-        ? fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify(data)
-          }).then(function (r) { if (!r.ok) throw new Error(r.status); })
+        ? fetch(endpoint, request).then(function (r) { if (!r.ok) throw new Error(r.status); })
         : new Promise(function (resolve) {
             if (window.console) console.warn("Argentec " + kind + " form: endpoint is not set, nothing was sent.", data);
             setTimeout(resolve, 500);
@@ -115,6 +154,7 @@
 
     form.querySelector("[data-again]").addEventListener("click", function () {
       form.reset();
+      each(form.querySelectorAll('input[type="file"]'), function (el) { el.setCustomValidity(""); el.dispatchEvent(new Event("change")); });
       clear();
       form.classList.remove("is-done");
       done.hidden = true;

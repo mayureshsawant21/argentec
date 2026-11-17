@@ -138,7 +138,6 @@ body.page-company { background: var(--white); color: var(--co-ink); }
 .co-dept span { font-family: var(--font-display); font-size: clamp(1.2rem, 1.6vw, 1.5rem); font-weight: 600; }
 .co-dept b { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy); white-space: nowrap; }
 
-.co-sample { max-width: 34ch; margin: 0; padding: 0.75rem 1rem; border: 1px dashed var(--co-silver-4); font-size: 0.8125rem; line-height: 1.5; color: var(--co-muted); }
 .co-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.75rem; }
 .co-filter { padding: 0.65rem 1rem; border: 1px solid var(--co-line); background: var(--white); color: var(--co-ink); font: 600 0.75rem/1 var(--font-ui); letter-spacing: 0.06em; cursor: pointer; transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
 .co-filter span { margin-left: 0.35rem; color: var(--co-silver-4); }
@@ -257,3 +256,28 @@ body.page-company { background: var(--white); color: var(--co-ink); }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal], .co-hero__title, .co-hero__lead, .co-hero__actions, .co-hero .co-eyebrow, .co-hero .xp-crumbs { opacity: 1; transform: none; transition: none; }
 }
+
+/* Resume upload: the whole box is the file input, so clicking and
+   dropping a file both work natively */
+.co-upload > span { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; }
+.co-upload__drop {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 1.5rem 1rem;
+  border: 1px dashed var(--co-silver-4);
+  background: var(--co-silver-1);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.co-upload__drop input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.co-upload__drop svg { width: 26px; height: 26px; fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.4s var(--ease-out); }
+.co-upload__text { font-size: 0.9375rem; font-weight: 600; color: var(--co-ink); word-break: break-all; }
+.co-upload__hint { font-size: 0.8125rem; color: var(--co-muted); }
+.co-upload__drop:hover, .co-upload__drop.is-over { border-color: var(--navy); background: var(--white); }
+.co-upload__drop:hover svg, .co-upload__drop.is-over svg { transform: translateY(-3px); }
+.co-upload__drop:focus-within { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(25, 67, 118, 0.12); }
+.co-upload__drop.has-file { border-style: solid; border-color: var(--navy); background: var(--white); }
+.co-upload.is-invalid .co-upload__drop { border-color: #b3261e; box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.1); }

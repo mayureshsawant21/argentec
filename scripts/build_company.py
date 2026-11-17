@@ -273,9 +273,7 @@ def careers(header_markup):
                      "needs": "".join("<li>%s</li>" % esc(x) for x in r["needs"]), "type": esc(r["type"]), "slug": r["slug"]}
         for r in D.ROLES)
     if not D.ROLES:
-        roles = '          <li class="co-empty">There are no open roles right now. Send a general application below and we will keep your CV on file.</li>'
-    sample = ('<p class="co-sample" role="note">Sample openings shown for layout review. Real openings will replace them before launch.</p>'
-              if D.SAMPLE_ROLES and D.ROLES else "")
+        roles = '          <li class="co-empty">There are no open roles right now. Send a general application below and we will keep your resume on file.</li>'
     role_opts = "".join('<option value="%s">%s</option>' % (r["slug"], esc(r["title"])) for r in D.ROLES)
     jobs_ld = [] if D.SAMPLE_ROLES else [{
         "@context": "https://schema.org", "@type": "JobPosting", "title": r["title"], "description": r["summary"],
@@ -298,7 +296,7 @@ def careers(header_markup):
         <p class="co-hero__lead">Engineers, planners, surveyors and site teams who take pride in getting buildings right. Join the people behind 40+ projects across Mumbai and Thane.</p>
         <div class="co-hero__actions">
           <a class="btn btn--navy" href="#openings">See open roles</a>
-          <a class="co-link" href="#apply"><span>Send your CV</span>%(arrow)s</a>
+          <a class="co-link" href="#apply"><span>Send your resume</span>%(arrow)s</a>
         </div>
       </div>
       <dl class="co-inner co-stats">
@@ -338,7 +336,6 @@ def careers(header_markup):
             <p class="co-eyebrow" data-reveal><span class="co-eyebrow__rule"></span>Open roles</p>
             <h2 class="co-h2" id="open-title" data-reveal>Current <em>openings.</em></h2>
           </div>
-          %(sample)s
         </div>
         <div class="co-filters" role="group" aria-label="Filter by team">%(chips)s</div>
         <ul class="co-roles" data-roles>
@@ -352,9 +349,9 @@ def careers(header_markup):
       <div class="co-inner co-register__grid">
         <div class="co-head">
           <p class="co-eyebrow" data-reveal><span class="co-eyebrow__rule"></span>Apply</p>
-          <h2 class="co-h2" id="apply-title" data-reveal>Send us <em>your CV.</em></h2>
+          <h2 class="co-h2" id="apply-title" data-reveal>Send us <em>your resume.</em></h2>
           <p class="co-lead" data-reveal>Apply for an open role, or send a general application and we will keep it on file for the next suitable opening.</p>
-          <p class="co-note" data-reveal>Share your CV as a link (Google Drive, OneDrive or Dropbox) with access set to &ldquo;anyone with the link&rdquo;.</p>
+          
         </div>
 
         <form class="co-form" data-ref="CAR" data-kind="careers" novalidate data-reveal>
@@ -368,9 +365,19 @@ def careers(header_markup):
             <label class="co-field"><span>Total experience</span>
               <select name="experience" required><option value="">Select</option><option>Fresher</option><option>Less than 2 years</option><option>2 to 5 years</option><option>5 to 10 years</option><option>More than 10 years</option></select></label>
             <label class="co-field"><span>Current or last company <small>(optional)</small></span><input name="company" autocomplete="organization"></label>
-            <label class="co-field co-field--wide"><span>CV link</span><input name="cv" type="url" required placeholder="https://drive.google.com/..." data-msg="Please paste a full link to your CV, starting with https://"></label>
+            <label class="co-field"><span>Current CTC <small>(&#8377; lakhs per annum)</small></span><input name="current_ctc" inputmode="decimal" required pattern="[0-9]+([.][0-9]{1,2})?" placeholder="e.g. 6.5 (0 if fresher)" data-msg="Please enter your CTC in lakhs, for example 6.5"></label>
+            <label class="co-field"><span>Expected CTC <small>(&#8377; lakhs per annum)</small></span><input name="expected_ctc" inputmode="decimal" required pattern="[0-9]+([.][0-9]{1,2})?" placeholder="e.g. 8" data-msg="Please enter your CTC in lakhs, for example 8"></label>
+            <div class="co-field co-field--wide co-upload">
+              <span id="resume-label">Upload resume</span>
+              <label class="co-upload__drop">
+                <input name="resume" type="file" required accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-labelledby="resume-label" data-max-mb="5" data-msg="Please upload your resume as a PDF or Word file, up to 5 MB.">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                <span class="co-upload__text" data-file-name>Choose a file or drag it here</span>
+                <span class="co-upload__hint">PDF or Word, up to 5 MB</span>
+              </label>
+            </div>
             <label class="co-field co-field--wide"><span>LinkedIn profile <small>(optional)</small></span><input name="linkedin" type="url" placeholder="https://www.linkedin.com/in/..." data-msg="Please enter a full link starting with https://"></label>
-            <label class="co-field co-field--wide"><span>Why Argentec? <small>(optional)</small></span><textarea name="message" rows="3"></textarea></label>
+            <label class="co-field co-field--wide"><span>Any specific thoughts or questions? <small>(optional)</small></span><textarea name="message" rows="3"></textarea></label>
           </div>
           <label class="co-consent"><input type="checkbox" name="consent" required><span>Argentec may store my details for recruitment and contact me about openings.</span></label>
           <p class="co-form__error" role="alert" hidden></p>
@@ -388,7 +395,7 @@ def careers(header_markup):
 </body>
 </html>
 """ % {"header": page_header(header_markup, p, "careers"), "crumbs": crumbs, "arrow": ARROW, "stats": stats(D.CAREER_STATS),
-       "why": why, "depts": depts, "sample": sample, "chips": "".join(chips), "roles": roles, "role_opts": role_opts,
+       "why": why, "depts": depts, "chips": "".join(chips), "roles": roles, "role_opts": role_opts,
        "done": done_panel("Application received.", "Thank you. Our team reviews every application and will contact you if your profile matches an opening.", "Send another application"),
        "footer": footer(p), "scripts": scripts(p), "crumbs_ld": crumbs_ld,
        "jobs_ld": "".join('\n  <script type="application/ld+json">%s</script>' % json.dumps(j, ensure_ascii=False) for j in jobs_ld)}
