@@ -334,3 +334,9 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--n
   .page-list li > .muted { display: none; }
   .page-editor__bar { top: 0; }
 }
+
+/* Launch */
+.launch-state { margin: 0 0 1rem; font-weight: 500; }
+.launch-state.is-live { color: var(--navy); }
+.launch-state.is-hidden { color: var(--ink); }
+.launch-card .check.field { align-self: end; margin-bottom: 1.4rem; }

@@ -34,6 +34,10 @@ $byRole = can('careers') ? rows("SELECT COALESCE(designation,'General applicatio
 
 page_start('Dashboard', 'dashboard', '', 'Welcome back, ' . h(explode(' ', $u['name'])[0]) . '. Here is what came in recently.');
 ?>
+<?php [$lOn, $lTs, $lLive] = launch_info(); if (!$lLive): $left = $lTs - time(); ?>
+<div class="alert alert--info launch-banner"><b>The website is hidden.</b> Visitors see the countdown; it opens automatically on <?= h(date('j M Y, g:i A', $lTs)) ?> IST (in <?= $left >= 86400 ? floor($left / 86400) . ' days ' : '' ?><?= floor($left % 86400 / 3600) ?> h <?= floor($left % 3600 / 60) ?> min).
+  <?php if (can('settings')): ?><a href="settings.php#launch">Launch settings</a> · <?php endif; ?><a href="../?preview=coming-soon" target="_blank" rel="noopener">See the countdown page</a></div>
+<?php endif; ?>
 <section class="stats">
 <?php foreach ($cards as $f => $c): ?>
   <a class="stat" href="submissions.php?form=<?= h($f) ?>">

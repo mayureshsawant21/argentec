@@ -21,6 +21,11 @@ return [
         'password' => 'Argentec@123',
     ],
 
+    // Launch: until this moment (Indian time) visitors see the
+    // under-construction page with a countdown. Change it in the admin panel
+    // (Settings → Launch); this is only the starting value.
+    'launch_at'      => '2026-11-28 10:00',
+
     'timezone'       => 'Asia/Kolkata',
     'max_resume_mb'  => 5,
     'max_media_mb'   => 25,

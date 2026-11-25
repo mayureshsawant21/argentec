@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Under-construction page (admin/inc/coming-soon.php, served by launch.php)
+   Navy with a blueprint grid; the Argentec badge hangs from a tower crane.
+   ========================================================================== */
+:root {
+  --navy: #194376; --deep: #0b1d36; --deeper: #071427; --silver: #c5ccd6; --silver-2: #e3e7ed; --muted: #93a0b2;
+  --font-display: "Source Serif 4", Georgia, serif; --font-ui: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body.cs {
+  margin: 0;
+  min-height: 100vh; min-height: 100svh;
+  overflow-x: hidden;
+  background: radial-gradient(70% 60% at 75% 35%, rgba(25, 67, 118, 0.55), rgba(25, 67, 118, 0) 70%), linear-gradient(180deg, var(--deep) 0%, var(--deeper) 100%);
+  color: #fff;
+  font: 400 1rem/1.6 var(--font-ui);
+}
+[hidden] { display: none !important; }
+.cs-grid {
+  position: fixed; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(197, 204, 214, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(197, 204, 214, 0.06) 1px, transparent 1px),
+    linear-gradient(rgba(197, 204, 214, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(197, 204, 214, 0.025) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, #000 30%, transparent 85%);
+  mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, #000 30%, transparent 85%);
+}
+.cs-preview { position: relative; z-index: 2; padding: 0.55rem 1rem; background: #fff; color: var(--deep); font-size: 0.8rem; font-weight: 600; text-align: center; }
+.cs-preview a { color: var(--navy); }
+
+.cs-main {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(1rem, 4vw, 4rem);
+  align-items: center;
+  min-height: 100vh; min-height: 100svh;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 6vw, 7rem);
+}
+
+/* Copy ------------------------------------------------------------------- */
+.cs-copy > * { opacity: 0; transform: translateY(18px); animation: cs-in 1s var(--ease) forwards; }
+.cs-copy > :nth-child(2) { animation-delay: 0.1s; }
+.cs-copy > :nth-child(3) { animation-delay: 0.2s; }
+.cs-copy > :nth-child(4) { animation-delay: 0.3s; }
+.cs-copy > :nth-child(5) { animation-delay: 0.45s; }
+.cs-copy > :nth-child(n+6) { animation-delay: 0.6s; }
+@keyframes cs-in { to { opacity: 1; transform: none; } }
+.cs-word { display: block; width: 64px; height: 64px; margin-bottom: clamp(1.5rem, 4vw, 2.5rem); border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08); }
+.cs-eyebrow { display: flex; align-items: center; gap: 0.9rem; margin: 0 0 1.25rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--silver); }
+.cs-eyebrow span { width: 44px; height: 1px; background: currentColor; }
+.cs-title { margin: 0; font-family: var(--font-display); font-size: clamp(2.6rem, 5.6vw, 5.4rem); font-weight: 600; line-height: 1; letter-spacing: -0.025em; }
+.cs-title em { font-style: italic; font-weight: 500; color: var(--silver); }
+.cs-lead { max-width: 44ch; margin: 1.5rem 0 0; font-size: clamp(1rem, 1.25vw, 1.125rem); color: rgba(255, 255, 255, 0.78); }
+.cs-lead strong { color: #fff; font-weight: 600; }
+
+/* Countdown -------------------------------------------------------------- */
+.cs-count { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(0.5rem, 1.2vw, 0.9rem); max-width: 520px; margin: clamp(2rem, 4vw, 2.75rem) 0 0; }
+.cs-count > div { display: grid; justify-items: center; gap: 0.35rem; padding: clamp(0.9rem, 2vw, 1.3rem) 0.4rem; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(197, 204, 214, 0.22); border-radius: 4px; backdrop-filter: blur(2px); }
+.cs-count b { font-family: var(--font-display); font-size: clamp(2rem, 4.4vw, 3.4rem); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
+.cs-count b.tick { animation: cs-tick 0.45s var(--ease); }
+@keyframes cs-tick { from { opacity: 0.35; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.cs-count span { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.cs-live { margin: 1.25rem 0 0; font-weight: 600; color: #fff; }
+.is-live .cs-count > div { border-color: #fff; background: rgba(255, 255, 255, 0.12); }
+.cs-progress { max-width: 520px; height: 2px; margin-top: 1.5rem; background: rgba(197, 204, 214, 0.18); overflow: hidden; }
+.cs-progress span { display: block; height: 100%; background: var(--silver-2); transform-origin: left; transform: scaleX(0.04); transition: transform 1s linear; }
+.cs-foot { margin: 2.5rem 0 0; font-size: 0.78rem; color: var(--muted); }
+
+/* Crane ------------------------------------------------------------------ */
+.cs-crane { margin: 0; color: var(--silver); opacity: 0; animation: cs-in 1.2s var(--ease) 0.3s forwards; }
+.cs-crane svg { display: block; width: 100%; height: auto; max-height: 86vh; overflow: visible; }
+.cs-steel path, .cs-steel rect { fill: none; stroke: currentColor; stroke-width: 1.6; }
+.cs-steel rect[fill] { fill: url(#lattice); stroke: none; }
+.cs-steel rect[fill="url(#jib)"] { fill: url(#jib); }
+.cs-steel .cs-tie { stroke-width: 1; opacity: 0.6; }
+.cs-steel .cs-cab { fill: rgba(197, 204, 214, 0.15); }
+.cs-steel .cs-weight { fill: rgba(197, 204, 214, 0.35); }
+.cs-beacon { fill: #ff5a4f; stroke: none; animation: cs-beacon 1.6s steps(2) infinite; }
+@keyframes cs-beacon { 50% { opacity: 0.15; } }
+.cs-ground { stroke: rgba(197, 204, 214, 0.45); stroke-width: 1.2; }
+.cs-building rect, .cs-building path { fill: none; stroke: rgba(197, 204, 214, 0.35); stroke-width: 1; }
+.cs-building .cs-rebar { stroke-dasharray: 3 3; }
+.cs-building { animation: cs-rise 2.4s var(--ease) 0.6s both; transform-origin: 395px 540px; }
+@keyframes cs-rise { from { transform: scaleY(0); } to { transform: none; } }
+
+.cs-trolley { animation: cs-travel 16s ease-in-out infinite alternate; }
+@keyframes cs-travel { 0% { transform: translateX(470px); } 100% { transform: translateX(330px); } }
+.cs-trolley__box { fill: var(--silver-2); }
+.cs-cable { stroke: var(--silver); stroke-width: 1.2; }
+.cs-hook { fill: var(--silver-2); }
+.cs-sling { fill: none; stroke: var(--silver); stroke-width: 1.2; }
+.cs-badge { fill: #fff; stroke: rgba(255, 255, 255, 0.25); stroke-width: 6; }
+.cs-load { transform-origin: 0 132px; animation: cs-lower 2.6s var(--ease) 0.4s both, cs-sway 5s ease-in-out 3s infinite; }
+@keyframes cs-lower { from { transform: translateY(-190px); } to { transform: none; } }
+@keyframes cs-sway { 0%, 100% { transform: rotate(1.6deg); } 50% { transform: rotate(-1.6deg); } }
+.is-live .cs-load { animation: cs-up 1.6s var(--ease) forwards; }
+@keyframes cs-up { to { transform: translateY(-170px); } }
+
+/* Responsive ------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .cs-main { grid-template-columns: 1fr; align-content: start; gap: 0; padding-top: 1.5rem; }
+  .cs-crane { order: -1; width: min(100%, 460px); margin: 0 auto 1.5rem; }
+  .cs-crane svg { max-height: 44vh; }
+  .cs-word { display: none; }
+}
+@media (max-width: 420px) {
+  .cs-count { gap: 0.4rem; }
+  .cs-count span { font-size: 0.58rem; letter-spacing: 0.12em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-copy > *, .cs-crane { opacity: 1; transform: none; animation: none; }
+  .cs-trolley { animation: none; transform: translateX(420px); }
+  .cs-load, .cs-building, .cs-beacon { animation: none; }
+}
