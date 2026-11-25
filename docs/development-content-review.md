@@ -10,4 +10,4 @@ with Argentec before the page goes live.
 - [ ] Why Navi Mumbai: planned city; Navi Mumbai International Airport; Atal Setu (Mumbai Trans Harbour Link).
 - [ ] Redevelopment steps describe a typical process, not a commitment.
 - [ ] Disclaimer wording (no project offered for sale; MahaRERA numbers to follow) reviewed by legal.
-- [ ] Where registrations should be delivered (set `FORM_ENDPOINT` in `js/development.js`).
+- [ ] Who should receive registration emails (admin panel → Settings → Email notifications).

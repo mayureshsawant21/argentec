@@ -1,0 +1,12 @@
+
+# Admin panel: live data stays on the server, never in the repository
+admin/data/*
+!admin/data/.htaccess
+!admin/data/index.html
+!admin/data/README.txt
+assets/uploads/*
+!assets/uploads/.htaccess
+!assets/uploads/index.html
+
+# Python
+__pycache__/

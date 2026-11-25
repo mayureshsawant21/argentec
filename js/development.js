@@ -1,13 +1,7 @@
 /* Development page: register-interest form (role switches the fields,
-   validation, submission) and the hero entrance.
-
-   FORM DELIVERY: set FORM_ENDPOINT to a form service URL (for example a
-   Formspree or Web3Forms endpoint). While it is empty the form validates and
-   shows the thank-you state, but nothing is sent anywhere. */
+   validation, submission to the site backend via window.ArgentecForms). */
 (function () {
   "use strict";
-
-  var FORM_ENDPOINT = "";
 
   var form = document.getElementById("dv-form");
   if (!form) return;
@@ -71,12 +65,6 @@
     if (w && e.target.checkValidity()) { w.classList.remove("is-invalid"); e.target.removeAttribute("aria-invalid"); }
   });
 
-  function newRef() {
-    var d = new Date();
-    var ymd = String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
-    return "ADV-" + ymd + "-" + String(Math.floor(1000 + Math.random() * 9000));
-  }
-
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     clearErrors();
@@ -91,32 +79,23 @@
       return;
     }
 
-    var ref = newRef();
-    var data = { reference: ref, role: role(), page: "development" };
+    var data = { role: role() };
     Array.prototype.forEach.call(form.querySelectorAll("input, select, textarea"), function (el) {
       if (el.disabled || el.name === "role") return;
-      data[el.name] = el.type === "checkbox" ? el.checked : el.value.trim();
+      data[el.name] = el.type === "checkbox" ? (el.checked ? "yes" : "") : el.value.trim();
     });
 
     submit.disabled = true;
-    var send = FORM_ENDPOINT
-      ? fetch(FORM_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data)
-        }).then(function (r) { if (!r.ok) throw new Error(r.status); })
-      : new Promise(function (resolve) {
-          if (window.console) console.warn("Argentec development form: FORM_ENDPOINT is not set, registration not sent.", data);
-          setTimeout(resolve, 500);
-        });
+    var send = window.ArgentecForms.send("development", data);
 
-    send.then(function () {
+    send.then(function (ref) {
       refOut.textContent = ref;
       form.classList.add("is-done");
       done.hidden = false;
       done.focus();
-    }).catch(function () {
-      errorOut.textContent = "Something went wrong while sending. Please try again in a moment.";
+    }).catch(function (err) {
+      if (window.console) console.error("Development form:", err);
+      errorOut.textContent = (err && err.userMessage) || "Something went wrong while sending. Please try again in a moment.";
       errorOut.hidden = false;
     }).then(function () { submit.disabled = false; });
   });

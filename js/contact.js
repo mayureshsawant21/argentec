@@ -1,14 +1,8 @@
 /* Contact page: enquiry type switches the docket's fields, validation,
-   careers redirect, and submission.
-
-   FORM DELIVERY: set FORM_ENDPOINT to a form service URL (for example a
-   Formspree or Web3Forms endpoint) to receive enquiries by email. While it
-   is empty the form validates and shows the "Received" state, but nothing
-   is sent anywhere. */
+   careers redirect, and submission to the site backend (api/submit.php
+   via window.ArgentecForms in main.js). */
 (function () {
   "use strict";
-
-  var FORM_ENDPOINT = "";
 
   var body = document.body;
   body.classList.add("is-ready");
@@ -37,12 +31,7 @@
   var scoped = Array.prototype.slice.call(form.querySelectorAll("[data-for]"));
   var current = null;
 
-  /* Enquiry ID: created when the enquiry is sent, e.g. ARG-261012-4821 */
-  function newRef() {
-    var d = new Date();
-    var ymd = String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
-    return "ARG-" + ymd + "-" + String(Math.floor(1000 + Math.random() * 9000));
-  }
+  /* Enquiry ID: issued by the server when the enquiry is saved, e.g. ARG-261125-4821 */
   var ref = "";
 
   /* Type selection */
@@ -169,23 +158,15 @@
     if (!validate()) return;
 
     var btn = form.querySelector(".docket__btn");
-    ref = newRef();
+    ref = "";
     var data = collect();
+    delete data.reference;
+    data.enquiry_key = current;
     btn.disabled = true;
     btn.firstElementChild.textContent = "Sending…";
 
-    var send = FORM_ENDPOINT
-      ? fetch(FORM_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data)
-        }).then(function (r) { if (!r.ok) throw new Error(r.status); })
-      : new Promise(function (resolve) {
-          if (window.console) console.warn("Argentec contact form: FORM_ENDPOINT is not set, enquiry not sent.", data);
-          setTimeout(resolve, 600);
-        });
-
-    send.then(function () {
+    window.ArgentecForms.send("contact", data).then(function (serverRef) {
+      ref = serverRef;
       document.getElementById("done-name").textContent = (data.name || "").split(" ")[0] || "there";
       document.getElementById("done-ref").textContent = ref;
       copyLabel.textContent = "Copy";
@@ -194,8 +175,9 @@
       fields.hidden = true;
       done.hidden = false;
       done.focus();
-    }).catch(function () {
-      errorOut.textContent = "Your enquiry couldn't be sent. Check your connection and try again.";
+    }).catch(function (err) {
+      if (window.console) console.error("Contact form:", err);
+      errorOut.textContent = (err && err.userMessage) || "Your enquiry couldn't be sent. Check your connection and try again.";
       errorOut.hidden = false;
     }).then(function () {
       btn.disabled = false;

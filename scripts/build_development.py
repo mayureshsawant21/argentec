@@ -72,7 +72,7 @@ def dev_footer():
     f = f.replace('<footer class="site-footer">', '<footer class="site-footer site-footer--dev">', 1)
     f = f.replace('<a class="btn btn--navy site-footer__cta" href="../contact.html?type=development">Start a project</a>',
                   '<a class="btn dv-btn dv-btn--gold site-footer__cta" href="#register">Register interest</a>', 1)
-    f = f.replace("<span>Contracting arm of Paradigm Realty</span>", "<span>Argentec Development &middot; Navi Mumbai</span>", 1)
+    f = f.replace('<span data-cms="footer-note">Contracting arm of Paradigm Realty</span>', '<span data-cms="footer-dev-note">Argentec Development &middot; Navi Mumbai</span>', 1)
     return f
 
 
@@ -168,6 +168,7 @@ def form():
             <label class="dv-field dv-field--wide"><span>Anything else? <small>(optional)</small></span><textarea name="message" rows="3"></textarea></label>
           </div>
 
+          <div class="hp" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
           <label class="dv-consent"><input type="checkbox" name="consent" required><span>I agree to be contacted by Argentec about its development projects.</span></label>
           <p class="dv-form__error" id="dv-error" role="alert" hidden></p>
           <button class="dv-btn dv-btn--gold dv-form__submit" type="submit"><span>Register interest</span>%(arrow)s</button>
@@ -355,7 +356,7 @@ def review_doc():
         "- [ ] Why Navi Mumbai: planned city; Navi Mumbai International Airport; Atal Setu (Mumbai Trans Harbour Link).",
         "- [ ] Redevelopment steps describe a typical process, not a commitment.",
         "- [ ] Disclaimer wording (no project offered for sale; MahaRERA numbers to follow) reviewed by legal.",
-        "- [ ] Where registrations should be delivered (set `FORM_ENDPOINT` in `js/development.js`).",
+        "- [ ] Who should receive registration emails (admin panel → Settings → Email notifications).",
         "",
     ]
     return "\n".join(lines)

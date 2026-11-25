@@ -9,6 +9,9 @@ Run after editing CSS/JS or after the build scripts:
 import hashlib
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LINK = re.compile(r'((?:href|src)=")((?:\.\./)?(?:css|js)/[\w.-]+\.(?:css|js))(?:\?v=[0-9a-f]+)?(")')
@@ -20,9 +23,12 @@ def digest(path):
 
 
 def main():
+    # mark editable content for the admin panel first (scripts/cms_tags.py)
+    import cms_tags
+    cms_tags.main()
     changed = 0
     for dirpath, _, files in os.walk(ROOT):
-        if "/.git" in dirpath or "/assets" in dirpath:
+        if "/.git" in dirpath or "/assets" in dirpath or "/admin" in dirpath or "/data" in dirpath:
             continue
         for name in files:
             if not name.endswith(".html"):

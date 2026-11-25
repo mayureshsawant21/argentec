@@ -203,6 +203,7 @@ def vendors(header_markup):
             <label class="co-field co-field--wide"><span>Recent clients or projects <small>(optional)</small></span><textarea name="references" rows="3"></textarea></label>
           </div>
 
+          <div class="hp" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
           <label class="co-consent"><input type="checkbox" name="consent" required><span>The details above are correct, and Argentec may contact me about procurement.</span></label>
           <p class="co-form__error" role="alert" hidden></p>
           <button class="btn btn--navy co-form__submit" type="submit">Submit registration</button>
@@ -324,7 +325,9 @@ def careers(header_markup):
           <p class="co-lead" data-reveal>From the head office in Khar West to sites across the city, every team works toward the same handover.</p>
         </div>
         <ul class="co-depts">
+<!-- cms:teams -->
 %(depts)s
+<!-- /cms:teams -->
         </ul>
       </div>
     </section>
@@ -337,10 +340,12 @@ def careers(header_markup):
             <h2 class="co-h2" id="open-title" data-reveal>Current <em>openings.</em></h2>
           </div>
         </div>
+        <!-- cms:roles -->
         <div class="co-filters" role="group" aria-label="Filter by team">%(chips)s</div>
         <ul class="co-roles" data-roles>
 %(roles)s
         </ul>
+        <!-- /cms:roles -->
         <p class="co-roles__none" hidden>No openings in this team right now.</p>
       </div>
     </section>
@@ -357,7 +362,7 @@ def careers(header_markup):
         <form class="co-form" data-ref="CAR" data-kind="careers" novalidate data-reveal>
           <div class="co-fields">
             <label class="co-field co-field--wide"><span>Role</span>
-              <select name="role" required><option value="general">General application</option>%(role_opts)s</select></label>
+              <select name="role" required><!-- cms:role-options --><option value="general">General application</option>%(role_opts)s<!-- /cms:role-options --></select></label>
             <label class="co-field"><span>Full name</span><input name="name" autocomplete="name" required></label>
             <label class="co-field"><span>Mobile number</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9+ \\(\\)\\-]{10,16}"></label>
             <label class="co-field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
@@ -379,6 +384,7 @@ def careers(header_markup):
             <label class="co-field co-field--wide"><span>LinkedIn profile</span><input name="linkedin" type="url" required placeholder="https://www.linkedin.com/in/..." data-msg="Please enter a full link starting with https://"></label>
             <label class="co-field co-field--wide"><span>Any specific thoughts or questions? <small>(optional)</small></span><textarea name="message" rows="3"></textarea></label>
           </div>
+          <div class="hp" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
           <label class="co-consent"><input type="checkbox" name="consent" required><span>Argentec may store my details for recruitment and contact me about openings.</span></label>
           <p class="co-form__error" role="alert" hidden></p>
           <button class="btn btn--navy co-form__submit" type="submit">Submit application</button>
@@ -391,7 +397,7 @@ def careers(header_markup):
 %(footer)s
 
 %(scripts)s
-  %(crumbs_ld)s%(jobs_ld)s
+  %(crumbs_ld)s<!-- cms:jobs-ld -->%(jobs_ld)s<!-- /cms:jobs-ld -->
 </body>
 </html>
 """ % {"header": page_header(header_markup, p, "careers"), "crumbs": crumbs, "arrow": ARROW, "stats": stats(D.CAREER_STATS),

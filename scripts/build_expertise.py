@@ -135,7 +135,7 @@ def footer(prefix):
     <div class="site-footer__inner">
       <div class="site-footer__brand">
         <a class="site-footer__logo" href="%(p)sindex.html" aria-label="Argentec home"><img src="%(p)sassets/img/argentec-logo.svg" alt="" width="64" height="64"><span>Argentec</span></a>
-        <p>Shaping the foundation of growth.</p>
+        <p data-cms="footer-tagline">Shaping the foundation of growth.</p>
         <a class="btn btn--navy site-footer__cta" href="%(p)scontact.html?type=development">Start a project</a>
       </div>
       <nav class="site-footer__col" aria-label="Expertise">
@@ -157,12 +157,12 @@ def footer(prefix):
       </nav>
       <div class="site-footer__col">
         <p class="site-footer__title">Head office</p>
-        <address>Office No. 401&ndash;404, 4th Floor<br>Prabhat Chambers, SV Road<br>Khar West, Mumbai 400052</address>
+        <address data-cms="footer-address">Office No. 401&ndash;404, 4th Floor<br>Prabhat Chambers, SV Road<br>Khar West, Mumbai 400052</address>
       </div>
     </div>
     <div class="site-footer__base">
       <span>&copy; <span data-year>2026</span> Argentec Infrastructure Limited. All rights reserved.</span>
-      <span>Contracting arm of Paradigm Realty</span>
+      <span data-cms="footer-note">Contracting arm of Paradigm Realty</span>
     </div>
   </footer>""" % {"p": prefix, "services": services}
 

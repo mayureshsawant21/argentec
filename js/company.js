@@ -1,13 +1,9 @@
-/* Vendors and Careers pages: form validation and submission, the role
-   filter and "Apply for this role" on Careers.
-
-   FORM DELIVERY: set an endpoint per form below (for example a Formspree
-   or Web3Forms URL). While a value is empty the form validates and shows
-   its thank-you state, but nothing is sent anywhere. */
+/* Vendors and Careers pages: form validation and submission (to the site
+   backend via window.ArgentecForms), the role filter and "Apply for this
+   role" on Careers. */
 (function () {
   "use strict";
 
-  var FORM_ENDPOINTS = { vendor: "", careers: "" };
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function each(list, fn) { Array.prototype.forEach.call(list, fn); }
@@ -98,57 +94,36 @@
         return;
       }
 
-      var d = new Date();
-      var ref = form.getAttribute("data-ref") + "-" + String(d.getFullYear()).slice(2) +
-        String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0") + "-" +
-        String(Math.floor(1000 + Math.random() * 9000));
       var kind = form.getAttribute("data-kind");
-      var data = { reference: ref, form: kind };
-      var hasFile = false;
+      var data = {}, files = {};
       each(form.querySelectorAll("input, select, textarea"), function (el) {
         if (el.disabled || !el.name) return;
         if (el.type === "file") {
-          hasFile = true;
-          data[el.name] = el.files && el.files[0] ? el.files[0].name : "";
-          return;
-        }
-        if (el.type === "checkbox" && el.name !== "consent") {
+          if (el.files && el.files[0]) files[el.name] = el.files[0];
+        } else if (el.type === "checkbox" && el.name !== "consent") {
           if (el.checked) (data[el.name] = data[el.name] || []).push(el.value);
         } else if (el.type === "radio") {
           if (el.checked) data[el.name] = el.value;
         } else if (el.type === "checkbox") {
-          data[el.name] = el.checked;
+          data[el.name] = el.checked ? "yes" : "";
         } else {
           data[el.name] = el.value.trim();
         }
       });
+      // the role select sends its visible title too, for the admin's designation filter
+      var roleSel = form.querySelector('select[name="role"]');
+      if (roleSel) data.role_title = roleSel.options[roleSel.selectedIndex].text;
 
       submit.disabled = true;
-      var endpoint = FORM_ENDPOINTS[kind];
-      var request;
-      if (hasFile) {
-        // files must go as multipart form data, so the service receives the resume itself
-        var fd = new FormData(form);
-        fd.append("reference", ref);
-        fd.append("form", kind);
-        request = { method: "POST", headers: { Accept: "application/json" }, body: fd };
-      } else {
-        request = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) };
-      }
-      var send = endpoint
-        ? fetch(endpoint, request).then(function (r) { if (!r.ok) throw new Error(r.status); })
-        : new Promise(function (resolve) {
-            if (window.console) console.warn("Argentec " + kind + " form: endpoint is not set, nothing was sent.", data);
-            setTimeout(resolve, 500);
-          });
-      send.then(function () {
+      var send = window.ArgentecForms.send(kind, data, files);
+      send.then(function (ref) {
         form.querySelector("[data-ref-out]").textContent = ref;
         form.classList.add("is-done");
         done.hidden = false;
         done.focus();
       }).catch(function (err) {
         if (window.console) console.error("Argentec " + kind + " form:", err);
-        errorOut.textContent = "Something went wrong while sending. Please try again in a moment.";
+        errorOut.textContent = (err && err.userMessage) || "Something went wrong while sending. Please try again in a moment.";
         errorOut.hidden = false;
       }).then(function () { submit.disabled = false; });
     });

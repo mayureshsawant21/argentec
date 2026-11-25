@@ -483,3 +483,6 @@ body.page-dev { background: var(--dv-ivory); color: var(--dv-ink); }
   .dv-rings__c, .dv-rings__cross { stroke-dashoffset: 0; transition: none; }
   .dv-rings__ticks, .dv-rings__pulse { animation: none; }
 }
+
+/* spam trap: hidden from people, filled in by bots */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }

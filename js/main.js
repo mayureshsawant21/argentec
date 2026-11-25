@@ -231,3 +231,53 @@
     });
   });
 })();
+
+/* ==========================================================================
+   Forms: one endpoint for every form on the site (api/submit.php, handled
+   by the admin panel's backend). Used by contact.js, development.js and
+   company.js. Resolves with the reference number issued by the server, and
+   reports the conversion to Google Tag Manager / GA4 / Meta Pixel when
+   those are installed from the admin panel's Tracking settings.
+   ========================================================================== */
+(function () {
+  "use strict";
+  var loadedAt = Date.now();
+  var me = document.querySelector('script[src*="js/main.js"]');
+  var root = me ? me.src.replace(/js\/main\.js.*$/, "") : "/";
+
+  function send(kind, fields, files) {
+    var fd = new FormData();
+    fd.append("form", kind);
+    fd.append("_elapsed", String(Math.round((Date.now() - loadedAt) / 1000)));
+    fd.append("_page", window.location.pathname);
+    Object.keys(fields || {}).forEach(function (k) {
+      var v = fields[k];
+      if (v == null || v === "") return;
+      fd.append(k, Array.isArray(v) ? v.join(", ") : String(v));
+    });
+    Object.keys(files || {}).forEach(function (k) { if (files[k]) fd.append(k, files[k]); });
+    return fetch(root + "api/submit.php", { method: "POST", body: fd, headers: { Accept: "application/json" } })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (!r.ok || !j.ok) {
+            var err = new Error(j.error || ("HTTP " + r.status));
+            err.userMessage = j.error || "";
+            throw err;
+          }
+          track(kind, j.reference);
+          return j.reference;
+        });
+      });
+  }
+
+  function track(kind, reference) {
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "form_submission", form_type: kind, form_reference: reference });
+      if (typeof window.gtag === "function") window.gtag("event", "generate_lead", { form_type: kind });
+      if (typeof window.fbq === "function") window.fbq("track", kind === "careers" ? "SubmitApplication" : "Lead", { content_name: kind });
+    } catch (e) { /* tracking must never break a form */ }
+  }
+
+  window.ArgentecForms = { send: send, root: root };
+})();
