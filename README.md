@@ -192,7 +192,7 @@ If a developer regenerates pages with the Python build scripts, open
 
 ## Launch countdown (under-construction page)
 
-Until **Saturday 28 November 2026, 10:00 AM IST** visitors see an
+Until **Saturday 28 November 2026, 12:12 PM IST** visitors see an
 under-construction page (the Argentec badge hanging from a tower crane) with a
 countdown. When it reaches zero the page reloads and the real website opens for
 everyone, with nothing to switch on by hand.
