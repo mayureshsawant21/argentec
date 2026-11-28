@@ -4,7 +4,7 @@
    here at zero. On Hostinger, launch.php does this on the server instead;
    this file then has nothing to do.
    The admin panel (Settings → Launch) rewrites the next line. */
-var ARGENTEC_LAUNCH = { at: "2026-11-28T12:12:00+05:30", enabled: true };
+var ARGENTEC_LAUNCH = { at: "2026-11-28T12:12:00+05:30", enabled: false };
 
 (function () {
   "use strict";
