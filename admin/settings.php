@@ -27,25 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 log_activity('Updated settings');
                 flash('success', 'Settings saved.');
                 break;
-            case 'launch':
-                $at = (string)($_POST['launch_at'] ?? '');
-                if (!preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/', $at)) {
-                    throw new RuntimeException('Choose the launch date and time.');
-                }
-                set_setting('launch_at', str_replace('T', ' ', $at));
-                set_setting('launch_enabled', empty($_POST['launch_enabled']) ? '0' : '1');
-                require_once __DIR__ . '/inc/coming-soon.php';
-                write_static_launch((int)strtotime(str_replace('T', ' ', $at)), !empty($_POST['launch_enabled']));
-                log_activity('Updated launch settings', str_replace('T', ' ', $at) . (empty($_POST['launch_enabled']) ? ' (countdown off)' : ' (countdown on)'));
-                flash('success', empty($_POST['launch_enabled']) ? 'Countdown switched off: the website is visible to everyone.' : 'Visitors see the countdown until ' . date('j M Y, g:i A', strtotime($at)) . ', then the website opens automatically.');
-                break;
-            case 'launch_now':
-                set_setting('launch_enabled', '0');
-                require_once __DIR__ . '/inc/coming-soon.php';
-                write_static_launch(launch_info()[1] ?: time(), false);
-                log_activity('Launched the website');
-                flash('success', 'The website is live for everyone.');
-                break;
             case 'test_mail':
                 $to = trim((string)($_POST['to'] ?? $u['email']));
                 if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
@@ -96,25 +77,6 @@ $checks = [
 ];
 page_start('Settings', 'settings');
 ?>
-<?php [$lOn, $lTs, $lLive] = launch_info(); ?>
-<form method="post" class="card form-card launch-card" id="launch">
-  <?= csrf_field() ?><input type="hidden" name="action" value="launch">
-  <h2 class="card__title">Launch</h2>
-  <p class="launch-state <?= $lLive ? 'is-live' : 'is-hidden' ?>"><?= $lLive ? '● The website is live for everyone.' : '● Hidden: visitors see the under-construction page with a countdown until <b>' . h(date('l, j M Y, g:i A', $lTs)) . ' IST</b>.' ?></p>
-  <div class="form-grid">
-    <label class="field"><span>Launch date and time <small>Indian time</small></span><input type="datetime-local" name="launch_at" value="<?= h(date('Y-m-d\TH:i', $lTs ?: time())) ?>" required></label>
-    <label class="check field"><input type="checkbox" name="launch_enabled" value="1"<?= $lOn ? ' checked' : '' ?>> Show the countdown page until then</label>
-  </div>
-  <div class="form-actions">
-    <button class="btn btn--primary" type="submit">Save launch settings</button>
-    <a class="btn btn--ghost" href="../?preview=coming-soon" target="_blank" rel="noopener">Preview countdown page</a>
-<?php if (!$lLive): ?>
-    <button class="btn" type="submit" name="action" value="launch_now" formnovalidate data-confirm="Make the website visible to everyone now?">Launch now</button>
-<?php endif; ?>
-  </div>
-  <p class="muted small">While you are signed in here, you see the real website on every page, with a small “Admin preview” notice.</p>
-</form>
-
 <form method="post" class="card form-card">
   <?= csrf_field() ?><input type="hidden" name="action" value="save">
   <h2 class="card__title">Website</h2>

@@ -42,12 +42,6 @@ def main():
                     return m.group(0)
                 return "%s%s?v=%s%s" % (m.group(1), m.group(2), digest(target), m.group(3))
 
-            # launch gate for static hosting (js/launch.js) goes first in <head>
-            if name != "coming-soon.html" and "js/launch.js" not in src and '<meta name="viewport"' in src:
-                depth = os.path.relpath(dirpath, ROOT).count(os.sep) + (0 if os.path.relpath(dirpath, ROOT) == "." else 1)
-                tag = '\n  <script src="%sjs/launch.js"></script>' % ("../" * depth)
-                src = re.sub(r'(<meta name="viewport"[^>]*>)', lambda m: m.group(1) + tag, src, count=1)
-
             out = LINK.sub(ver, src)
             if out != open(page, encoding="utf-8").read():
                 open(page, "w", encoding="utf-8").write(out)

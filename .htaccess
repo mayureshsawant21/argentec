@@ -1,21 +1,7 @@
 # Argentec website (Hostinger / Apache / LiteSpeed)
 DirectoryIndex index.html index.php
 Options -Indexes
-ErrorDocument 404 /launch.php
-
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-
-  # Admin panel, form endpoint and site files are never gated
-  RewriteRule ^(admin|api|assets|css|js)(/|$) - [L]
-  RewriteRule ^(launch\.php|robots\.txt|sitemap\.xml)$ - [L]
-
-  # Every page goes through the launch gate (launch.php): before the launch
-  # time visitors see the under-construction page, afterwards the real page.
-  RewriteRule ^$ launch.php [L]
-  RewriteRule \.html$ launch.php [L]
-  RewriteRule /$ launch.php [L]
-</IfModule>
+ErrorDocument 404 /404.html
 
 # Never serve build sources if they were uploaded by mistake
 RedirectMatch 404 ^/(scripts|docs|content|argentec-private)(/|$)

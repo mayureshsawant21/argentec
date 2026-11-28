@@ -432,12 +432,3 @@ const FIELD_LABELS = [
 function field_label(string $k): string {
     return FIELD_LABELS[$k] ?? ucfirst(str_replace(['_', '-'], ' ', $k));
 }
-
-/* ------------------------------------------------------------------ launch */
-/** [countdown enabled, launch timestamp, site is live now] */
-function launch_info(): array {
-    $at = (string)(setting('launch_at', '') ?: cfg('launch_at', ''));
-    $ts = $at !== '' ? (int)strtotime($at) : 0;
-    $on = setting('launch_enabled', '1') === '1' && $ts > 0;
-    return [$on, $ts, !$on || time() >= $ts];
-}

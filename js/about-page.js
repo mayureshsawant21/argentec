@@ -179,3 +179,14 @@
   window.addEventListener("resize", update);
   update();
 })();
+
+/* The floor panel steps aside when the footer comes into view */
+(function () {
+  "use strict";
+  var lift = document.getElementById("lift");
+  var foot = document.querySelector(".site-footer");
+  if (!lift || !foot || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(function (entries) {
+    lift.classList.toggle("is-away", entries[0].isIntersecting);
+  }).observe(foot);
+})();

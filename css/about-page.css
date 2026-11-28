@@ -898,3 +898,7 @@ body.is-boarding { overflow: hidden; }
   .column__name { opacity: 1; }
   .headcount i { transform: none; }
 }
+
+/* the floor panel fades out over the footer (js/about-page.js) */
+.lift { transition: opacity 0.4s ease, visibility 0.4s; }
+.lift.is-away { opacity: 0; visibility: hidden; }

@@ -148,7 +148,10 @@ def footer(prefix):
         <p class="site-footer__title">Company</p>
         <ul>
           <li><a href="%(p)sabout.html">About</a></li>
+          <li><a href="%(p)sleadership.html">Leadership</a></li>
+          <li><a href="%(p)sprojects/index.html">Projects</a></li>
           <li><a href="%(p)sexpertise/index.html">All expertise</a></li>
+          <li><a href="%(p)sdevelopment/index.html">Development</a></li>
           <li><a href="%(p)sblog/index.html">Blog</a></li>
           <li><a href="%(p)scontact.html">Contact</a></li>
           <li><a href="%(p)svendors/index.html">Vendors &amp; subcontractors</a></li>
@@ -165,6 +168,20 @@ def footer(prefix):
       <span data-cms="footer-note">Contracting arm of Paradigm Realty</span>
     </div>
   </footer>""" % {"p": prefix, "services": services}
+
+
+def set_footer(markup, prefix):
+    """Keep the shared footer in hand-written pages, between <!-- site-footer --> markers.
+    Pages that build their own footer (generated pages) are left alone."""
+    block = "  <!-- site-footer -->\n" + footer(prefix) + "\n  <!-- /site-footer -->"
+    if "<!-- site-footer -->" in markup:
+        return re.sub(r"  <!-- site-footer -->.*?<!-- /site-footer -->", lambda m: block, markup, count=1, flags=re.S)
+    if 'class="site-footer' in markup or "</main>" not in markup:
+        return markup
+    markup = markup.replace("</main>", "</main>\n\n" + block, 1)
+    if "css/footer.css" not in markup:
+        markup = markup.replace("</head>", '  <link rel="stylesheet" href="%scss/footer.css">\n</head>' % prefix, 1)
+    return markup
 
 
 def breadcrumb(prefix, trail):
@@ -540,11 +557,11 @@ def review_doc():
 
 
 def main():
-    # 1. Menus in root pages
+    # 1. Menus and footer in root pages
     for name in ROOT_PAGES:
         path = os.path.join(ROOT, name)
         src = open(path, encoding="utf-8").read()
-        out = set_menus(src, "")
+        out = set_footer(set_menus(src, ""), "")
         if out != src:
             open(path, "w", encoding="utf-8").write(out)
             print("menu updated:", name)
