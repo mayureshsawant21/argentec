@@ -86,6 +86,8 @@ if ($beforeLaunch && $admin) {
     $bar = '<div style="position:fixed;z-index:99999;left:50%;bottom:14px;transform:translateX(-50%);background:#0e1b2e;color:#fff;padding:9px 16px;border-radius:4px;font:600 12px/1.4 Montserrat,Arial,sans-serif;letter-spacing:.03em;box-shadow:0 10px 30px rgba(0,0,0,.3)">'
         . 'Admin preview · visitors see the countdown until ' . h(date('j M Y, g:i A', $launchTs)) . ' · <a href="/?preview=coming-soon" style="color:#c5ccd6">see it</a></div>';
     $html = preg_replace('#</body>#', $bar . '</body>', $html, 1);
+    // tell js/launch.js (the static-hosting gate) to stand aside for admins
+    $html = preg_replace('#<head>#', '<head><script>window.ARGENTEC_ADMIN_PREVIEW = true;</script>', $html, 1);
 } else {
     header('Cache-Control: public, max-age=300');
     header('Last-Modified: ' . gmdate('D, d M Y H:i:s', (int)filemtime($file)) . ' GMT');

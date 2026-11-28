@@ -209,6 +209,13 @@ everyone, with nothing to switch on by hand.
   *Admin → Settings → Launch*. The starting value is `launch_at` in
   `admin/inc/config.php`.
 - Page template: `admin/inc/coming-soon.php`; styles: `css/coming-soon.css`.
+- **GitHub Pages / static hosting** cannot run PHP, so `js/launch.js` (loaded first
+  in every page) sends visitors to `coming-soon.html` until the launch time; the
+  countdown there syncs with the web server's clock and returns visitors to the
+  page they asked for at zero. Page files can still be fetched directly on a
+  static host; only the Hostinger version truly hides them. After changing
+  `launch_at` in `admin/inc/config.php`, run `php scripts/build_coming_soon.php`
+  (Settings → Launch does this automatically on Hostinger).
 
 ## Deploy on Hostinger
 

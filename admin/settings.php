@@ -34,11 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 set_setting('launch_at', str_replace('T', ' ', $at));
                 set_setting('launch_enabled', empty($_POST['launch_enabled']) ? '0' : '1');
+                require_once __DIR__ . '/inc/coming-soon.php';
+                write_static_launch((int)strtotime(str_replace('T', ' ', $at)), !empty($_POST['launch_enabled']));
                 log_activity('Updated launch settings', str_replace('T', ' ', $at) . (empty($_POST['launch_enabled']) ? ' (countdown off)' : ' (countdown on)'));
                 flash('success', empty($_POST['launch_enabled']) ? 'Countdown switched off: the website is visible to everyone.' : 'Visitors see the countdown until ' . date('j M Y, g:i A', strtotime($at)) . ', then the website opens automatically.');
                 break;
             case 'launch_now':
                 set_setting('launch_enabled', '0');
+                require_once __DIR__ . '/inc/coming-soon.php';
+                write_static_launch(launch_info()[1] ?: time(), false);
                 log_activity('Launched the website');
                 flash('success', 'The website is live for everyone.');
                 break;

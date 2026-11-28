@@ -37,7 +37,8 @@ function site_pages(): array {
             if ($f->getFilename()[0] === '.' || in_array($top, PRIVATE_DIRS, true)) {
                 return false;
             }
-            return $it->hasChildren() || str_ends_with($f->getFilename(), '.html');
+            // coming-soon.html is generated from Settings → Launch, not edited here
+            return $it->hasChildren() || (str_ends_with($f->getFilename(), '.html') && $f->getFilename() !== 'coming-soon.html');
         }
     ));
     foreach ($it as $f) {
@@ -722,6 +723,7 @@ function blog_head(string $title, string $desc, string $canonical, ?string $imag
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script src="../js/launch.js?v=' . asset_v('js/launch.js') . '"></script>
   <title>' . $e($title) . '</title>
   <meta name="description" content="' . $e($desc) . '">' . ($noindex ? "\n  <meta name=\"robots\" content=\"noindex\">" : '') . '
   <meta name="theme-color" content="#ffffff">

@@ -216,7 +216,7 @@ def pages():
             continue
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
         for f in files:
-            if f.endswith(".html"):
+            if f.endswith(".html") and f != "coming-soon.html":
                 yield os.path.join(dirpath, f)
 
 

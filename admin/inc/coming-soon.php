@@ -1,9 +1,14 @@
 <?php
-/* The under-construction page shown before launch (see launch.php).
-   $launchTs: launch time (Unix seconds), $nowTs: server time now.
-   The countdown runs from the server's clock, not the visitor's. */
+/* The under-construction page shown before launch.
+   - PHP hosting (launch.php): $static = false, paths from the site root, and
+     the countdown starts from the server's remaining time.
+   - Static hosting such as GitHub Pages: coming-soon.html is rendered with
+     $static = true (scripts/build_coming_soon.php). Paths are relative and the
+     countdown syncs with the web server's clock (the Date header), then sends
+     the visitor on to the website at zero.
+   $launchTs: launch time (Unix seconds), $nowTs: server time now. */
 
-function render_coming_soon(int $launchTs, int $nowTs, bool $preview = false): string {
+function render_coming_soon(int $launchTs, int $nowTs, bool $preview = false, string $base = '/', bool $static = false): string {
     $remainingMs = max(0, ($launchTs - $nowTs) * 1000);
     $when = date('l, j F Y', $launchTs);
     $time = date('g:i A', $launchTs);
@@ -18,13 +23,13 @@ function render_coming_soon(int $launchTs, int $nowTs, bool $preview = false): s
   <meta name="description" content="Argentec, a Mumbai construction company, is building its new website. It opens on <?= h($when) ?> at <?= h($time) ?> IST.">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#0b1d36">
-  <link rel="icon" type="image/svg+xml" href="/assets/img/argentec-logo.svg">
+  <link rel="icon" type="image/svg+xml" href="<?= $base ?>assets/img/argentec-logo.svg">
   <meta property="og:title" content="Argentec | Launching <?= h(date('j F Y', $launchTs)) ?>">
   <meta property="og:description" content="Shaping the foundation of growth. Our new website opens on <?= h($when) ?>.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,500&display=swap">
-  <link rel="stylesheet" href="/css/coming-soon.css?v=<?= $v('css/coming-soon.css') ?>">
+  <link rel="stylesheet" href="<?= $base ?>css/coming-soon.css?v=<?= $v('css/coming-soon.css') ?>">
 </head>
 <body class="cs">
 <?php if ($preview): ?>
@@ -33,12 +38,12 @@ function render_coming_soon(int $launchTs, int $nowTs, bool $preview = false): s
   <div class="cs-grid" aria-hidden="true"></div>
   <main class="cs-main">
     <section class="cs-copy">
-      <img class="cs-word" src="/assets/img/argentec-logo.svg" alt="Argentec" width="64" height="64">
+      <img class="cs-word" src="<?= $base ?>assets/img/argentec-logo.svg" alt="Argentec" width="64" height="64">
       <p class="cs-eyebrow"><span></span>Site under construction</p>
       <h1 class="cs-title">Something solid <em>is rising.</em></h1>
       <p class="cs-lead">Our new website is in its final fit-out. It opens on <strong><?= h($when) ?></strong> at <strong><?= h($time) ?> IST</strong>.</p>
 
-      <div class="cs-count" role="timer" aria-live="off" aria-label="Time until launch" data-remaining="<?= (int)$remainingMs ?>">
+      <div class="cs-count" role="timer" aria-live="off" aria-label="Time until launch" data-launch="<?= $launchTs * 1000 ?>"<?= $static ? '' : ' data-remaining="' . (int)$remainingMs . '"' ?>>
         <div><b data-unit="d">00</b><span>Days</span></div>
         <div><b data-unit="h">00</b><span>Hours</span></div>
         <div><b data-unit="m">00</b><span>Minutes</span></div>
@@ -97,7 +102,7 @@ function render_coming_soon(int $launchTs, int $nowTs, bool $preview = false): s
             <path class="cs-hook" d="M-10 300h20l-4 10h-12z"/>
             <path class="cs-sling" d="M0 310L-34 344M0 310L34 344"/>
             <circle class="cs-badge" cx="0" cy="392" r="56"/>
-            <image href="/assets/img/argentec-logo.svg" x="-50" y="342" width="100" height="100"/>
+            <image href="<?= $base ?>assets/img/argentec-logo.svg" x="-50" y="342" width="100" height="100"/>
           </g>
         </g>
       </svg>
@@ -107,7 +112,12 @@ function render_coming_soon(int $launchTs, int $nowTs, bool $preview = false): s
   <script>
   (function () {
     var box = document.querySelector(".cs-count");
-    var remaining = +box.getAttribute("data-remaining");
+    var isStatic = !box.hasAttribute("data-remaining");
+    var launchMs = +box.getAttribute("data-launch");
+    // static hosting: correct the visitor's clock with the last known server offset
+    var offset = 0;
+    try { offset = +(localStorage.getItem("argentec_clock_offset") || 0); } catch (e) {}
+    var remaining = isStatic ? launchMs - (Date.now() + offset) : +box.getAttribute("data-remaining");
     // count from the moment the page arrived, using the server's remaining time
     var start = (window.performance && performance.now) ? performance.now() : Date.now();
     var now = function () { return (window.performance && performance.now) ? performance.now() : Date.now(); };
@@ -131,15 +141,33 @@ function render_coming_soon(int $launchTs, int $nowTs, bool $preview = false): s
         document.querySelector(".cs-live").hidden = false;
         document.body.classList.add("is-live");
         // the server opens the site at the same moment; reload to show it
-        setTimeout(function () { window.location.reload(); }, 1800);
+        if (isStatic) {
+          try { localStorage.setItem("argentec_launched", String(launchMs)); } catch (e) {}
+          var to = new URLSearchParams(location.search).get("from") || "";
+          // only go back to a page of this site
+          if (!/^[A-Za-z0-9_\/.-]*$/.test(to) || to.indexOf("..") !== -1 || to.charAt(0) === "/") to = "";
+          setTimeout(function () { location.replace(to || "index.html"); }, 1800);
+        } else {
+          setTimeout(function () { window.location.reload(); }, 1800);
+        }
         return;
       }
       if (!done) setTimeout(tick, 1000 - (left % 1000) + 5);
     }
     tick();
+    // static hosting: ask the web server for the real time (Date header)
+    if (isStatic && window.fetch) {
+      fetch(location.href.split("#")[0], { method: "HEAD", cache: "no-store" }).then(function (r) {
+        var d = Date.parse(r.headers.get("date") || "");
+        if (!d) return;
+        offset = d + 500 - Date.now();
+        try { localStorage.setItem("argentec_clock_offset", String(Math.round(offset))); } catch (e) {}
+        end = now() + (launchMs - (Date.now() + offset));
+      }).catch(function () {});
+    }
     // after the tab sleeps (phones), re-sync with the server
     document.addEventListener("visibilitychange", function () {
-      if (document.visibilityState === "visible" && !done && end - now() < 60000) window.location.reload();
+      if (document.visibilityState === "visible" && !done && end - now() < 60000 && !isStatic) window.location.reload();
     });
   })();
   </script>
@@ -147,4 +175,19 @@ function render_coming_soon(int $launchTs, int $nowTs, bool $preview = false): s
 </html>
 <?php
     return (string)ob_get_clean();
+}
+
+/** Static-hosting copy of the launch settings: coming-soon.html and the
+    first line of js/launch.js. Called by Settings → Launch and by
+    scripts/build_coming_soon.php, so GitHub Pages behaves like Hostinger. */
+function write_static_launch(int $launchTs, bool $enabled): void {
+    $iso = date('Y-m-d\TH:i:sP', $launchTs);
+    $js = SITE_ROOT . '/js/launch.js';
+    if (is_file($js)) {
+        $src = (string)file_get_contents($js);
+        $src = preg_replace('/^var ARGENTEC_LAUNCH = .*;$/m', 'var ARGENTEC_LAUNCH = { at: "' . $iso . '", enabled: ' . ($enabled ? 'true' : 'false') . ' };', $src, 1);
+        file_put_contents($js, $src);
+    }
+    $html = render_coming_soon($launchTs, time(), false, '', true);
+    file_put_contents(SITE_ROOT . '/coming-soon.html', $html);
 }
