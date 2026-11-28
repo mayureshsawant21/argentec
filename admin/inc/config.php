@@ -26,6 +26,12 @@ return [
     // (Settings → Launch); this is only the starting value.
     'launch_at'      => '2026-11-28 12:12',
 
+    // Forgot the admin password? Put a new one here (between the quotes),
+    // save, and open /admin/ : the "admin" account gets this password and
+    // any sign-in lockout is cleared. Then sign in, choose your own password
+    // under My account, and empty this value again.
+    'reset_admin_password' => '',
+
     'timezone'       => 'Asia/Kolkata',
     'max_resume_mb'  => 5,
     'max_media_mb'   => 25,

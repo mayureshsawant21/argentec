@@ -2,6 +2,22 @@
 require_once __DIR__ . '/inc/bootstrap.php';
 require_once __DIR__ . '/inc/layout.php';
 start_session();
+
+// Password reset from admin/inc/config.php (reset_admin_password), applied once per new value
+$reset = (string)cfg('reset_admin_password', '');
+if ($reset !== '' && setting('reset_applied', '') !== hash('sha256', $reset)) {
+    $admin = row("SELECT id FROM users WHERE username = 'admin'") ?: row("SELECT id FROM users WHERE role = 'admin' ORDER BY id LIMIT 1");
+    if ($admin) {
+        q("UPDATE users SET password_hash = ?, must_change = 1, active = 1, role = 'admin' WHERE id = ?", [password_hash($reset, PASSWORD_DEFAULT), $admin['id']]);
+    } else {
+        q("INSERT INTO users (name, username, email, password_hash, role, must_change) VALUES ('Administrator', 'admin', 'admin@argentec.com', ?, 'admin', 1)", [password_hash($reset, PASSWORD_DEFAULT)]);
+    }
+    q('DELETE FROM login_attempts');
+    set_setting('reset_applied', hash('sha256', $reset));
+    q('INSERT INTO activity (user_name, action, detail, ip) VALUES (?,?,?,?)', ['System', 'Admin password reset from config.php', '', client_ip()]);
+    flash('info', 'The admin password was reset from config.php. Sign in with username "admin" and that password, then remove it from config.php.');
+}
+
 if (user()) {
     redirect('index.php');
 }
